@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laboratory/login/UI/widgets/login_brand_panel.dart';
+import 'package:laboratory/login/UI/widgets/login_feedback_banner.dart';
+import 'package:laboratory/login/UI/widgets/login_footer.dart';
+
+import '../../core/design_system/design_system.dart';
+import '../../core/localization/localization.dart';
+import '../../core/networking/dio_factory.dart';
+import '../logic/login_cubit.dart';
+import '../logic/login_state.dart';
+import 'widgets/login_email_field.dart';
+import 'widgets/login_header.dart';
+import 'widgets/login_layout.dart';
+import 'widgets/login_options_row.dart';
+import 'widgets/login_password_field.dart';
+import 'widgets/login_submit_button.dart';
+import 'widgets/login_top_bar.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  AppLocale? _locale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final AppLocale locale = context.appLocale;
+    if (locale == _locale) return;
+
+    final bool isChange = _locale != null;
+    _locale = locale;
+
+    DioFactory.setLocale(locale.code);
+
+    if (isChange) context.read<LoginCubit>().onLocaleChanged();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<LoginCubit, LoginState>(
+      listenWhen: (LoginState previous, LoginState current) =>
+          previous.status != current.status && current.isSuccess,
+      listener: (BuildContext context, LoginState state) =>
+          TextInput.finishAutofillContext(),
+      child: Scaffold(
+        backgroundColor: context.layoutSize.isMedium
+            ? AppColors.ground
+            : AppColors.surface,
+        body: FocusTraversalGroup(
+          child: const LoginLayout(
+            brandPanel: LoginBrandPanel(),
+            formPane: AutofillGroup(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  LoginTopBar(),
+                  SizedBox(height: AppSpacing.x3l),
+                  LoginHeader(),
+                  SizedBox(height: AppSpacing.xxl),
+                  LoginFeedbackBanner(),
+                  LoginEmailField(),
+                  SizedBox(height: AppSpacing.lg),
+                  LoginPasswordField(),
+                  SizedBox(height: AppSpacing.xs),
+                  LoginOptionsRow(),
+                  SizedBox(height: AppSpacing.xl),
+                  LoginSubmitButton(),
+                  SizedBox(height: AppSpacing.xxl - 2),
+                  LoginFooter(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Laboratory Management System — multi-branch laboratory operations, inventory and test catalogues.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Laboratory">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Laboratory Management System</title>
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background-color: #F4F7F8; }
+
+    #boot {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #F4F7F8;
+      transition: opacity 200ms ease-out;
+    }
+    #boot .pulse {
+      width: 34px;
+      height: 34px;
+      border: 2px solid #DAE4E6;
+      border-top-color: #0E7285;
+      border-radius: 50%;
+      animation: spin 700ms linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      #boot .pulse { animation: none; border-top-color: #0E7285; }
+    }
+  </style>
+</head>
+<body>
+  <div id="boot"><div class="pulse"></div></div>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var boot = document.getElementById('boot');
+      if (!boot) return;
+      boot.style.opacity = '0';
+      setTimeout(function () { boot.remove(); }, 220);
+    });
+  </script>
+</body>
+</html>
