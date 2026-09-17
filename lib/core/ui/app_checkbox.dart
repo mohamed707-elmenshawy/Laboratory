@@ -6,7 +6,7 @@ import '../design_system/app_radius.dart';
 import '../design_system/app_shadows.dart';
 import '../design_system/app_sizes.dart';
 import '../design_system/app_spacing.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 
 class AppCheckbox extends StatefulWidget {
   const AppCheckbox({
@@ -114,7 +114,7 @@ class _AppCheckboxState extends State<AppCheckbox> {
                 Text(
                   widget.label,
                   style: base
-                      .merge(AppTypography.label)
+                      .merge(AppTextStyles.label)
                       .copyWith(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w400,

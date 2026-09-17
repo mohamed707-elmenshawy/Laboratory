@@ -11,9 +11,7 @@ class LoginTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
-    final bool enabled = context.select(
-      (LoginCubit cubit) => cubit.state.canSubmit,
-    );
+    final bool enabled = context.select((LoginCubit cubit) => !cubit.isBusy);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,

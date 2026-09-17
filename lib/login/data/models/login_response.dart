@@ -1,6 +1,10 @@
-import 'user_model.dart';
+import '../../../core/models/user_model.dart';
 
 class LoginResponse {
+  final UserModel user;
+  final String token;
+  final String tokenType;
+
   const LoginResponse({
     required this.user,
     required this.token,
@@ -14,8 +18,4 @@ class LoginResponse {
     token: json['token'] as String? ?? '',
     tokenType: json['token_type'] as String? ?? 'Bearer',
   );
-
-  final UserModel user;
-  final String token;
-  final String tokenType;
 }

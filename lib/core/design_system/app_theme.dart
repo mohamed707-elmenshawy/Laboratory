@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 import 'app_radius.dart';
-import 'app_typography.dart';
+import 'app_text_styles.dart';
 
 abstract final class AppTheme {
   static ThemeData light({required bool arabic}) {
     final String family = arabic
-        ? AppTypography.familyArabic
-        : AppTypography.family;
+        ? AppTextStyles.familyArabic
+        : AppTextStyles.family;
     final List<String> fallback = arabic
-        ? AppTypography.fallbackArabic
-        : AppTypography.fallback;
+        ? AppTextStyles.fallbackArabic
+        : AppTextStyles.fallback;
 
     final ColorScheme scheme = const ColorScheme.light().copyWith(
       primary: AppColors.brand600,
@@ -50,21 +50,21 @@ abstract final class AppTheme {
           borderRadius: AppRadius.smAll,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        textStyle: AppTypography.caption.copyWith(
+        textStyle: AppTextStyles.caption.copyWith(
           color: AppColors.onBrand,
           fontFamily: family,
           fontFamilyFallback: fallback,
         ),
       ),
       textTheme: const TextTheme(
-        displaySmall: AppTypography.display,
-        headlineSmall: AppTypography.h2,
-        titleMedium: AppTypography.h3,
-        bodyLarge: AppTypography.bodyLarge,
-        bodyMedium: AppTypography.body,
-        labelLarge: AppTypography.button,
-        labelMedium: AppTypography.label,
-        bodySmall: AppTypography.caption,
+        displaySmall: AppTextStyles.display,
+        headlineSmall: AppTextStyles.h2,
+        titleMedium: AppTextStyles.h3,
+        bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.body,
+        labelLarge: AppTextStyles.button,
+        labelMedium: AppTextStyles.label,
+        bodySmall: AppTextStyles.caption,
       ),
     );
   }

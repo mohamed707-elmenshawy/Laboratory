@@ -6,7 +6,7 @@ import '../design_system/app_radius.dart';
 import '../design_system/app_shadows.dart';
 import '../design_system/app_sizes.dart';
 import '../design_system/app_spacing.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 
 enum AppButtonVariant { primary, secondary, ghost }
 
@@ -147,7 +147,7 @@ class _AppButtonState extends State<AppButton> {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: base
-                .merge(AppTypography.button)
+                .merge(AppTextStyles.button)
                 .copyWith(fontSize: _fontSize, color: _foreground),
           ),
         ),

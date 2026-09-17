@@ -1,55 +1,33 @@
+import 'dart:developer' as developer;
+
 import 'package:dio/dio.dart';
+import 'app_error.dart';
+import 'result.dart';
 
-enum AppErrorKind {
-  network,
+class ErrorHandler {
+  ErrorHandler._();
 
-  timeout,
+  static Future<Result<T>> guard<T>(Future<T> Function() action) async {
+    try {
+      return Success<T>(await action());
+    } catch (error, stackTrace) {
+      return Failure<T>(_handle(error, stackTrace));
+    }
+  }
 
-  cancelled,
+  static AppError _handle(Object error, StackTrace stackTrace) {
+    if (error is DioException) return _fromDio(error);
 
-  badRequest,
-
-  unauthorized,
-
-  forbidden,
-
-  notFound,
-
-  validation,
-
-  rateLimited,
-
-  server,
-
-  unknown,
-}
-
-class AppError implements Exception {
-  const AppError({
-    required this.kind,
-    this.message,
-    this.statusCode,
-    this.fieldErrors = const <String, List<String>>{},
-    this.retryAfter,
-  });
-
-  final AppErrorKind kind;
-
-  final String? message;
-
-  final int? statusCode;
-
-  final Map<String, List<String>> fieldErrors;
-
-  final Duration? retryAfter;
-
-  factory AppError.from(Object error) {
-    if (error is AppError) return error;
-    if (error is DioException) return AppError._fromDio(error);
+    developer.log(
+      'Unexpected error',
+      name: 'ErrorHandler',
+      error: error,
+      stackTrace: stackTrace,
+    );
     return const AppError(kind: AppErrorKind.unknown);
   }
 
-  factory AppError._fromDio(DioException exception) {
+  static AppError _fromDio(DioException exception) {
     switch (exception.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -100,27 +78,16 @@ class AppError implements Exception {
     final int? seconds = raw == null ? null : int.tryParse(raw.trim());
     return seconds == null ? null : Duration(seconds: seconds);
   }
-
-  String? fieldError(String field) {
-    final List<String>? messages = fieldErrors[field];
-    return (messages == null || messages.isEmpty) ? null : messages.first;
-  }
-
-  bool get hasFieldErrors => fieldErrors.isNotEmpty;
-
-  @override
-  String toString() =>
-      'AppError(${kind.name}, status: $statusCode, message: $message)';
 }
 
 class _Body {
+  final String? message;
+  final Map<String, List<String>> fieldErrors;
+
   const _Body({
     this.message,
     this.fieldErrors = const <String, List<String>>{},
   });
-
-  final String? message;
-  final Map<String, List<String>> fieldErrors;
 
   static _Body parse(dynamic data) {
     if (data is! Map) return const _Body();

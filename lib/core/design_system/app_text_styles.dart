@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'app_colors.dart';
 
-abstract final class AppTypography {
+abstract final class AppTextStyles {
   static const String family = 'IBM Plex Sans';
   static const String familyArabic = 'IBM Plex Sans Arabic';
 

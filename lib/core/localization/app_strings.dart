@@ -54,6 +54,30 @@ abstract class AppStrings {
   String get dismiss;
 
   String get languageSwitcherLabel;
+
+  String get registerTitle;
+  String get registerSubtitle;
+  String get nameLabel;
+  String get nameHint;
+  String get nameRequired;
+  String get nameTooLong;
+  String get newPasswordHint;
+  String get passwordTooShort;
+  String get passwordConfirmationLabel;
+  String get passwordConfirmationHint;
+  String get passwordConfirmationRequired;
+  String get passwordMismatch;
+  String get termsLabel;
+  String get termsHint;
+  String get termsRequired;
+  String get createAccount;
+  String get creatingAccount;
+  String get accountCreated;
+  String get feedbackRegisterTitle;
+  String get registerSuccessTitle;
+  String registerSuccessMessage(String email);
+  String get signInPrompt;
+  String get signInAction;
 }
 
 class AppStringsEn extends AppStrings {
@@ -151,6 +175,56 @@ class AppStringsEn extends AppStrings {
 
   @override
   String get languageSwitcherLabel => 'Language';
+
+  @override
+  String get registerTitle => 'Create your laboratory';
+  @override
+  String get registerSubtitle =>
+      'Register a laboratory account. You will verify your email before signing in.';
+  @override
+  String get nameLabel => 'Full name';
+  @override
+  String get nameHint => 'Ahmed Ali';
+  @override
+  String get nameRequired => 'Enter your full name.';
+  @override
+  String get nameTooLong => 'Name must be 255 characters or fewer.';
+  @override
+  String get newPasswordHint => 'At least 8 characters';
+  @override
+  String get passwordTooShort => 'Password must be at least 8 characters.';
+  @override
+  String get passwordConfirmationLabel => 'Confirm password';
+  @override
+  String get passwordConfirmationHint => 'Re-enter your password';
+  @override
+  String get passwordConfirmationRequired => 'Confirm your password.';
+  @override
+  String get passwordMismatch => 'Passwords do not match.';
+  @override
+  String get termsLabel => 'I agree to the Terms and Conditions';
+  @override
+  String get termsHint => 'Required to create an account';
+  @override
+  String get termsRequired =>
+      'Accept the Terms and Conditions to continue.';
+  @override
+  String get createAccount => 'Create account';
+  @override
+  String get creatingAccount => 'Creating account…';
+  @override
+  String get accountCreated => 'Account created';
+  @override
+  String get feedbackRegisterTitle => 'Registration failed';
+  @override
+  String get registerSuccessTitle => 'Check your email';
+  @override
+  String registerSuccessMessage(String email) =>
+      'We sent a verification code to $email. Verify your address to sign in.';
+  @override
+  String get signInPrompt => 'Already registered?';
+  @override
+  String get signInAction => 'Sign in';
 }
 
 class AppStringsAr extends AppStrings {
@@ -247,4 +321,53 @@ class AppStringsAr extends AppStrings {
 
   @override
   String get languageSwitcherLabel => 'اللغة';
+
+  @override
+  String get registerTitle => 'أنشئ مختبرك';
+  @override
+  String get registerSubtitle =>
+      'سجّل حساب مختبر جديد. ستحتاج إلى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.';
+  @override
+  String get nameLabel => 'الاسم الكامل';
+  @override
+  String get nameHint => 'أحمد علي';
+  @override
+  String get nameRequired => 'أدخل اسمك الكامل.';
+  @override
+  String get nameTooLong => 'يجب ألا يزيد الاسم عن 255 حرفًا.';
+  @override
+  String get newPasswordHint => '8 أحرف على الأقل';
+  @override
+  String get passwordTooShort => 'يجب ألا تقل كلمة المرور عن 8 أحرف.';
+  @override
+  String get passwordConfirmationLabel => 'تأكيد كلمة المرور';
+  @override
+  String get passwordConfirmationHint => 'أعد إدخال كلمة المرور';
+  @override
+  String get passwordConfirmationRequired => 'أكّد كلمة المرور.';
+  @override
+  String get passwordMismatch => 'كلمتا المرور غير متطابقتين.';
+  @override
+  String get termsLabel => 'أوافق على الشروط والأحكام';
+  @override
+  String get termsHint => 'مطلوبة لإنشاء الحساب';
+  @override
+  String get termsRequired => 'وافق على الشروط والأحكام للمتابعة.';
+  @override
+  String get createAccount => 'إنشاء الحساب';
+  @override
+  String get creatingAccount => 'جارٍ إنشاء الحساب…';
+  @override
+  String get accountCreated => 'تم إنشاء الحساب';
+  @override
+  String get feedbackRegisterTitle => 'فشل إنشاء الحساب';
+  @override
+  String get registerSuccessTitle => 'تحقق من بريدك الإلكتروني';
+  @override
+  String registerSuccessMessage(String email) =>
+      'أرسلنا رمز تأكيد إلى $email. أكّد بريدك لتتمكن من تسجيل الدخول.';
+  @override
+  String get signInPrompt => 'لديك حساب بالفعل؟';
+  @override
+  String get signInAction => 'تسجيل الدخول';
 }

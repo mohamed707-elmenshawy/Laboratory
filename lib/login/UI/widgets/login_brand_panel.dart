@@ -59,7 +59,7 @@ class LoginBrandPanel extends StatelessWidget {
                                 Text(
                                   s.brandStatement,
                                   style: base
-                                      .merge(AppTypography.h2)
+                                      .merge(AppTextStyles.h2)
                                       .copyWith(
                                         fontSize: 28,
                                         height: 1.26,
@@ -72,7 +72,7 @@ class LoginBrandPanel extends StatelessWidget {
                                 Text(
                                   s.brandStatementSupport,
                                   style: base
-                                      .merge(AppTypography.body)
+                                      .merge(AppTextStyles.body)
                                       .copyWith(
                                         fontSize: 13.5,
                                         height: 1.62,
@@ -147,7 +147,7 @@ class _CapabilityLine extends StatelessWidget {
           child: Text(
             label,
             style: base
-                .merge(AppTypography.body)
+                .merge(AppTextStyles.body)
                 .copyWith(
                   fontSize: 12.5,
                   height: 1.5,

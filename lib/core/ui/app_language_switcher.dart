@@ -5,7 +5,7 @@ import '../design_system/app_motion.dart';
 import '../design_system/app_radius.dart';
 import '../design_system/app_shadows.dart';
 import '../design_system/app_sizes.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 import '../localization/app_locale.dart';
 
 class AppLanguageSwitcher extends StatelessWidget {
@@ -130,7 +130,7 @@ class _SegmentState extends State<_Segment> {
               ),
               child: Text(
                 widget.label,
-                style: AppTypography.label.copyWith(
+                style: AppTextStyles.label.copyWith(
                   fontSize: 12.5,
                   fontWeight: widget.selected
                       ? FontWeight.w600
@@ -139,11 +139,11 @@ class _SegmentState extends State<_Segment> {
                       ? AppColors.onBrand
                       : AppColors.inkSubtle,
                   fontFamily: widget.arabic
-                      ? AppTypography.familyArabic
-                      : AppTypography.family,
+                      ? AppTextStyles.familyArabic
+                      : AppTextStyles.family,
                   fontFamilyFallback: widget.arabic
-                      ? AppTypography.fallbackArabic
-                      : AppTypography.fallback,
+                      ? AppTextStyles.fallbackArabic
+                      : AppTextStyles.fallback,
                 ),
               ),
             ),

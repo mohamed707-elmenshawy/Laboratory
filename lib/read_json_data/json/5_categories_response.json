@@ -1,0 +1,11 @@
+{
+  "data": [
+    { "id": 1, "name": "Hematology", "tests_count": 24 },
+    { "id": 2, "name": "Liver Function", "tests_count": 8 },
+    { "id": 3, "name": "Hormones", "tests_count": 15 }
+  ],
+  "meta": {
+    "message": "Success",
+    "code": 200
+  }
+}

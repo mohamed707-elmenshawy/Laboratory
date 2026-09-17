@@ -7,7 +7,7 @@ import '../design_system/app_radius.dart';
 import '../design_system/app_shadows.dart';
 import '../design_system/app_sizes.dart';
 import '../design_system/app_spacing.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -118,7 +118,7 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     final TextStyle base = DefaultTextStyle.of(context).style;
     final TextStyle valueStyle = base
-        .merge(AppTypography.bodyLarge)
+        .merge(AppTextStyles.bodyLarge)
         .copyWith(
           fontSize: 14.5,
           color: widget.enabled ? AppColors.ink : AppColors.inkFaint,
@@ -130,7 +130,7 @@ class _AppTextFieldState extends State<AppTextField> {
         Text(
           widget.label,
           style: base
-              .merge(AppTypography.label)
+              .merge(AppTextStyles.label)
               .copyWith(
                 color: widget.enabled ? AppColors.inkMuted : AppColors.inkFaint,
               ),
@@ -230,7 +230,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   child: Text(
                     widget.errorText!,
                     style: base
-                        .merge(AppTypography.caption)
+                        .merge(AppTextStyles.caption)
                         .copyWith(fontSize: 12.5, color: AppColors.danger),
                   ),
                 ),

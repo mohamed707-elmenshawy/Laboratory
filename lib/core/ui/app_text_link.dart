@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../design_system/app_colors.dart';
 import '../design_system/app_radius.dart';
 import '../design_system/app_shadows.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 
 class AppTextLink extends StatefulWidget {
   const AppTextLink({
@@ -73,7 +73,7 @@ class _AppTextLinkState extends State<AppTextLink> {
               child: Text(
                 widget.label,
                 style: base
-                    .merge(AppTypography.label)
+                    .merge(AppTextStyles.label)
                     .copyWith(
                       fontSize: widget.fontSize,
                       fontWeight: widget.fontWeight,

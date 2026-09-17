@@ -6,28 +6,28 @@ import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
 import '../../logic/login_cubit.dart';
 
-class LoginOptionsRow extends StatelessWidget {
+class LoginOptionsRow extends StatefulWidget {
   const LoginOptionsRow({super.key});
 
+  @override
+  State<LoginOptionsRow> createState() => _LoginOptionsRowState();
+}
+
+class _LoginOptionsRowState extends State<LoginOptionsRow> {
   static const double _stackBelow = 320;
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
-    final bool rememberMe = context.select(
-      (LoginCubit cubit) => cubit.state.rememberMe,
-    );
-    final bool enabled = context.select(
-      (LoginCubit cubit) => cubit.state.canSubmit,
-    );
+    final bool enabled = context.select((LoginCubit cubit) => !cubit.isBusy);
 
     final Widget remember = AppCheckbox(
-      value: rememberMe,
+      value: context.read<LoginCubit>().rememberMe,
       label: s.rememberMe,
       semanticHint: s.rememberMeHint,
       onChanged: enabled
           ? (bool value) =>
-                context.read<LoginCubit>().onRememberMeChanged(value)
+                setState(() => context.read<LoginCubit>().rememberMe = value)
           : null,
     );
 

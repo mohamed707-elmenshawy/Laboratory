@@ -4,7 +4,7 @@ import '../design_system/app_colors.dart';
 import '../design_system/app_radius.dart';
 import '../design_system/app_sizes.dart';
 import '../design_system/app_spacing.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 import 'app_feedback.dart';
 
 class AppAlert extends StatelessWidget {
@@ -58,7 +58,7 @@ class AppAlert extends StatelessWidget {
                   Text(
                     feedback.title,
                     style: base
-                        .merge(AppTypography.label)
+                        .merge(AppTextStyles.label)
                         .copyWith(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w600,
@@ -69,7 +69,7 @@ class AppAlert extends StatelessWidget {
                   Text(
                     feedback.message,
                     style: base
-                        .merge(AppTypography.caption)
+                        .merge(AppTextStyles.caption)
                         .copyWith(
                           fontSize: 12.8,
                           height: 1.5,
@@ -155,7 +155,7 @@ class _AlertActionState extends State<_AlertAction> {
             ),
             child: Text(
               widget.label,
-              style: AppTypography.caption.copyWith(
+              style: AppTextStyles.caption.copyWith(
                 fontSize: 12.8,
                 fontWeight: FontWeight.w600,
                 color: widget.color,

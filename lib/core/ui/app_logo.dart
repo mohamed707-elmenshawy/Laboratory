@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../design_system/app_colors.dart';
 import '../design_system/app_radius.dart';
 import '../design_system/app_spacing.dart';
-import '../design_system/app_typography.dart';
+import '../design_system/app_text_styles.dart';
 
 class AppLogoMark extends StatelessWidget {
   const AppLogoMark({
@@ -146,7 +146,7 @@ class AppLogoLockup extends StatelessWidget {
                 Text(
                   productName,
                   style: base
-                      .merge(AppTypography.h3)
+                      .merge(AppTextStyles.h3)
                       .copyWith(
                         fontSize: 16,
                         height: 1.15,
@@ -159,7 +159,7 @@ class AppLogoLockup extends StatelessWidget {
                   Text(
                     tagline.toUpperCase(),
                     style: base
-                        .merge(AppTypography.caption)
+                        .merge(AppTextStyles.caption)
                         .copyWith(
                           fontSize: 10.5,
                           height: 1.2,

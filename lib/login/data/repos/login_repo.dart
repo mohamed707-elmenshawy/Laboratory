@@ -1,18 +1,22 @@
-import '../datasources/login_remote_data_source.dart';
+import 'package:dio/dio.dart';
+
+import '../../../core/error/error_handler.dart';
+import '../../../core/error/result.dart';
+import '../../../core/networking/api_constants.dart';
 import '../models/login_request_body.dart';
 import '../models/login_response.dart';
 
 class LoginRepo {
-  const LoginRepo(this._remoteDataSource);
+  final Dio _dio;
 
-  final LoginRemoteDataSource _remoteDataSource;
+  const LoginRepo(this._dio);
 
-  Future<LoginResponse> login({
-    required String email,
-    required String password,
-  }) {
-    return _remoteDataSource.login(
-      LoginRequestBody(email: email.trim(), password: password),
-    );
+  Future<Result<LoginResponse>> login(LoginRequestBody body) {
+    return ErrorHandler.guard(() async {
+      final response = await _dio.post(ApiConstants.login, data: body.toJson());
+
+      final Map<String, dynamic> data = response.data!['data'];
+      return LoginResponse.fromJson(data);
+    });
   }
 }

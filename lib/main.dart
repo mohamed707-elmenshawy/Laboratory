@@ -2,30 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/design_system/design_system.dart';
+import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';
 import 'core/localization/localization.dart';
 import 'core/networking/dio_factory.dart';
 import 'login/UI/login_screen.dart';
-import 'login/data/datasources/login_remote_data_source.dart';
-import 'login/data/repos/login_repo.dart';
 import 'login/logic/login_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final LoginRepo loginRepo = LoginRepo(
-    LoginRemoteDataSourceImpl(DioFactory.getDio()),
-  );
-
+  await setupGetIt();
   await AuthHelper.restoreSession();
 
-  runApp(LaboratoryApp(loginRepo: loginRepo));
+  runApp(const LaboratoryApp());
 }
 
 class LaboratoryApp extends StatelessWidget {
-  const LaboratoryApp({super.key, required this.loginRepo});
-
-  final LoginRepo loginRepo;
+  const LaboratoryApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +38,7 @@ class LaboratoryApp extends StatelessWidget {
               child: child!,
             ),
             home: BlocProvider<LoginCubit>(
-              create: (_) => LoginCubit(loginRepo),
+              create: (_) => getIt<LoginCubit>(),
               child: const LoginScreen(),
             ),
           );

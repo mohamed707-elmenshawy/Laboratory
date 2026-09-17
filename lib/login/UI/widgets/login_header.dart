@@ -27,12 +27,12 @@ class LoginHeader extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],
-        Text(s.signInTitle, style: base.merge(AppTypography.display)),
+        Text(s.signInTitle, style: base.merge(AppTextStyles.display)),
         const SizedBox(height: AppSpacing.xs + 3),
         Text(
           s.signInSubtitle,
           style: base
-              .merge(AppTypography.body)
+              .merge(AppTextStyles.body)
               .copyWith(fontSize: 14, color: AppColors.inkSubtle),
         ),
       ],

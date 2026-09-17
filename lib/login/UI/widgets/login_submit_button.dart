@@ -11,15 +11,7 @@ class LoginSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
-    final bool isSubmitting = context.select(
-      (LoginCubit cubit) => cubit.state.isSubmitting,
-    );
-    final bool isSuccess = context.select(
-      (LoginCubit cubit) => cubit.state.isSuccess,
-    );
-    final bool enabled = context.select(
-      (LoginCubit cubit) => cubit.state.canSubmit,
-    );
+    final LoginState state = context.watch<LoginCubit>().state;
 
     return AppButton(
       label: s.signIn,
@@ -27,9 +19,15 @@ class LoginSubmitButton extends StatelessWidget {
       successLabel: s.signedIn,
       expand: true,
       size: AppButtonSize.large,
-      isLoading: isSubmitting,
-      isSuccess: isSuccess,
-      onPressed: enabled ? () => context.read<LoginCubit>().submit() : null,
+      isLoading: state is LoginLoading,
+      isSuccess: state is LoginSuccess,
+      onPressed: context.read<LoginCubit>().isBusy
+          ? null
+          : () {
+              if (Form.of(context).validate()) {
+                context.read<LoginCubit>().login();
+              }
+            },
     );
   }
 }

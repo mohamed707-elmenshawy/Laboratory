@@ -4,52 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
 import '../../logic/login_cubit.dart';
-import '../../logic/login_state.dart';
-import 'login_field_error_text.dart';
 
-class LoginEmailField extends StatefulWidget {
+class LoginEmailField extends StatelessWidget {
   const LoginEmailField({super.key});
 
-  @override
-  State<LoginEmailField> createState() => _LoginEmailFieldState();
-}
-
-class _LoginEmailFieldState extends State<LoginEmailField> {
-  final FocusNode _focusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+  static final RegExp _emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
-    final TextEditingController controller = context.select(
-      (LoginCubit cubit) => cubit.emailController,
-    );
-    final LoginFieldError? error = context.select(
-      (LoginCubit cubit) => cubit.state.emailError,
-    );
-    final bool enabled = context.select(
-      (LoginCubit cubit) => cubit.state.canSubmit,
-    );
+    final TextEditingController controller = context
+        .read<LoginCubit>()
+        .emailController;
+    final bool enabled = context.select((LoginCubit cubit) => !cubit.isBusy);
 
-    return BlocListener<LoginCubit, LoginState>(
-      listenWhen: (LoginState previous, LoginState current) =>
-          previous.status != current.status &&
-          current.status == LoginStatus.failure &&
-          current.emailError != null,
-      listener: (BuildContext context, LoginState state) =>
-          _focusNode.requestFocus(),
-      child: AppTextField(
+    return FormField<String>(
+      validator: (_) => _errorFor(controller.text, s),
+      builder: (FormFieldState<String> field) => AppTextField(
         label: s.emailLabel,
         hint: s.emailHint,
         controller: controller,
-        focusNode: _focusNode,
         prefixIcon: Icons.mail_outline_rounded,
-        errorText: error?.localized(s),
+        // Rebuilt from the current strings so a shown error follows a
+        // language change.
+        errorText: field.hasError ? _errorFor(controller.text, s) : null,
         enabled: enabled,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
@@ -59,8 +37,17 @@ class _LoginEmailFieldState extends State<LoginEmailField> {
         ],
         textDirection: TextDirection.ltr,
         maxLength: 255,
-        onChanged: (_) => context.read<LoginCubit>().onEmailChanged(),
+        onChanged: field.didChange,
       ),
     );
+  }
+
+  static String? _errorFor(String value, AppStrings s) {
+    final String email = value.trim();
+
+    if (email.isEmpty) return s.emailRequired;
+    if (email.length > 255) return s.emailTooLong;
+    if (!_emailPattern.hasMatch(email)) return s.emailInvalid;
+    return null;
   }
 }
