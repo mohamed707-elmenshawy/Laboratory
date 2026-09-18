@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/design_system/design_system.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';
 import 'core/localization/localization.dart';
 import 'core/networking/dio_factory.dart';
+import 'home/UI/home_screen.dart';
 import 'login/UI/login_screen.dart';
-import 'login/logic/login_cubit.dart';
 import 'reset_password/UI/reset_password_screen.dart';
 import 'reset_password/data/models/reset_password_link.dart';
 
@@ -15,24 +14,25 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await setupGetIt();
-  await AuthHelper.restoreSession();
+  final bool hasSession = await AuthHelper.restoreSession();
 
   runApp(
-    LaboratoryApp(resetPasswordLink: ResetPasswordLink.fromUri(Uri.base)),
+    LaboratoryApp(
+      resetPasswordLink: ResetPasswordLink.fromUri(Uri.base),
+      hasSession: hasSession,
+    ),
   );
 }
 
 class LaboratoryApp extends StatelessWidget {
-  const LaboratoryApp({super.key, this.resetPasswordLink});
+  const LaboratoryApp({
+    super.key,
+    this.resetPasswordLink,
+    this.hasSession = false,
+  });
 
   final ResetPasswordLink? resetPasswordLink;
-
-  static Route<void> _loginRoute() => MaterialPageRoute<void>(
-    builder: (_) => BlocProvider<LoginCubit>(
-      create: (_) => getIt<LoginCubit>(),
-      child: const LoginScreen(),
-    ),
-  );
+  final bool hasSession;
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +50,16 @@ class LaboratoryApp extends StatelessWidget {
               textDirection: locale.textDirection,
               child: child!,
             ),
-            onGenerateRoute: (_) => _loginRoute(),
+            onGenerateRoute: (_) => LoginScreen.route(),
             onGenerateInitialRoutes: (_) => <Route<dynamic>>[
-              _loginRoute(),
-              if (resetPasswordLink case final ResetPasswordLink link)
+              if (resetPasswordLink
+                  case final ResetPasswordLink link) ...<Route<dynamic>>[
+                LoginScreen.route(),
                 ResetPasswordScreen.route(link: link),
+              ] else if (hasSession)
+                HomeScreen.route()
+              else
+                LoginScreen.route(),
             ],
           );
         },

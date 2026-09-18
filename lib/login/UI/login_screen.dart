@@ -6,8 +6,10 @@ import 'package:laboratory/login/UI/widgets/login_feedback_banner.dart';
 import 'package:laboratory/login/UI/widgets/login_footer.dart';
 
 import '../../core/design_system/design_system.dart';
+import '../../core/di/dependency_injection.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
+import '../../home/UI/home_screen.dart';
 import '../logic/login_cubit.dart';
 import 'widgets/login_email_field.dart';
 import 'widgets/login_header.dart';
@@ -19,6 +21,13 @@ import 'widgets/login_top_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  static Route<void> route() => MaterialPageRoute<void>(
+    builder: (_) => BlocProvider<LoginCubit>(
+      create: (_) => getIt<LoginCubit>(),
+      child: const LoginScreen(),
+    ),
+  );
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -43,8 +52,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginCubit, LoginState>(
       listenWhen: (LoginState previous, LoginState current) =>
           current is LoginSuccess,
-      listener: (BuildContext context, LoginState state) =>
-          TextInput.finishAutofillContext(),
+      listener: (BuildContext context, LoginState state) {
+        TextInput.finishAutofillContext();
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(HomeScreen.route(), (Route<dynamic> _) => false);
+      },
       child: Scaffold(
         backgroundColor: context.layoutSize.isMedium
             ? AppColors.ground

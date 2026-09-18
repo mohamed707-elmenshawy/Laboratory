@@ -113,6 +113,29 @@ abstract class AppStrings {
   String get passwordResetSuccessMessage;
   String get linkExpiredPrompt;
   String get requestNewLink;
+
+  String get navSectionWorkspace;
+  String get navOverview;
+  String get navAnalytics;
+  String get soon;
+  String get openNavigation;
+  String welcomeBack(String name);
+  String get homeSubtitle;
+  String get accessTitle;
+  String get signedInAsLabel;
+  String get scopeCentral;
+  String get scopeCentralDescription;
+  String get scopeLaboratory;
+  String get scopeLaboratoryDescription;
+  String get scopeBranch;
+  String get scopeBranchDescription;
+  String get overviewEmptyTitle;
+  String get overviewEmptyMessage;
+  String get feedbackHomeTitle;
+  String get accountMenuLabel;
+  String get editProfile;
+  String get changePassword;
+  String get logOut;
 }
 
 class AppStringsEn extends AppStrings {
@@ -333,6 +356,56 @@ class AppStringsEn extends AppStrings {
   String get linkExpiredPrompt => 'Link expired?';
   @override
   String get requestNewLink => 'Request a new link';
+
+  @override
+  String get navSectionWorkspace => 'Workspace';
+  @override
+  String get navOverview => 'Overview';
+  @override
+  String get navAnalytics => 'Analytics';
+  @override
+  String get soon => 'Soon';
+  @override
+  String get openNavigation => 'Open navigation';
+  @override
+  String welcomeBack(String name) => 'Welcome back, $name';
+  @override
+  String get homeSubtitle =>
+      "Here's an overview of your laboratory workspace.";
+  @override
+  String get accessTitle => 'Your access';
+  @override
+  String get signedInAsLabel => 'Signed in as';
+  @override
+  String get scopeCentral => 'Central administrator';
+  @override
+  String get scopeCentralDescription =>
+      'You can see and manage every laboratory in the system.';
+  @override
+  String get scopeLaboratory => 'Laboratory administrator';
+  @override
+  String get scopeLaboratoryDescription =>
+      'You manage your laboratories and all of their branches.';
+  @override
+  String get scopeBranch => 'Branch staff';
+  @override
+  String get scopeBranchDescription =>
+      'Your access is limited to the branch you are assigned to.';
+  @override
+  String get overviewEmptyTitle => 'Nothing to summarise yet';
+  @override
+  String get overviewEmptyMessage =>
+      'Summaries from your laboratories will appear here as new modules are added.';
+  @override
+  String get feedbackHomeTitle => "Couldn't load your account";
+  @override
+  String get accountMenuLabel => 'Account menu';
+  @override
+  String get editProfile => 'Edit profile';
+  @override
+  String get changePassword => 'Change password';
+  @override
+  String get logOut => 'Log out';
 }
 
 class AppStringsAr extends AppStrings {
@@ -551,4 +624,53 @@ class AppStringsAr extends AppStrings {
   String get linkExpiredPrompt => 'انتهت صلاحية الرابط؟';
   @override
   String get requestNewLink => 'اطلب رابطًا جديدًا';
+
+  @override
+  String get navSectionWorkspace => 'مساحة العمل';
+  @override
+  String get navOverview => 'نظرة عامة';
+  @override
+  String get navAnalytics => 'التحليلات';
+  @override
+  String get soon => 'قريبًا';
+  @override
+  String get openNavigation => 'فتح القائمة';
+  @override
+  String welcomeBack(String name) => 'مرحبًا بعودتك، $name';
+  @override
+  String get homeSubtitle => 'إليك نظرة عامة على مساحة عمل مختبرك.';
+  @override
+  String get accessTitle => 'صلاحياتك';
+  @override
+  String get signedInAsLabel => 'تم تسجيل الدخول باسم';
+  @override
+  String get scopeCentral => 'مسؤول مركزي';
+  @override
+  String get scopeCentralDescription =>
+      'يمكنك الاطلاع على جميع المختبرات في النظام وإدارتها.';
+  @override
+  String get scopeLaboratory => 'مسؤول المختبر';
+  @override
+  String get scopeLaboratoryDescription =>
+      'تدير مختبراتك وجميع فروعها.';
+  @override
+  String get scopeBranch => 'فريق الفرع';
+  @override
+  String get scopeBranchDescription =>
+      'تقتصر صلاحياتك على الفرع المعيَّن لك.';
+  @override
+  String get overviewEmptyTitle => 'لا يوجد ما يُلخَّص بعد';
+  @override
+  String get overviewEmptyMessage =>
+      'ستظهر هنا ملخصات مختبراتك مع إضافة وحدات جديدة.';
+  @override
+  String get feedbackHomeTitle => 'تعذّر تحميل حسابك';
+  @override
+  String get accountMenuLabel => 'قائمة الحساب';
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+  @override
+  String get logOut => 'تسجيل الخروج';
 }

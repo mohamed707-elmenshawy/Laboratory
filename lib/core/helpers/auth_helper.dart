@@ -10,12 +10,12 @@ class AuthHelper {
   static const String _tenantKey = 'tenantId';
   static const String _branchKey = 'branchId';
 
-  static Future<void> restoreSession() async {
+  static Future<bool> restoreSession() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool(_loggedInKey) != true) return;
+    if (prefs.getBool(_loggedInKey) != true) return false;
 
     final String? token = prefs.getString(_tokenKey);
-    if (token == null || token.isEmpty) return;
+    if (token == null || token.isEmpty) return false;
 
     final String? tenantId = prefs.getString(_tenantKey);
 
@@ -23,6 +23,7 @@ class AuthHelper {
       token: token,
       tenantId: (tenantId == null || tenantId.isEmpty) ? null : tenantId,
     );
+    return true;
   }
 
   static Future<void> openSession({

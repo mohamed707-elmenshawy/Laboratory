@@ -23,4 +23,8 @@ abstract final class AppSizes {
   static const double focusRingWidth = 3;
 
   static const double borderWidth = 1;
+
+  static const double sidebarWidth = 248;
+  static const double appBarHeight = 64;
+  static const double contentMaxWidth = 1120;
 }

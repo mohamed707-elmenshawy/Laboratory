@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/di/dependency_injection.dart';
+import '../../core/localization/localization.dart';
+import '../../core/networking/dio_factory.dart';
+import '../../login/UI/login_screen.dart';
+import '../logic/home_cubit.dart';
+import '../logic/logout_cubit.dart';
+import 'widgets/home_content.dart';
+import 'widgets/home_destination.dart';
+import 'widgets/home_layout.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  static Route<void> route() => MaterialPageRoute<void>(
+    builder: (_) => MultiBlocProvider(
+      providers: <BlocProvider<dynamic>>[
+        BlocProvider<HomeCubit>(
+          create: (_) => getIt<HomeCubit>()..loadProfile(),
+        ),
+        BlocProvider<LogoutCubit>(create: (_) => getIt<LogoutCubit>()),
+      ],
+      child: const HomeScreen(),
+    ),
+  );
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  AppLocale? _locale;
+  HomeDestination _destination = HomeDestination.overview;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final AppLocale locale = context.appLocale;
+    if (locale == _locale) return;
+
+    _locale = locale;
+    DioFactory.setLocale(locale.code);
+  }
+
+  void _toLogin() => Navigator.of(
+    context,
+  ).pushAndRemoveUntil(LoginScreen.route(), (Route<dynamic> _) => false);
+
+  @override
+  Widget build(BuildContext context) {
+    final AppStrings s = context.strings;
+
+    return MultiBlocListener(
+      listeners: <BlocListener<dynamic, dynamic>>[
+        BlocListener<HomeCubit, HomeState>(
+          listenWhen: (HomeState previous, HomeState current) =>
+              current is HomeSessionExpired,
+          listener: (BuildContext context, HomeState state) => _toLogin(),
+        ),
+        BlocListener<LogoutCubit, LogoutState>(
+          listenWhen: (LogoutState previous, LogoutState current) =>
+              current is LogoutSuccess,
+          listener: (BuildContext context, LogoutState state) => _toLogin(),
+        ),
+      ],
+      child: HomeLayout(
+        selected: _destination,
+        onSelected: (HomeDestination destination) =>
+            setState(() => _destination = destination),
+        title: _destination.label(s),
+        body: const HomeContent(),
+      ),
+    );
+  }
+}

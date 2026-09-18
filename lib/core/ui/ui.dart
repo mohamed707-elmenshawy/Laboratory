@@ -1,7 +1,9 @@
 library;
 
 export 'app_alert.dart';
+export 'app_avatar.dart';
 export 'app_button.dart';
+export 'app_card.dart';
 export 'app_checkbox.dart';
 export 'app_error_feedback.dart';
 export 'app_feedback.dart';
