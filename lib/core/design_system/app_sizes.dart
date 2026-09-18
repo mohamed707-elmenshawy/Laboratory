@@ -27,4 +27,5 @@ abstract final class AppSizes {
   static const double sidebarWidth = 248;
   static const double appBarHeight = 64;
   static const double contentMaxWidth = 1120;
+  static const double pageFormMaxWidth = 640;
 }

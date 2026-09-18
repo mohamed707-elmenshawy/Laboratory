@@ -5,6 +5,7 @@ import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
 import '../../logic/logout_cubit.dart';
+import 'home_destination.dart';
 import 'home_user_menu.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -12,10 +13,12 @@ class HomeAppBar extends StatelessWidget {
     super.key,
     required this.title,
     required this.showMenuButton,
+    required this.onNavigate,
   });
 
   final String title;
   final bool showMenuButton;
+  final ValueChanged<HomeDestination> onNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,7 @@ class HomeAppBar extends StatelessWidget {
                   enabled: !busy,
                 ),
                 const SizedBox(width: AppSpacing.md),
-                const HomeUserMenu(),
+                HomeUserMenu(onNavigate: onNavigate),
               ],
             ),
           ),

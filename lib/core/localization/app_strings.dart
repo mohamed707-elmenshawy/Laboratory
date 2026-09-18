@@ -136,6 +136,34 @@ abstract class AppStrings {
   String get editProfile;
   String get changePassword;
   String get logOut;
+
+  String get profileTitle;
+  String get profileSubtitle;
+  String get personalDetailsTitle;
+  String get emailLockedHint;
+  String get saveChanges;
+  String get savingChanges;
+  String get feedbackProfileTitle;
+  String get feedbackProfileLoadTitle;
+  String get profileUpdatedTitle;
+  String get profileUpdatedMessage;
+  String get phonesTitle;
+  String get phonesEmpty;
+  String get phoneTypeBoth;
+  String get phoneTypePhone;
+  String get phoneTypeWhatsapp;
+  String get changePasswordSubtitle;
+  String get currentPasswordLabel;
+  String get currentPasswordHint;
+  String get currentPasswordRequired;
+  String get updatePassword;
+  String get updatingPassword;
+  String get feedbackChangePasswordTitle;
+  String get passwordChangedTitle;
+  String get passwordChangedMessage;
+  String get forgotCurrentPasswordTitle;
+  String resetLinkExplainer(String email);
+  String get emailMeResetLink;
 }
 
 class AppStringsEn extends AppStrings {
@@ -406,6 +434,64 @@ class AppStringsEn extends AppStrings {
   String get changePassword => 'Change password';
   @override
   String get logOut => 'Log out';
+
+  @override
+  String get profileTitle => 'Profile';
+  @override
+  String get profileSubtitle => 'Manage the personal details on your account.';
+  @override
+  String get personalDetailsTitle => 'Personal details';
+  @override
+  String get emailLockedHint => "Your sign-in email can't be changed.";
+  @override
+  String get saveChanges => 'Save changes';
+  @override
+  String get savingChanges => 'Saving…';
+  @override
+  String get feedbackProfileTitle => "Couldn't update your profile";
+  @override
+  String get feedbackProfileLoadTitle => "Couldn't load your profile";
+  @override
+  String get profileUpdatedTitle => 'Profile updated';
+  @override
+  String get profileUpdatedMessage => 'Your changes have been saved.';
+  @override
+  String get phonesTitle => 'Phone numbers';
+  @override
+  String get phonesEmpty => 'No phone numbers on your account.';
+  @override
+  String get phoneTypeBoth => 'Calls & WhatsApp';
+  @override
+  String get phoneTypePhone => 'Calls';
+  @override
+  String get phoneTypeWhatsapp => 'WhatsApp';
+  @override
+  String get changePasswordSubtitle =>
+      'Changing your password signs you out on your other devices.';
+  @override
+  String get currentPasswordLabel => 'Current password';
+  @override
+  String get currentPasswordHint => 'Enter your current password';
+  @override
+  String get currentPasswordRequired => 'Enter your current password.';
+  @override
+  String get updatePassword => 'Update password';
+  @override
+  String get updatingPassword => 'Updating…';
+  @override
+  String get feedbackChangePasswordTitle => "Couldn't change your password";
+  @override
+  String get passwordChangedTitle => 'Password changed';
+  @override
+  String get passwordChangedMessage =>
+      'Your other devices have been signed out.';
+  @override
+  String get forgotCurrentPasswordTitle => 'Forgot your current password?';
+  @override
+  String resetLinkExplainer(String email) =>
+      "We'll email a reset link to $email. Using it signs you out on every device.";
+  @override
+  String get emailMeResetLink => 'Email me a reset link';
 }
 
 class AppStringsAr extends AppStrings {
@@ -673,4 +759,62 @@ class AppStringsAr extends AppStrings {
   String get changePassword => 'تغيير كلمة المرور';
   @override
   String get logOut => 'تسجيل الخروج';
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+  @override
+  String get profileSubtitle => 'أدِر البيانات الشخصية في حسابك.';
+  @override
+  String get personalDetailsTitle => 'البيانات الشخصية';
+  @override
+  String get emailLockedHint =>
+      'لا يمكن تغيير البريد الإلكتروني المستخدم لتسجيل الدخول.';
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+  @override
+  String get savingChanges => 'جارٍ الحفظ…';
+  @override
+  String get feedbackProfileTitle => 'تعذّر تحديث ملفك الشخصي';
+  @override
+  String get feedbackProfileLoadTitle => 'تعذّر تحميل ملفك الشخصي';
+  @override
+  String get profileUpdatedTitle => 'تم تحديث الملف الشخصي';
+  @override
+  String get profileUpdatedMessage => 'تم حفظ تغييراتك.';
+  @override
+  String get phonesTitle => 'أرقام الهاتف';
+  @override
+  String get phonesEmpty => 'لا توجد أرقام هاتف في حسابك.';
+  @override
+  String get phoneTypeBoth => 'اتصال وواتساب';
+  @override
+  String get phoneTypePhone => 'اتصال';
+  @override
+  String get phoneTypeWhatsapp => 'واتساب';
+  @override
+  String get changePasswordSubtitle =>
+      'يؤدي تغيير كلمة المرور إلى تسجيل خروجك من أجهزتك الأخرى.';
+  @override
+  String get currentPasswordLabel => 'كلمة المرور الحالية';
+  @override
+  String get currentPasswordHint => 'أدخل كلمة المرور الحالية';
+  @override
+  String get currentPasswordRequired => 'أدخل كلمة المرور الحالية.';
+  @override
+  String get updatePassword => 'تحديث كلمة المرور';
+  @override
+  String get updatingPassword => 'جارٍ التحديث…';
+  @override
+  String get feedbackChangePasswordTitle => 'تعذّر تغيير كلمة المرور';
+  @override
+  String get passwordChangedTitle => 'تم تغيير كلمة المرور';
+  @override
+  String get passwordChangedMessage => 'تم تسجيل خروجك من أجهزتك الأخرى.';
+  @override
+  String get forgotCurrentPasswordTitle => 'نسيت كلمة المرور الحالية؟';
+  @override
+  String resetLinkExplainer(String email) =>
+      'سنرسل رابط إعادة التعيين إلى \u2066$email\u2069. استخدامه يسجّل خروجك من جميع الأجهزة.';
+  @override
+  String get emailMeResetLink => 'أرسل لي رابط إعادة التعيين';
 }

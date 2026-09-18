@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/di/dependency_injection.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
+import '../../change_password/UI/change_password_view.dart';
 import '../../login/UI/login_screen.dart';
+import '../../profile/UI/profile_view.dart';
 import '../logic/home_cubit.dart';
 import '../logic/logout_cubit.dart';
 import 'widgets/home_content.dart';
@@ -71,7 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
         onSelected: (HomeDestination destination) =>
             setState(() => _destination = destination),
         title: _destination.label(s),
-        body: const HomeContent(),
+        body: KeyedSubtree(
+          key: ValueKey<HomeDestination>(_destination),
+          child: switch (_destination) {
+            HomeDestination.profile => ProfileView.page(),
+            HomeDestination.changePassword => ChangePasswordView.page(
+              email: context.read<HomeCubit>().user?.email ?? '',
+            ),
+            HomeDestination.overview ||
+            HomeDestination.analytics => const HomeContent(),
+          },
+        ),
       ),
     );
   }

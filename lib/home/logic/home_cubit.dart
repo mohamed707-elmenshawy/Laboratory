@@ -38,4 +38,6 @@ class HomeCubit extends Cubit<HomeState> {
         emit(HomeFailure(error));
     }
   }
+
+  void userUpdated(UserModel user) => emit(HomeLoaded(user));
 }

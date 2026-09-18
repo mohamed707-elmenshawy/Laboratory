@@ -4,15 +4,24 @@ import '../../../core/localization/localization.dart';
 
 enum HomeDestination {
   overview(Icons.space_dashboard_outlined, isAvailable: true),
-  analytics(Icons.insights_outlined, isAvailable: false);
+  analytics(Icons.insights_outlined, isAvailable: false),
+  profile(Icons.person_outline_rounded, isAvailable: true, inNav: false),
+  changePassword(Icons.lock_reset_rounded, isAvailable: true, inNav: false);
 
-  const HomeDestination(this.icon, {required this.isAvailable});
+  const HomeDestination(
+    this.icon, {
+    required this.isAvailable,
+    this.inNav = true,
+  });
 
   final IconData icon;
   final bool isAvailable;
+  final bool inNav;
 
   String label(AppStrings s) => switch (this) {
     HomeDestination.overview => s.navOverview,
     HomeDestination.analytics => s.navAnalytics,
+    HomeDestination.profile => s.profileTitle,
+    HomeDestination.changePassword => s.changePassword,
   };
 }

@@ -48,7 +48,11 @@ class HomeLayout extends StatelessWidget {
           Expanded(
             child: Column(
               children: <Widget>[
-                HomeAppBar(title: title, showMenuButton: !expanded),
+                HomeAppBar(
+                  title: title,
+                  showMenuButton: !expanded,
+                  onNavigate: onSelected,
+                ),
                 Expanded(child: body),
               ],
             ),

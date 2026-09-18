@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/localization/localization.dart';
+import '../../../core/ui/ui.dart';
+import '../../logic/change_password_cubit.dart';
+
+class ChangePasswordSubmitButton extends StatelessWidget {
+  const ChangePasswordSubmitButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final AppStrings s = context.strings;
+    final bool busy = context.select(
+      (ChangePasswordCubit cubit) => cubit.isBusy,
+    );
+
+    return AppButton(
+      label: s.updatePassword,
+      loadingLabel: s.updatingPassword,
+      size: AppButtonSize.medium,
+      isLoading: busy,
+      onPressed: busy
+          ? null
+          : () {
+              if (Form.of(context).validate()) {
+                context.read<ChangePasswordCubit>().changePassword();
+              }
+            },
+    );
+  }
+}

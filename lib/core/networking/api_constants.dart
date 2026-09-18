@@ -10,6 +10,8 @@ class ApiConstants {
   static const String resetPassword = 'auth/reset-password';
   static const String profile = 'auth/profile';
   static const String logout = 'auth/logout';
+  static const String updateProfile = 'auth/update-profile';
+  static const String changePassword = 'auth/change-password';
 
   static const String authorizationHeader = 'Authorization';
   static const String tenantHeader = 'X-Tenant';

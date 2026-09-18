@@ -68,7 +68,9 @@ class HomeSidebar extends StatelessWidget {
                   ),
                 ),
                 for (final HomeDestination destination
-                    in HomeDestination.values) ...<Widget>[
+                    in HomeDestination.values.where(
+                      (HomeDestination d) => d.inNav,
+                    )) ...<Widget>[
                   HomeNavItem(
                     destination: destination,
                     selected: destination == selected,

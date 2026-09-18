@@ -7,10 +7,12 @@ import '../../../core/models/user_model.dart';
 import '../../../core/ui/ui.dart';
 import '../../logic/home_cubit.dart';
 import '../../logic/logout_cubit.dart';
-import 'home_soon_badge.dart';
+import 'home_destination.dart';
 
 class HomeUserMenu extends StatelessWidget {
-  const HomeUserMenu({super.key});
+  const HomeUserMenu({super.key, required this.onNavigate});
+
+  final ValueChanged<HomeDestination> onNavigate;
 
   static const double _menuWidth = 296;
 
@@ -55,19 +57,29 @@ class HomeUserMenu extends StatelessWidget {
         ),
       ),
       menuChildren: <Widget>[
-        _Identity(user: user, width: _menuWidth),
+        MenuItemButton(
+          onPressed: () => onNavigate(HomeDestination.profile),
+          style: const ButtonStyle(
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+              EdgeInsets.zero,
+            ),
+            shape: WidgetStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
+            ),
+            overlayColor: WidgetStatePropertyAll<Color>(AppColors.surfaceMuted),
+          ),
+          child: _Identity(user: user, width: _menuWidth),
+        ),
         const _MenuDivider(),
         _MenuItem(
           icon: Icons.manage_accounts_outlined,
           label: s.editProfile,
-          onPressed: null,
-          trailing: const HomeSoonBadge(),
+          onPressed: () => onNavigate(HomeDestination.profile),
         ),
         _MenuItem(
           icon: Icons.lock_reset_rounded,
           label: s.changePassword,
-          onPressed: null,
-          trailing: const HomeSoonBadge(),
+          onPressed: () => onNavigate(HomeDestination.changePassword),
         ),
         const _MenuDivider(),
         _MenuItem(
@@ -210,14 +222,12 @@ class _MenuItem extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.color = AppColors.inkMuted,
-    this.trailing,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback? onPressed;
   final Color color;
-  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +239,6 @@ class _MenuItem extends StatelessWidget {
     return MenuItemButton(
       onPressed: onPressed,
       leadingIcon: Icon(icon, size: AppSizes.iconMd),
-      trailingIcon: trailing,
       style: ButtonStyle(
         minimumSize: const WidgetStatePropertyAll<Size>(
           Size(0, AppSizes.controlMedium),

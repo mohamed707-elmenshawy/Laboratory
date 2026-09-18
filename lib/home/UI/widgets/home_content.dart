@@ -9,6 +9,7 @@ import '../../../core/ui/ui.dart';
 import '../../logic/home_cubit.dart';
 import 'home_access_card.dart';
 import 'home_overview_empty.dart';
+import 'home_page_frame.dart';
 import 'home_welcome_header.dart';
 
 class HomeContent extends StatelessWidget {
@@ -18,22 +19,15 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.x3l),
-      child: Align(
-        alignment: AlignmentDirectional.topStart,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: AppSizes.contentMaxWidth),
-          child: BlocBuilder<HomeCubit, HomeState>(
-            builder: (BuildContext context, HomeState state) => switch (state) {
-              HomeLoaded(:final UserModel user) => _Loaded(user: user),
-              HomeFailure(:final AppError error) => _Failed(error: error),
-              HomeInitial() ||
-              HomeLoading() ||
-              HomeSessionExpired() => const _Loading(),
-            },
-          ),
-        ),
+    return HomePageFrame(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (BuildContext context, HomeState state) => switch (state) {
+          HomeLoaded(:final UserModel user) => _Loaded(user: user),
+          HomeFailure(:final AppError error) => _Failed(error: error),
+          HomeInitial() ||
+          HomeLoading() ||
+          HomeSessionExpired() => const _Loading(),
+        },
       ),
     );
   }

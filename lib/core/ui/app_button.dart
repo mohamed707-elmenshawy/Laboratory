@@ -200,7 +200,12 @@ class _AppButtonState extends State<AppButton> {
                   ? AppShadows.focusRing(AppColors.focusRing)
                   : AppShadows.none,
             ),
-            child: ExcludeSemantics(child: Center(child: content)),
+            child: ExcludeSemantics(
+              child: Center(
+                widthFactor: widget.expand ? null : 1,
+                child: content,
+              ),
+            ),
           ),
         ),
       ),
