@@ -5,34 +5,31 @@ import '../../../core/design_system/design_system.dart';
 import '../../../core/error/app_error.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
-import '../../../verification/UI/verification_screen.dart';
-import '../../data/models/register_response.dart';
-import '../../logic/register_cubit.dart';
+import '../../logic/verification_cubit.dart';
 
-class RegisterFeedbackBanner extends StatelessWidget {
-  const RegisterFeedbackBanner({super.key});
+class VerificationFeedbackBanner extends StatelessWidget {
+  const VerificationFeedbackBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
 
-    return BlocBuilder<RegisterCubit, RegisterState>(
-      builder: (BuildContext context, RegisterState state) {
+    return BlocBuilder<VerificationCubit, VerificationState>(
+      builder: (BuildContext context, VerificationState state) {
         final AppFeedback? feedback = switch (state) {
-          RegisterSuccess(:final RegisterResponse response) =>
-            AppFeedback.success(
-              title: s.registerSuccessTitle,
-              message: s.registerSuccessMessage(response.user.email),
-              actionLabel: s.verifyEmailAction,
-              onAction: () => Navigator.of(
-                context,
-              ).push(VerificationScreen.route(email: response.user.email)),
-            ),
-          RegisterFailure(:final AppError error) => error.toFeedback(
-            s,
-            title: s.feedbackRegisterTitle,
+          VerificationSuccess() => AppFeedback.success(
+            title: s.verificationSuccessTitle,
+            message: s.verificationSuccessMessage,
+            actionLabel: s.signInAction,
+            onAction: () => Navigator.of(
+              context,
+            ).popUntil((Route<dynamic> route) => route.isFirst),
           ),
-          RegisterInitial() || RegisterLoading() => null,
+          VerificationFailure(:final AppError error) => error.toFeedback(
+            s,
+            title: s.feedbackVerificationTitle,
+          ),
+          VerificationInitial() || VerificationLoading() => null,
         };
 
         return AnimatedSize(
@@ -46,9 +43,11 @@ class RegisterFeedbackBanner extends StatelessWidget {
                   children: <Widget>[
                     AppAlert(
                       feedback: feedback,
-                      onDismiss: state is RegisterSuccess
+                      onDismiss: state is VerificationSuccess
                           ? null
-                          : () => context.read<RegisterCubit>().dismissFailure(),
+                          : () => context
+                                .read<VerificationCubit>()
+                                .dismissFailure(),
                       dismissTooltip: s.dismiss,
                     ),
                     const SizedBox(height: AppSpacing.lg),

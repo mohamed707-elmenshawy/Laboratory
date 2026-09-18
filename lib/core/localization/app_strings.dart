@@ -78,6 +78,19 @@ abstract class AppStrings {
   String registerSuccessMessage(String email);
   String get signInPrompt;
   String get signInAction;
+
+  String get verificationTitle;
+  String verificationSubtitle(String email);
+  String get codeLabel;
+  String get codeHint;
+  String get codeRequired;
+  String get codeLength;
+  String get verifying;
+  String get verified;
+  String get feedbackVerificationTitle;
+  String get verificationSuccessTitle;
+  String get verificationSuccessMessage;
+  String get verifiedPrompt;
 }
 
 class AppStringsEn extends AppStrings {
@@ -225,6 +238,33 @@ class AppStringsEn extends AppStrings {
   String get signInPrompt => 'Already registered?';
   @override
   String get signInAction => 'Sign in';
+
+  @override
+  String get verificationTitle => 'Verify your email';
+  @override
+  String verificationSubtitle(String email) =>
+      'Enter the 6-digit code we sent to $email.';
+  @override
+  String get codeLabel => 'Verification code';
+  @override
+  String get codeHint => '6-digit code';
+  @override
+  String get codeRequired => 'Enter the verification code.';
+  @override
+  String get codeLength => 'The code must be 6 digits.';
+  @override
+  String get verifying => 'Verifying…';
+  @override
+  String get verified => 'Verified';
+  @override
+  String get feedbackVerificationTitle => 'Verification failed';
+  @override
+  String get verificationSuccessTitle => 'Email verified';
+  @override
+  String get verificationSuccessMessage =>
+      'Your account is active. You can now sign in.';
+  @override
+  String get verifiedPrompt => 'Already verified?';
 }
 
 class AppStringsAr extends AppStrings {
@@ -370,4 +410,31 @@ class AppStringsAr extends AppStrings {
   String get signInPrompt => 'لديك حساب بالفعل؟';
   @override
   String get signInAction => 'تسجيل الدخول';
+
+  @override
+  String get verificationTitle => 'تأكيد بريدك الإلكتروني';
+  @override
+  String verificationSubtitle(String email) =>
+      'أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إلى \u2066$email\u2069.';
+  @override
+  String get codeLabel => 'رمز التأكيد';
+  @override
+  String get codeHint => 'رمز من 6 أرقام';
+  @override
+  String get codeRequired => 'أدخل رمز التأكيد.';
+  @override
+  String get codeLength => 'يجب أن يتكون الرمز من 6 أرقام.';
+  @override
+  String get verifying => 'جارٍ التأكيد…';
+  @override
+  String get verified => 'تم التأكيد';
+  @override
+  String get feedbackVerificationTitle => 'فشل التأكيد';
+  @override
+  String get verificationSuccessTitle => 'تم تأكيد البريد الإلكتروني';
+  @override
+  String get verificationSuccessMessage =>
+      'تم تفعيل حسابك. يمكنك الآن تسجيل الدخول.';
+  @override
+  String get verifiedPrompt => 'تم التأكيد بالفعل؟';
 }
