@@ -91,6 +91,16 @@ abstract class AppStrings {
   String get verificationSuccessTitle;
   String get verificationSuccessMessage;
   String get verifiedPrompt;
+
+  String get forgotPasswordTitle;
+  String get forgotPasswordSubtitle;
+  String get sendResetLink;
+  String get sendingResetLink;
+  String get resetLinkSent;
+  String get feedbackForgotPasswordTitle;
+  String get resetLinkSentTitle;
+  String resetLinkSentMessage(String email);
+  String get rememberedPasswordPrompt;
 }
 
 class AppStringsEn extends AppStrings {
@@ -265,6 +275,27 @@ class AppStringsEn extends AppStrings {
       'Your account is active. You can now sign in.';
   @override
   String get verifiedPrompt => 'Already verified?';
+
+  @override
+  String get forgotPasswordTitle => 'Reset your password';
+  @override
+  String get forgotPasswordSubtitle =>
+      "Enter your account email and we'll send you a link to choose a new password.";
+  @override
+  String get sendResetLink => 'Send reset link';
+  @override
+  String get sendingResetLink => 'Sending…';
+  @override
+  String get resetLinkSent => 'Link sent';
+  @override
+  String get feedbackForgotPasswordTitle => "Couldn't send the link";
+  @override
+  String get resetLinkSentTitle => 'Check your email';
+  @override
+  String resetLinkSentMessage(String email) =>
+      'We sent a password reset link to $email. Open it to choose a new password.';
+  @override
+  String get rememberedPasswordPrompt => 'Remembered your password?';
 }
 
 class AppStringsAr extends AppStrings {
@@ -437,4 +468,25 @@ class AppStringsAr extends AppStrings {
       'تم تفعيل حسابك. يمكنك الآن تسجيل الدخول.';
   @override
   String get verifiedPrompt => 'تم التأكيد بالفعل؟';
+
+  @override
+  String get forgotPasswordTitle => 'إعادة تعيين كلمة المرور';
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل بريد حسابك وسنرسل لك رابطًا لاختيار كلمة مرور جديدة.';
+  @override
+  String get sendResetLink => 'إرسال رابط إعادة التعيين';
+  @override
+  String get sendingResetLink => 'جارٍ الإرسال…';
+  @override
+  String get resetLinkSent => 'تم إرسال الرابط';
+  @override
+  String get feedbackForgotPasswordTitle => 'تعذّر إرسال الرابط';
+  @override
+  String get resetLinkSentTitle => 'تحقق من بريدك الإلكتروني';
+  @override
+  String resetLinkSentMessage(String email) =>
+      'أرسلنا رابط إعادة تعيين كلمة المرور إلى \u2066$email\u2069. افتحه لاختيار كلمة مرور جديدة.';
+  @override
+  String get rememberedPasswordPrompt => 'تذكرت كلمة المرور؟';
 }

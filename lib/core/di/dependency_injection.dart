@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../forgot_password/data/repos/forgot_password_repo.dart';
+import '../../forgot_password/logic/forgot_password_cubit.dart';
 import '../../login/data/repos/login_repo.dart';
 import '../../login/logic/login_cubit.dart';
 import '../../register/data/repos/register_repo.dart';
@@ -30,5 +32,13 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<VerificationCubit>(
     () => VerificationCubit(getIt<VerificationRepo>()),
+  );
+
+  getIt.registerLazySingleton<ForgotPasswordRepo>(
+    () => ForgotPasswordRepo(getIt<Dio>()),
+  );
+
+  getIt.registerFactory<ForgotPasswordCubit>(
+    () => ForgotPasswordCubit(getIt<ForgotPasswordRepo>()),
   );
 }

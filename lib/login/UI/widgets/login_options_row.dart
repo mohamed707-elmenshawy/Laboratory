@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
+import '../../../forgot_password/UI/forgot_password_screen.dart';
 import '../../logic/login_cubit.dart';
 
 class LoginOptionsRow extends StatefulWidget {
@@ -57,5 +58,9 @@ class _LoginOptionsRowState extends State<LoginOptionsRow> {
     );
   }
 
-  void _onForgotPassword() {}
+  void _onForgotPassword() => Navigator.of(context).push(
+    ForgotPasswordScreen.route(
+      email: context.read<LoginCubit>().emailController.text.trim(),
+    ),
+  );
 }
