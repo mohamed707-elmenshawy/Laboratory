@@ -101,6 +101,18 @@ abstract class AppStrings {
   String get resetLinkSentTitle;
   String resetLinkSentMessage(String email);
   String get rememberedPasswordPrompt;
+
+  String get resetPasswordTitle;
+  String resetPasswordSubtitle(String email);
+  String get newPasswordLabel;
+  String get resetPasswordAction;
+  String get resettingPassword;
+  String get passwordResetDone;
+  String get feedbackResetPasswordTitle;
+  String get passwordResetSuccessTitle;
+  String get passwordResetSuccessMessage;
+  String get linkExpiredPrompt;
+  String get requestNewLink;
 }
 
 class AppStringsEn extends AppStrings {
@@ -296,6 +308,31 @@ class AppStringsEn extends AppStrings {
       'We sent a password reset link to $email. Open it to choose a new password.';
   @override
   String get rememberedPasswordPrompt => 'Remembered your password?';
+
+  @override
+  String get resetPasswordTitle => 'Choose a new password';
+  @override
+  String resetPasswordSubtitle(String email) =>
+      'Set a new password for $email.';
+  @override
+  String get newPasswordLabel => 'New password';
+  @override
+  String get resetPasswordAction => 'Reset password';
+  @override
+  String get resettingPassword => 'Resetting…';
+  @override
+  String get passwordResetDone => 'Password reset';
+  @override
+  String get feedbackResetPasswordTitle => "Couldn't reset your password";
+  @override
+  String get passwordResetSuccessTitle => 'Password updated';
+  @override
+  String get passwordResetSuccessMessage =>
+      'You can now sign in with your new password.';
+  @override
+  String get linkExpiredPrompt => 'Link expired?';
+  @override
+  String get requestNewLink => 'Request a new link';
 }
 
 class AppStringsAr extends AppStrings {
@@ -489,4 +526,29 @@ class AppStringsAr extends AppStrings {
       'أرسلنا رابط إعادة تعيين كلمة المرور إلى \u2066$email\u2069. افتحه لاختيار كلمة مرور جديدة.';
   @override
   String get rememberedPasswordPrompt => 'تذكرت كلمة المرور؟';
+
+  @override
+  String get resetPasswordTitle => 'اختر كلمة مرور جديدة';
+  @override
+  String resetPasswordSubtitle(String email) =>
+      'عيّن كلمة مرور جديدة للحساب \u2066$email\u2069.';
+  @override
+  String get newPasswordLabel => 'كلمة المرور الجديدة';
+  @override
+  String get resetPasswordAction => 'إعادة تعيين كلمة المرور';
+  @override
+  String get resettingPassword => 'جارٍ إعادة التعيين…';
+  @override
+  String get passwordResetDone => 'تمت إعادة التعيين';
+  @override
+  String get feedbackResetPasswordTitle => 'تعذّرت إعادة تعيين كلمة المرور';
+  @override
+  String get passwordResetSuccessTitle => 'تم تحديث كلمة المرور';
+  @override
+  String get passwordResetSuccessMessage =>
+      'يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة.';
+  @override
+  String get linkExpiredPrompt => 'انتهت صلاحية الرابط؟';
+  @override
+  String get requestNewLink => 'اطلب رابطًا جديدًا';
 }
