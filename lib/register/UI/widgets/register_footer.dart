@@ -13,7 +13,9 @@ class RegisterFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
     final TextStyle base = DefaultTextStyle.of(context).style;
-    final bool enabled = context.select((RegisterCubit cubit) => !cubit.isBusy);
+    final bool enabled = context.select(
+      (RegisterCubit cubit) => cubit.state is! RegisterLoading,
+    );
 
     return Center(
       child: Wrap(

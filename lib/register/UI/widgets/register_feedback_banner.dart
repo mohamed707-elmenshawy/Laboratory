@@ -22,6 +22,8 @@ class RegisterFeedbackBanner extends StatelessWidget {
             AppFeedback.success(
               title: s.registerSuccessTitle,
               message: s.registerSuccessMessage(response.user.email),
+              actionLabel: s.signInAction,
+              onAction: () => Navigator.of(context).pop(),
             ),
           RegisterFailure(:final AppError error) => error.toFeedback(
             s,
@@ -41,8 +43,9 @@ class RegisterFeedbackBanner extends StatelessWidget {
                   children: <Widget>[
                     AppAlert(
                       feedback: feedback,
-                      onDismiss: () =>
-                          context.read<RegisterCubit>().dismissFailure(),
+                      onDismiss: state is RegisterSuccess
+                          ? null
+                          : () => context.read<RegisterCubit>().dismissFailure(),
                       dismissTooltip: s.dismiss,
                     ),
                     const SizedBox(height: AppSpacing.lg),
