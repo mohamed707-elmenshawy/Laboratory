@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../design_system/app_colors.dart';
 import '../design_system/app_radius.dart';
 import '../design_system/app_spacing.dart';
 import '../design_system/app_text_styles.dart';
+import '../localization/localization.dart';
 
 class AppLogoMark extends StatelessWidget {
   const AppLogoMark({
@@ -12,6 +15,7 @@ class AppLogoMark extends StatelessWidget {
     this.color = AppColors.onBrand,
     this.tileColor,
     this.tileBorderColor,
+    this.logoUrl,
   });
 
   final double size;
@@ -19,15 +23,19 @@ class AppLogoMark extends StatelessWidget {
 
   final Color? tileColor;
   final Color? tileBorderColor;
+  final String? logoUrl;
 
   @override
   Widget build(BuildContext context) {
-    final Widget glyph = CustomPaint(
-      size: Size.square(size * 0.56),
-      painter: _FlaskPainter(color: color),
+    final Widget glyph = _LogoGlyph(
+      size: size * 0.56,
+      color: color,
+      url: logoUrl,
     );
 
-    if (tileColor == null && tileBorderColor == null) {
+    if (tileColor == null &&
+        tileBorderColor == null &&
+        (logoUrl == null || logoUrl!.isEmpty)) {
       return ExcludeSemantics(
         child: SizedBox.square(
           dimension: size,
@@ -40,6 +48,9 @@ class AppLogoMark extends StatelessWidget {
       child: Container(
         width: size,
         height: size,
+        padding: logoUrl == null || logoUrl!.isEmpty
+            ? EdgeInsets.zero
+            : EdgeInsets.all(size * 0.14),
         decoration: BoxDecoration(
           color: tileColor,
           borderRadius: AppRadius.mdAll,
@@ -49,6 +60,62 @@ class AppLogoMark extends StatelessWidget {
         ),
         child: Center(child: glyph),
       ),
+    );
+  }
+}
+
+class _LogoGlyph extends StatelessWidget {
+  const _LogoGlyph({
+    required this.size,
+    required this.color,
+    required this.url,
+  });
+
+  final double size;
+  final Color color;
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget fallback = CustomPaint(
+      size: Size.square(size),
+      painter: _FlaskPainter(color: color),
+    );
+
+    final String? logoUrl = url;
+    if (logoUrl == null || logoUrl.isEmpty) return fallback;
+
+    final Uri? uri = Uri.tryParse(logoUrl);
+    final bool svg = uri?.path.toLowerCase().endsWith('.svg') ?? false;
+
+    if (kIsWeb) {
+      return Image.network(
+        logoUrl,
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
+        webHtmlElementStrategy: WebHtmlElementStrategy.prefer,
+        errorBuilder: (_, _, _) => fallback,
+      );
+    }
+
+    if (svg) {
+      return SvgPicture.network(
+        logoUrl,
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
+        placeholderBuilder: (_) => fallback,
+        errorBuilder: (_, _, _) => fallback,
+      );
+    }
+
+    return Image.network(
+      logoUrl,
+      width: size,
+      height: size,
+      fit: BoxFit.contain,
+      errorBuilder: (_, _, _) => fallback,
     );
   }
 }
@@ -115,6 +182,13 @@ class AppLogoLockup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LabSettings settings = context.labSettings;
+    final String name = settings.nameFor(
+      context.appLocale.code,
+      fallback: productName,
+    );
+    final String? logoUrl = settings.logoUrl;
+
     final Color primary = onDark ? AppColors.onBrand : AppColors.ink;
     final Color secondary = onDark
         ? AppColors.onBrand.withValues(alpha: 0.62)
@@ -122,7 +196,7 @@ class AppLogoLockup extends StatelessWidget {
     final TextStyle base = DefaultTextStyle.of(context).style;
 
     return Semantics(
-      label: productName,
+      label: name,
       image: true,
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -136,6 +210,7 @@ class AppLogoLockup extends StatelessWidget {
             tileBorderColor: onDark
                 ? AppColors.onBrand.withValues(alpha: 0.26)
                 : AppColors.brandLine,
+            logoUrl: logoUrl,
           ),
           const SizedBox(width: AppSpacing.md - 1),
           ExcludeSemantics(
@@ -144,7 +219,7 @@ class AppLogoLockup extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  productName,
+                  name,
                   style: base
                       .merge(AppTextStyles.h3)
                       .copyWith(

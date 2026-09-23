@@ -14,6 +14,7 @@ class ApiConstants {
   static const String changePassword = 'auth/change-password';
 
   static const String laboratories = 'laboratories';
+  static const String settingsList = 'settings/list';
 
   static const String authorizationHeader = 'Authorization';
   static const String tenantHeader = 'X-Tenant';

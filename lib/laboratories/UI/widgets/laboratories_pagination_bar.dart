@@ -30,15 +30,6 @@ class LaboratoriesPaginationBar extends StatelessWidget {
           .copyWith(fontSize: 12.5, color: AppColors.inkSubtle),
     );
 
-    final Widget controls = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const _PerPageSelector(),
-        const SizedBox(width: AppSpacing.lg),
-        _PageControls(pagination: pagination),
-      ],
-    );
-
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.xl,
@@ -57,9 +48,21 @@ class LaboratoriesPaginationBar extends StatelessWidget {
               children: <Widget>[
                 summary,
                 const SizedBox(height: AppSpacing.md),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: controls,
+                SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: AppSpacing.lg,
+                    runSpacing: AppSpacing.md,
+                    children: <Widget>[
+                      const _PerPageSelector(),
+                      _PageControls(
+                        pagination: pagination,
+                        window: _PageControls.compactWindow,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );
@@ -68,7 +71,9 @@ class LaboratoriesPaginationBar extends StatelessWidget {
           return Row(
             children: <Widget>[
               Expanded(child: summary),
-              controls,
+              const _PerPageSelector(),
+              const SizedBox(width: AppSpacing.lg),
+              _PageControls(pagination: pagination),
             ],
           );
         },
@@ -152,23 +157,24 @@ class _PerPageSelector extends StatelessWidget {
 }
 
 class _PageControls extends StatelessWidget {
-  const _PageControls({required this.pagination});
+  const _PageControls({required this.pagination, this.window = 5});
 
-  static const int _window = 5;
+  static const int compactWindow = 3;
 
   final LaboratoriesPagination pagination;
+  final int window;
 
   List<int> get _pages {
     final int last = pagination.lastPage;
-    if (last <= _window) {
+    if (last <= window) {
       return <int>[for (int page = 1; page <= last; page++) page];
     }
 
-    int start = pagination.currentPage - _window ~/ 2;
+    int start = pagination.currentPage - window ~/ 2;
     if (start < 1) start = 1;
-    if (start + _window - 1 > last) start = last - _window + 1;
+    if (start + window - 1 > last) start = last - window + 1;
 
-    return <int>[for (int i = 0; i < _window; i++) start + i];
+    return <int>[for (int i = 0; i < window; i++) start + i];
   }
 
   @override

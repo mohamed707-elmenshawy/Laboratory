@@ -19,6 +19,8 @@ import '../../register/data/repos/register_repo.dart';
 import '../../register/logic/register_cubit.dart';
 import '../../reset_password/data/repos/reset_password_repo.dart';
 import '../../reset_password/logic/reset_password_cubit.dart';
+import '../../settings/data/repos/settings_repo.dart';
+import '../../settings/logic/settings_cubit.dart';
 import '../../verification/data/repos/verification_repo.dart';
 import '../../verification/logic/verification_cubit.dart';
 import '../networking/dio_factory.dart';
@@ -90,5 +92,11 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<LaboratoriesCubit>(
     () => LaboratoriesCubit(getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerLazySingleton<SettingsRepo>(() => SettingsRepo(getIt<Dio>()));
+
+  getIt.registerLazySingleton<SettingsCubit>(
+    () => SettingsCubit(getIt<SettingsRepo>()),
   );
 }

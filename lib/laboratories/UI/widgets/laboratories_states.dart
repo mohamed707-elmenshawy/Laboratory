@@ -31,7 +31,9 @@ class LaboratoriesLoadingState extends StatelessWidget {
 }
 
 class LaboratoriesEmptyState extends StatelessWidget {
-  const LaboratoriesEmptyState({super.key});
+  const LaboratoriesEmptyState({super.key, this.filtered = false});
+
+  final bool filtered;
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +54,15 @@ class LaboratoriesEmptyState extends StatelessWidget {
               color: AppColors.surfaceMuted,
               borderRadius: AppRadius.lgAll,
             ),
-            child: const Icon(
-              Icons.biotech_outlined,
+            child: Icon(
+              filtered ? Icons.search_off_rounded : Icons.biotech_outlined,
               size: AppSizes.iconLg,
               color: AppColors.inkSubtle,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            s.laboratoriesEmptyTitle,
+            filtered ? s.laboratoriesNoMatchTitle : s.laboratoriesEmptyTitle,
             style: base
                 .merge(AppTextStyles.label)
                 .copyWith(
@@ -71,12 +73,24 @@ class LaboratoriesEmptyState extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            s.laboratoriesEmptyMessage,
+            filtered
+                ? s.laboratoriesNoMatchMessage
+                : s.laboratoriesEmptyMessage,
             textAlign: TextAlign.center,
             style: base
                 .merge(AppTextStyles.body)
                 .copyWith(color: AppColors.inkSubtle),
           ),
+          if (filtered) ...<Widget>[
+            const SizedBox(height: AppSpacing.lg),
+            AppButton(
+              label: s.clearFilters,
+              variant: AppButtonVariant.secondary,
+              size: AppButtonSize.small,
+              icon: Icons.filter_alt_off_outlined,
+              onPressed: () => context.read<LaboratoriesCubit>().clearFilters(),
+            ),
+          ],
         ],
       ),
     );

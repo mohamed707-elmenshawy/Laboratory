@@ -3,9 +3,9 @@ import 'app_locale.dart';
 abstract class AppStrings {
   const AppStrings();
 
-  factory AppStrings.of(AppLocale locale) => switch (locale) {
-    AppLocale.en => const AppStringsEn(),
-    AppLocale.ar => const AppStringsAr(),
+  factory AppStrings.of(AppLocale locale) => switch (locale.code) {
+    'ar' => const AppStringsAr(),
+    _ => const AppStringsEn(),
   };
 
   String get productName;
@@ -192,6 +192,13 @@ abstract class AppStrings {
   String pageNumber(int page);
   String get laboratoriesEmptyTitle;
   String get laboratoriesEmptyMessage;
+  String get laboratoriesSearchHint;
+  String get clearSearch;
+  String get statusFilterLabel;
+  String get statusFilterAll;
+  String get clearFilters;
+  String get laboratoriesNoMatchTitle;
+  String get laboratoriesNoMatchMessage;
   String get feedbackLaboratoriesTitle;
   String get laboratoryDetailsTitle;
   String get createLaboratoryTitle;
@@ -586,6 +593,21 @@ class AppStringsEn extends AppStrings {
   @override
   String get laboratoriesEmptyMessage =>
       'Laboratories you create will be listed here.';
+  @override
+  String get laboratoriesSearchHint => 'Search by laboratory name';
+  @override
+  String get clearSearch => 'Clear search';
+  @override
+  String get statusFilterLabel => 'Filter by status';
+  @override
+  String get statusFilterAll => 'All';
+  @override
+  String get clearFilters => 'Clear filters';
+  @override
+  String get laboratoriesNoMatchTitle => 'No matching laboratories';
+  @override
+  String get laboratoriesNoMatchMessage =>
+      'Try a different name, or change the status filter.';
   @override
   String get feedbackLaboratoriesTitle => "Couldn't load laboratories";
   @override
@@ -988,6 +1010,21 @@ class AppStringsAr extends AppStrings {
   String get laboratoriesEmptyTitle => 'لا توجد معامل بعد';
   @override
   String get laboratoriesEmptyMessage => 'المعامل التي تنشئها ستظهر هنا.';
+  @override
+  String get laboratoriesSearchHint => 'ابحث باسم المعمل';
+  @override
+  String get clearSearch => 'مسح البحث';
+  @override
+  String get statusFilterLabel => 'تصفية حسب الحالة';
+  @override
+  String get statusFilterAll => 'الكل';
+  @override
+  String get clearFilters => 'مسح الفلاتر';
+  @override
+  String get laboratoriesNoMatchTitle => 'لا توجد معامل مطابقة';
+  @override
+  String get laboratoriesNoMatchMessage =>
+      'جرّب اسمًا مختلفًا، أو غيّر فلتر الحالة.';
   @override
   String get feedbackLaboratoriesTitle => 'تعذّر تحميل المعامل';
   @override

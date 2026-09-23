@@ -8,6 +8,9 @@ class DioFactory {
   DioFactory._();
 
   static Dio? dio;
+  static String _localeCode = 'EN';
+
+  static String get localeCode => _localeCode;
 
   static Dio getDio() {
     if (dio != null) return dio!;
@@ -20,11 +23,14 @@ class DioFactory {
         headers: <String, dynamic>{
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          ApiConstants.acceptLanguageHeader: _localeCode,
         },
         validateStatus: (int? status) =>
             status != null && status >= 200 && status < 300,
       ),
     );
+
+    dio!.interceptors.add(_LocaleInterceptor());
 
     if (kDebugMode) {
       dio!.interceptors.add(
@@ -55,6 +61,18 @@ class DioFactory {
   }
 
   static void setLocale(String localeCode) {
-    dio?.options.headers[ApiConstants.acceptLanguageHeader] = localeCode;
+    final String header = localeCode.trim().toUpperCase();
+    if (header.isEmpty) return;
+
+    _localeCode = header;
+    dio?.options.headers[ApiConstants.acceptLanguageHeader] = header;
+  }
+}
+
+class _LocaleInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    options.headers[ApiConstants.acceptLanguageHeader] = DioFactory.localeCode;
+    handler.next(options);
   }
 }

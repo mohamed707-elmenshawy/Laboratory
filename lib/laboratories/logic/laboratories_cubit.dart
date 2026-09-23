@@ -19,9 +19,20 @@ class LaboratoriesCubit extends Cubit<LaboratoriesState> {
 
   int _page = 1;
   int _pageSize = defaultPageSize;
+  String _search = '';
+  LaboratoryStatusFilter _status = LaboratoryStatusFilter.all;
+
+  // Only the newest request may emit, so a slow response for an old
+  // search term can't overwrite the results of the one typed after it.
+  int _requestId = 0;
 
   int get page => _page;
   int get pageSize => _pageSize;
+  String get search => _search;
+  LaboratoryStatusFilter get status => _status;
+
+  bool get hasFilters =>
+      _search.isNotEmpty || _status != LaboratoryStatusFilter.all;
 
   bool get isBusy => state is LaboratoriesLoading;
 
@@ -40,17 +51,42 @@ class LaboratoriesCubit extends Cubit<LaboratoriesState> {
     return _fetch(1);
   }
 
+  Future<void> changeSearch(String search) {
+    final String term = search.trim();
+    if (term == _search) return Future<void>.value();
+    _search = term;
+    return _fetch(1);
+  }
+
+  Future<void> changeStatus(LaboratoryStatusFilter status) {
+    if (status == _status) return Future<void>.value();
+    _status = status;
+    return _fetch(1);
+  }
+
+  Future<void> clearFilters() {
+    if (!hasFilters) return Future<void>.value();
+    _search = '';
+    _status = LaboratoryStatusFilter.all;
+    return _fetch(1);
+  }
+
   Future<void> _fetch(int page) async {
-    if (isBusy) return;
+    final int requestId = ++_requestId;
 
     emit(const LaboratoriesLoading());
 
     final Result<LaboratoriesPage> result = await _laboratoriesRepo
         .fetchLaboratories(
-          LaboratoriesQuery(page: page, pageSize: _pageSize),
+          LaboratoriesQuery(
+            page: page,
+            pageSize: _pageSize,
+            search: _search,
+            status: _status,
+          ),
         );
 
-    if (isClosed) return;
+    if (isClosed || requestId != _requestId) return;
 
     switch (result) {
       case Success<LaboratoriesPage>(:final LaboratoriesPage data):

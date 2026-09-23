@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,12 +10,17 @@ import 'package:laboratory/laboratories/UI/laboratories_view.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_page.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_query.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
+import 'package:laboratory/laboratories/UI/widgets/laboratories_table.dart';
+import 'package:laboratory/laboratories/UI/widgets/laboratories_toolbar.dart';
 import 'package:laboratory/laboratories/logic/laboratories_cubit.dart';
 
 class FakeLaboratoriesRepo implements LaboratoriesRepo {
-  FakeLaboratoriesRepo({this.total = 23, this.error});
+  FakeLaboratoriesRepo({this.total = 23, this.error, this.noMatch = 'zzz'});
 
   final int total;
+
+  // A search for this term matches nothing.
+  final String noMatch;
   final AppError? error;
 
   final List<LaboratoriesQuery> calls = <LaboratoriesQuery>[];
@@ -26,6 +33,7 @@ class FakeLaboratoriesRepo implements LaboratoriesRepo {
 
     if (error != null) return Failure<LaboratoriesPage>(error!);
 
+    final int total = query.search == noMatch ? 0 : this.total;
     final int lastPage = total == 0 ? 1 : (total / query.pageSize).ceil();
     final int start = (query.page - 1) * query.pageSize;
     final int count = start >= total
@@ -77,7 +85,187 @@ void _desktop(WidgetTester tester) {
   addTearDown(tester.view.resetDevicePixelRatio);
 }
 
+Finder _inTable(String text) => find.descendant(
+  of: find.byType(LaboratoriesTable),
+  matching: find.text(text),
+);
+
+Finder _segment(String label) => find.descendant(
+  of: find.byType(LaboratoriesStatusFilter),
+  matching: find.text(label),
+);
+
+Finder get _searchInput => find.descendant(
+  of: find.byType(LaboratoriesSearchField),
+  matching: find.byType(TextField),
+);
+
 void main() {
+  test('query sends search and is_active only when set', () {
+    expect(
+      const LaboratoriesQuery(page: 1, pageSize: 10).toJson(),
+      <String, dynamic>{'page': 1, 'page_size': 10},
+    );
+    expect(
+      const LaboratoriesQuery(
+        page: 2,
+        pageSize: 25,
+        search: 'Lab',
+        status: LaboratoryStatusFilter.active,
+      ).toJson(),
+      <String, dynamic>{
+        'page': 2,
+        'page_size': 25,
+        'search': 'Lab',
+        'is_active': 1,
+      },
+    );
+    expect(
+      const LaboratoriesQuery(
+        page: 1,
+        pageSize: 10,
+        status: LaboratoryStatusFilter.inactive,
+      ).toJson()['is_active'],
+      0,
+    );
+  });
+
+  testWidgets('typing searches by name after a pause and resets to page 1', (
+    WidgetTester tester,
+  ) async {
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    _desktop(tester);
+    await tester.pumpWidget(_app(repo));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('2'));
+    await tester.pumpAndSettle();
+    expect(repo.calls.length, 2);
+
+    await tester.enterText(_searchInput, 'Lab');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.enterText(_searchInput, '  Laboratory 1 ');
+    await tester.pump(const Duration(milliseconds: 100));
+
+    // Still inside the debounce window: nothing sent yet.
+    expect(repo.calls.length, 2);
+
+    await tester.pump(LaboratoriesSearchField.debounce);
+    await tester.pumpAndSettle();
+
+    expect(repo.calls.length, 3);
+    expect(repo.calls.last.toJson(), <String, dynamic>{
+      'page': 1,
+      'page_size': 10,
+      'search': 'Laboratory 1',
+    });
+  });
+
+  testWidgets('enter searches immediately and the clear button resets it', (
+    WidgetTester tester,
+  ) async {
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    _desktop(tester);
+    await tester.pumpWidget(_app(repo));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(_searchInput, 'Lab');
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await tester.pumpAndSettle();
+
+    expect(repo.calls.last.search, 'Lab');
+    expect(repo.calls.length, 2);
+
+    await tester.tap(find.byTooltip('Clear search'));
+    await tester.pumpAndSettle();
+
+    expect(repo.calls.length, 3);
+    expect(repo.calls.last.toJson().containsKey('search'), isFalse);
+    expect(find.byTooltip('Clear search'), findsNothing);
+  });
+
+  testWidgets('status filter sends is_active and resets to page 1', (
+    WidgetTester tester,
+  ) async {
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    _desktop(tester);
+    await tester.pumpWidget(_app(repo));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('3'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(_segment('Active'));
+    await tester.pumpAndSettle();
+    expect(repo.calls.last.toJson(), <String, dynamic>{
+      'page': 1,
+      'page_size': 10,
+      'is_active': 1,
+    });
+
+    await tester.tap(_segment('Inactive'));
+    await tester.pumpAndSettle();
+    expect(repo.calls.last.toJson()['is_active'], 0);
+
+    final int before = repo.calls.length;
+    await tester.tap(_segment('Inactive'));
+    await tester.pumpAndSettle();
+    expect(repo.calls.length, before, reason: 'reselecting is a no-op');
+
+    await tester.tap(_segment('All'));
+    await tester.pumpAndSettle();
+    expect(repo.calls.last.toJson().containsKey('is_active'), isFalse);
+  });
+
+  testWidgets('no matches offers to clear every filter', (
+    WidgetTester tester,
+  ) async {
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    _desktop(tester);
+    await tester.pumpWidget(_app(repo));
+    await tester.pumpAndSettle();
+
+    await tester.tap(_segment('Active'));
+    await tester.pumpAndSettle();
+    await tester.enterText(_searchInput, 'zzz');
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await tester.pumpAndSettle();
+
+    expect(find.text('No matching laboratories'), findsOneWidget);
+    expect(find.text('No laboratories yet'), findsNothing);
+
+    await tester.tap(find.text('Clear filters'));
+    await tester.pumpAndSettle();
+
+    expect(repo.calls.last.toJson(), <String, dynamic>{
+      'page': 1,
+      'page_size': 10,
+    });
+    expect(tester.widget<TextField>(_searchInput).controller!.text, isEmpty);
+    expect(find.text('Showing 1 to 10 of 23 results'), findsOneWidget);
+  });
+
+  test(
+    'a slow response for an older search never overwrites a newer one',
+    () async {
+      final _ControlledRepo repo = _ControlledRepo();
+      final LaboratoriesCubit cubit = LaboratoriesCubit(repo);
+      addTearDown(cubit.close);
+
+      final Future<void> first = cubit.changeSearch('a');
+      final Future<void> second = cubit.changeSearch('ab');
+
+      repo.complete('ab', total: 1);
+      await second;
+      repo.complete('a', total: 5);
+      await first;
+
+      final LaboratoriesState state = cubit.state;
+      expect(state, isA<LaboratoriesLoaded>());
+      expect((state as LaboratoriesLoaded).page.pagination.total, 1);
+    },
+  );
+
   testWidgets('first load asks for page 1 with page_size 10', (
     WidgetTester tester,
   ) async {
@@ -97,8 +285,8 @@ void main() {
     expect(find.text('Laboratory 14'), findsOneWidget);
     expect(find.text('Laboratory 13'), findsNothing);
     expect(find.text('Showing 1 to 10 of 23 results'), findsOneWidget);
-    expect(find.text('Active'), findsNWidgets(5));
-    expect(find.text('Inactive'), findsNWidgets(5));
+    expect(_inTable('Active'), findsNWidgets(5));
+    expect(_inTable('Inactive'), findsNWidgets(5));
     expect(find.text('Not assigned'), findsOneWidget);
   });
 
@@ -251,4 +439,35 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('New laboratory'), findsNWidgets(2));
   });
+}
+
+class _ControlledRepo implements LaboratoriesRepo {
+  final Map<String, Completer<Result<LaboratoriesPage>>> _pending =
+      <String, Completer<Result<LaboratoriesPage>>>{};
+
+  @override
+  Future<Result<LaboratoriesPage>> fetchLaboratories(LaboratoriesQuery query) {
+    return (_pending[query.search] = Completer<Result<LaboratoriesPage>>())
+        .future;
+  }
+
+  void complete(String search, {required int total}) {
+    _pending[search]!.complete(
+      Success<LaboratoriesPage>(
+        LaboratoriesPage.fromJson(<String, dynamic>{
+          'items': <Map<String, dynamic>>[
+            <String, dynamic>{'id': 1, 'name': search, 'is_active': true},
+          ],
+          'pagination': <String, dynamic>{
+            'meta': <String, dynamic>{
+              'total': total,
+              'per_page': 10,
+              'current_page': 1,
+              'last_page': 1,
+            },
+          },
+        }),
+      ),
+    );
+  }
 }

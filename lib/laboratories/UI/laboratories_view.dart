@@ -15,6 +15,7 @@ import 'widgets/laboratories_header.dart';
 import 'widgets/laboratories_pagination_bar.dart';
 import 'widgets/laboratories_states.dart';
 import 'widgets/laboratories_table.dart';
+import 'widgets/laboratories_toolbar.dart';
 
 class LaboratoriesView extends StatelessWidget {
   const LaboratoriesView({super.key});
@@ -54,17 +55,23 @@ class _ListCard extends StatelessWidget {
         borderRadius: AppRadius.lgAll,
         border: Border.all(color: AppColors.line, width: AppSizes.borderWidth),
       ),
-      child: BlocBuilder<LaboratoriesCubit, LaboratoriesState>(
-        builder: (BuildContext context, LaboratoriesState state) =>
-            switch (state) {
-              LaboratoriesLoaded(:final LaboratoriesPage page) => _Loaded(
-                page: page,
-              ),
-              LaboratoriesFailure(:final AppError error) =>
-                LaboratoriesFailureState(error: error),
-              LaboratoriesInitial() ||
-              LaboratoriesLoading() => const LaboratoriesLoadingState(),
-            },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          const LaboratoriesToolbar(),
+          BlocBuilder<LaboratoriesCubit, LaboratoriesState>(
+            builder: (BuildContext context, LaboratoriesState state) =>
+                switch (state) {
+                  LaboratoriesLoaded(:final LaboratoriesPage page) => _Loaded(
+                    page: page,
+                  ),
+                  LaboratoriesFailure(:final AppError error) =>
+                    LaboratoriesFailureState(error: error),
+                  LaboratoriesInitial() ||
+                  LaboratoriesLoading() => const LaboratoriesLoadingState(),
+                },
+          ),
+        ],
       ),
     );
   }
@@ -81,7 +88,9 @@ class _Loaded extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (page.items.isEmpty)
-          const LaboratoriesEmptyState()
+          LaboratoriesEmptyState(
+            filtered: context.read<LaboratoriesCubit>().hasFilters,
+          )
         else
           LaboratoriesTable(
             laboratories: page.items,
