@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'api_constants.dart';
 
@@ -9,7 +7,6 @@ class DioFactory {
 
   static Dio? dio;
   static String _localeCode = 'EN';
-
   static String get localeCode => _localeCode;
 
   static Dio getDio() {
@@ -30,17 +27,17 @@ class DioFactory {
       ),
     );
 
-    dio!.interceptors.add(_LocaleInterceptor());
+    // dio!.interceptors.add(_LocaleInterceptor());
 
-    if (kDebugMode) {
-      dio!.interceptors.add(
-        PrettyDioLogger(
-          requestBody: false,
-          requestHeader: false,
-          responseHeader: false,
-        ),
-      );
-    }
+    // if (kDebugMode) {
+    //   dio!.interceptors.add(
+    //     PrettyDioLogger(
+    //       requestBody: false,
+    //       requestHeader: false,
+    //       responseHeader: false,
+    //     ),
+    //   );
+    // }
 
     return dio!;
   }

@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laboratory/test/repo/laboratoryt_repo.dart';
+
 import 'core/design_system/design_system.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';
@@ -17,17 +20,19 @@ Future<void> main() async {
 
   await setupGetIt();
   getIt<SettingsCubit>();
-  final AppLocale? savedLocale = await LocaleHelper.restore();
-  final AppLocale initialLocale = savedLocale ?? AppLocale.en;
-  DioFactory.setLocale(initialLocale.code);
   final bool hasSession = await AuthHelper.restoreSession();
 
+  // final AppLocale? savedLocale = await LocaleHelper.restore();
+  // final AppLocale initialLocale = savedLocale ?? AppLocale.en;
+  // DioFactory.setLocale(initialLocale.code);
+  LaboratorytRepo laboratorytRepo = LaboratorytRepo(getIt<Dio>());
+  await laboratorytRepo.getLabt();
   runApp(
     LaboratoryApp(
       resetPasswordLink: ResetPasswordLink.fromUri(Uri.base),
       hasSession: hasSession,
-      initialLocale: initialLocale,
-      hasSavedLocale: savedLocale != null,
+      // initialLocale: initialLocale,
+      // hasSavedLocale: savedLocale != null,
     ),
   );
 }

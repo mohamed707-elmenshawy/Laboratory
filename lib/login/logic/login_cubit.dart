@@ -39,7 +39,7 @@ class LoginCubit extends Cubit<LoginState> {
           token: data.token,
           tenantId: data.user.tenantId,
           branchId: data.user.branchId,
-          persist: rememberMe,
+          persist: true,
         );
         if (isClosed) return;
         emit(LoginSuccess(data));
