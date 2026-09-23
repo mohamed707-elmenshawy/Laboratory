@@ -6,6 +6,8 @@ import '../../change_password/logic/change_password_cubit.dart';
 import '../../forgot_password/data/repos/forgot_password_repo.dart';
 import '../../forgot_password/logic/forgot_password_cubit.dart';
 import '../../home/data/repos/home_repo.dart';
+import '../../laboratories/data/repos/laboratories_repo.dart';
+import '../../laboratories/logic/laboratories_cubit.dart';
 import '../../home/logic/home_cubit.dart';
 import '../../home/logic/logout_cubit.dart';
 import '../../login/data/repos/login_repo.dart';
@@ -80,5 +82,13 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<ChangePasswordCubit>(
     () => ChangePasswordCubit(getIt<ChangePasswordRepo>()),
+  );
+
+  getIt.registerLazySingleton<LaboratoriesRepo>(
+    () => LaboratoriesRepo(getIt<Dio>()),
+  );
+
+  getIt.registerFactory<LaboratoriesCubit>(
+    () => LaboratoriesCubit(getIt<LaboratoriesRepo>()),
   );
 }

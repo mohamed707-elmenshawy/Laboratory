@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'core/design_system/design_system.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';

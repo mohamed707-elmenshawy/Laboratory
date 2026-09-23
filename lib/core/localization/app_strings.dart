@@ -164,6 +164,44 @@ abstract class AppStrings {
   String get forgotCurrentPasswordTitle;
   String resetLinkExplainer(String email);
   String get emailMeResetLink;
+
+  String get laboratoriesTitle;
+  String get laboratoriesSubtitle;
+  String get newLaboratory;
+  String get laboratoryNameLabel;
+  String get laboratoryNameHint;
+  String get laboratoryAdminLabel;
+  String get laboratoryBranchesLabel;
+  String get laboratoryStatusLabel;
+  String get laboratoryIdLabel;
+  String get laboratoryActionsLabel;
+  String get laboratoryAdminUnassigned;
+  String get statusActive;
+  String get statusInactive;
+  String get view;
+  String get edit;
+  String get delete;
+  String get cancel;
+  String get close;
+  String get refresh;
+  String get perPage;
+  String showingResults(int from, int to, int total);
+  String get noResults;
+  String get previousPage;
+  String get nextPage;
+  String pageNumber(int page);
+  String get laboratoriesEmptyTitle;
+  String get laboratoriesEmptyMessage;
+  String get feedbackLaboratoriesTitle;
+  String get laboratoryDetailsTitle;
+  String get createLaboratoryTitle;
+  String get editLaboratoryTitle;
+  String get deleteLaboratoryTitle;
+  String deleteLaboratoryPrompt(String name);
+  String get uiOnlyTitle;
+  String get uiOnlyMessage;
+  String get create;
+  String get save;
 }
 
 class AppStringsEn extends AppStrings {
@@ -292,8 +330,7 @@ class AppStringsEn extends AppStrings {
   @override
   String get termsHint => 'Required to create an account';
   @override
-  String get termsRequired =>
-      'Accept the Terms and Conditions to continue.';
+  String get termsRequired => 'Accept the Terms and Conditions to continue.';
   @override
   String get createAccount => 'Create account';
   @override
@@ -388,7 +425,7 @@ class AppStringsEn extends AppStrings {
   @override
   String get navSectionWorkspace => 'Workspace';
   @override
-  String get navOverview => 'Overview';
+  String get navOverview => 'Home';
   @override
   String get navAnalytics => 'Analytics';
   @override
@@ -398,8 +435,7 @@ class AppStringsEn extends AppStrings {
   @override
   String welcomeBack(String name) => 'Welcome back, $name';
   @override
-  String get homeSubtitle =>
-      "Here's an overview of your laboratory workspace.";
+  String get homeSubtitle => "Here's an overview of your laboratory workspace.";
   @override
   String get accessTitle => 'Your access';
   @override
@@ -492,6 +528,86 @@ class AppStringsEn extends AppStrings {
       "We'll email a reset link to $email. Using it signs you out on every device.";
   @override
   String get emailMeResetLink => 'Email me a reset link';
+
+  @override
+  String get laboratoriesTitle => 'Laboratories';
+  @override
+  String get laboratoriesSubtitle =>
+      'Every laboratory on the platform, with its admin and branches.';
+  @override
+  String get newLaboratory => 'New laboratory';
+  @override
+  String get laboratoryNameLabel => 'Laboratory name';
+  @override
+  String get laboratoryNameHint => 'Laboratory 1';
+  @override
+  String get laboratoryAdminLabel => 'Admin';
+  @override
+  String get laboratoryBranchesLabel => 'Branches';
+  @override
+  String get laboratoryStatusLabel => 'Status';
+  @override
+  String get laboratoryIdLabel => 'ID';
+  @override
+  String get laboratoryActionsLabel => 'Actions';
+  @override
+  String get laboratoryAdminUnassigned => 'Not assigned';
+  @override
+  String get statusActive => 'Active';
+  @override
+  String get statusInactive => 'Inactive';
+  @override
+  String get view => 'View';
+  @override
+  String get edit => 'Edit';
+  @override
+  String get delete => 'Delete';
+  @override
+  String get cancel => 'Cancel';
+  @override
+  String get close => 'Close';
+  @override
+  String get refresh => 'Refresh';
+  @override
+  String get perPage => 'Per page';
+  @override
+  String showingResults(int from, int to, int total) =>
+      'Showing $from to $to of $total results';
+  @override
+  String get noResults => 'No results';
+  @override
+  String get previousPage => 'Previous page';
+  @override
+  String get nextPage => 'Next page';
+  @override
+  String pageNumber(int page) => 'Page $page';
+  @override
+  String get laboratoriesEmptyTitle => 'No laboratories yet';
+  @override
+  String get laboratoriesEmptyMessage =>
+      'Laboratories you create will be listed here.';
+  @override
+  String get feedbackLaboratoriesTitle => "Couldn't load laboratories";
+  @override
+  String get laboratoryDetailsTitle => 'Laboratory details';
+  @override
+  String get createLaboratoryTitle => 'New laboratory';
+  @override
+  String get editLaboratoryTitle => 'Edit laboratory';
+  @override
+  String get deleteLaboratoryTitle => 'Delete laboratory';
+  @override
+  String deleteLaboratoryPrompt(String name) =>
+      'Delete $name? This cannot be undone.';
+  @override
+  String get uiOnlyTitle => 'Not connected yet';
+  @override
+  String get uiOnlyMessage =>
+      'This screen is the interface only. The API for it is not wired up yet.';
+  @override
+  String get create => 'Create';
+  @override
+  String get save => 'Save';
 }
 
 class AppStringsAr extends AppStrings {
@@ -714,7 +830,7 @@ class AppStringsAr extends AppStrings {
   @override
   String get navSectionWorkspace => 'مساحة العمل';
   @override
-  String get navOverview => 'نظرة عامة';
+  String get navOverview => 'الرئيسية';
   @override
   String get navAnalytics => 'التحليلات';
   @override
@@ -737,13 +853,11 @@ class AppStringsAr extends AppStrings {
   @override
   String get scopeLaboratory => 'مسؤول المختبر';
   @override
-  String get scopeLaboratoryDescription =>
-      'تدير مختبراتك وجميع فروعها.';
+  String get scopeLaboratoryDescription => 'تدير مختبراتك وجميع فروعها.';
   @override
   String get scopeBranch => 'فريق الفرع';
   @override
-  String get scopeBranchDescription =>
-      'تقتصر صلاحياتك على الفرع المعيَّن لك.';
+  String get scopeBranchDescription => 'تقتصر صلاحياتك على الفرع المعيَّن لك.';
   @override
   String get overviewEmptyTitle => 'لا يوجد ما يُلخَّص بعد';
   @override
@@ -817,4 +931,83 @@ class AppStringsAr extends AppStrings {
       'سنرسل رابط إعادة التعيين إلى \u2066$email\u2069. استخدامه يسجّل خروجك من جميع الأجهزة.';
   @override
   String get emailMeResetLink => 'أرسل لي رابط إعادة التعيين';
+
+  @override
+  String get laboratoriesTitle => 'المعامل';
+  @override
+  String get laboratoriesSubtitle =>
+      'كل المعامل على المنصة، ومسؤول كل معمل وفروعه.';
+  @override
+  String get newLaboratory => 'معمل جديد';
+  @override
+  String get laboratoryNameLabel => 'اسم المعمل';
+  @override
+  String get laboratoryNameHint => 'معمل 1';
+  @override
+  String get laboratoryAdminLabel => 'المسؤول';
+  @override
+  String get laboratoryBranchesLabel => 'الفروع';
+  @override
+  String get laboratoryStatusLabel => 'الحالة';
+  @override
+  String get laboratoryIdLabel => 'المعرّف';
+  @override
+  String get laboratoryActionsLabel => 'الإجراءات';
+  @override
+  String get laboratoryAdminUnassigned => 'غير محدد';
+  @override
+  String get statusActive => 'نشط';
+  @override
+  String get statusInactive => 'غير نشط';
+  @override
+  String get view => 'عرض';
+  @override
+  String get edit => 'تعديل';
+  @override
+  String get delete => 'حذف';
+  @override
+  String get cancel => 'إلغاء';
+  @override
+  String get close => 'إغلاق';
+  @override
+  String get refresh => 'تحديث';
+  @override
+  String get perPage => 'لكل صفحة';
+  @override
+  String showingResults(int from, int to, int total) =>
+      'عرض $from إلى $to من $total نتيجة';
+  @override
+  String get noResults => 'لا توجد نتائج';
+  @override
+  String get previousPage => 'الصفحة السابقة';
+  @override
+  String get nextPage => 'الصفحة التالية';
+  @override
+  String pageNumber(int page) => 'صفحة $page';
+  @override
+  String get laboratoriesEmptyTitle => 'لا توجد معامل بعد';
+  @override
+  String get laboratoriesEmptyMessage => 'المعامل التي تنشئها ستظهر هنا.';
+  @override
+  String get feedbackLaboratoriesTitle => 'تعذّر تحميل المعامل';
+  @override
+  String get laboratoryDetailsTitle => 'بيانات المعمل';
+  @override
+  String get createLaboratoryTitle => 'معمل جديد';
+  @override
+  String get editLaboratoryTitle => 'تعديل المعمل';
+  @override
+  String get deleteLaboratoryTitle => 'حذف المعمل';
+  @override
+  String deleteLaboratoryPrompt(String name) =>
+      'حذف $name؟ لا يمكن التراجع عن ذلك.';
+  @override
+  String get uiOnlyTitle => 'غير مربوط بعد';
+  @override
+  String get uiOnlyMessage =>
+      'هذه الشاشة واجهة فقط، ولم يتم ربط الـ API الخاص بها بعد.';
+  @override
+  String get create => 'إنشاء';
+  @override
+  String get save => 'حفظ';
 }

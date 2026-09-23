@@ -5,6 +5,7 @@ import '../../core/di/dependency_injection.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
 import '../../change_password/UI/change_password_view.dart';
+import '../../laboratories/UI/laboratories_view.dart';
 import '../../login/UI/login_screen.dart';
 import '../../profile/UI/profile_view.dart';
 import '../logic/home_cubit.dart';
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             HomeDestination.changePassword => ChangePasswordView.page(
               email: context.read<HomeCubit>().user?.email ?? '',
             ),
-            HomeDestination.overview ||
+            HomeDestination.overview => LaboratoriesView.page(),
             HomeDestination.analytics => const HomeContent(),
           },
         ),
