@@ -13,10 +13,9 @@ class VerificationRepo {
 
   Future<Result<VerificationResponse>> verify(VerificationRequestBody body) {
     return ErrorHandler.guard(() async {
-      final response = await _dio.post(ApiConstants.verify, data: body.toJson());
+      await _dio.post(ApiConstants.verify, data: body.toJson());
 
-      final Map<String, dynamic> data = response.data!['data'];
-      return VerificationResponse.fromJson(data);
+      return const VerificationResponse();
     });
   }
 }

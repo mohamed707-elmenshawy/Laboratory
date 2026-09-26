@@ -22,11 +22,11 @@ class RegisterFeedbackBanner extends StatelessWidget {
           RegisterSuccess(:final RegisterResponse response) =>
             AppFeedback.success(
               title: s.registerSuccessTitle,
-              message: s.registerSuccessMessage(response.user.email),
+              message: s.registerSuccessMessage(response.email),
               actionLabel: s.verifyEmailAction,
               onAction: () => Navigator.of(
                 context,
-              ).push(VerificationScreen.route(email: response.user.email)),
+              ).push(VerificationScreen.route(email: response.email)),
             ),
           RegisterFailure(:final AppError error) => error.toFeedback(
             s,

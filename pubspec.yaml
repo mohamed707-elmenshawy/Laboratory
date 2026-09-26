@@ -32,7 +32,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - lib/read_json_data/json/
 
   fonts:
     - family: IBM Plex Sans

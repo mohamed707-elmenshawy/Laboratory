@@ -13,13 +13,9 @@ class RegisterRepo {
 
   Future<Result<RegisterResponse>> register(RegisterRequestBody body) {
     return ErrorHandler.guard(() async {
-      final response = await _dio.post(
-        ApiConstants.register,
-        data: body.toJson(),
-      );
+      await _dio.post(ApiConstants.register, data: body.toJson());
 
-      final Map<String, dynamic> data = response.data!['data'];
-      return RegisterResponse.fromJson(data);
+      return RegisterResponse(email: body.email);
     });
   }
 }

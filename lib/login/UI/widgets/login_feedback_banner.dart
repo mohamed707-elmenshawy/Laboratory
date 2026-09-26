@@ -5,7 +5,6 @@ import '../../../core/design_system/design_system.dart';
 import '../../../core/error/app_error.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
-import '../../data/models/login_response.dart';
 import '../../logic/login_cubit.dart';
 
 class LoginFeedbackBanner extends StatelessWidget {
@@ -18,9 +17,9 @@ class LoginFeedbackBanner extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (BuildContext context, LoginState state) {
         final AppFeedback? feedback = switch (state) {
-          LoginSuccess(:final LoginResponse response) => AppFeedback.success(
+          LoginSuccess() => AppFeedback.success(
             title: s.feedbackSuccessTitle,
-            message: s.signedInAs(response.user.name),
+            message: s.signedIn,
           ),
           LoginFailure(:final AppError error) => error.toFeedback(
             s,

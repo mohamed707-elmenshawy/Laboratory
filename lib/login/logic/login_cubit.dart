@@ -37,8 +37,8 @@ class LoginCubit extends Cubit<LoginState> {
       case Success<LoginResponse>(:final LoginResponse data):
         await AuthHelper.openSession(
           token: data.token,
-          tenantId: data.user.tenantId,
-          branchId: data.user.branchId,
+          tenantId: null,
+          branchId: null,
           persist: rememberMe,
         );
         if (isClosed) return;
