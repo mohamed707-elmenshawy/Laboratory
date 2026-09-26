@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../../core/error/error_handler.dart';
 import '../../../core/error/result.dart';
 import '../../../core/networking/api_constants.dart';
+import '../models/phone_type_option.dart';
 import '../models/profile_model.dart';
 import '../models/update_profile_request_body.dart';
 
@@ -29,6 +30,21 @@ class ProfileRepo {
 
       final Map<String, dynamic> data = response.data!['data'];
       return ProfileModel.fromJson(data);
+    });
+  }
+
+  Future<Result<List<PhoneTypeOption>>> fetchPhoneTypes() {
+    return ErrorHandler.guard(() async {
+      final response = await _dio.get(ApiConstants.phoneTypes);
+
+      final List<dynamic> data = response.data!['data'] as List<dynamic>;
+      return data
+          .whereType<Map<dynamic, dynamic>>()
+          .map(
+            (Map<dynamic, dynamic> item) =>
+                PhoneTypeOption.fromJson(Map<String, dynamic>.from(item)),
+          )
+          .toList(growable: false);
     });
   }
 }

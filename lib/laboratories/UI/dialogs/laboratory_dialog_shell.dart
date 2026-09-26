@@ -10,6 +10,8 @@ class LaboratoryDialogShell extends StatelessWidget {
     required this.child,
     required this.actions,
     this.icon,
+    this.onClose,
+    this.canClose = true,
   });
 
   static const double width = 460;
@@ -18,6 +20,8 @@ class LaboratoryDialogShell extends StatelessWidget {
   final Widget child;
   final List<Widget> actions;
   final IconData? icon;
+  final VoidCallback? onClose;
+  final bool canClose;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,9 @@ class LaboratoryDialogShell extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: canClose
+                        ? (onClose ?? () => Navigator.of(context).pop())
+                        : null,
                     tooltip: s.close,
                     iconSize: AppSizes.iconMd,
                     visualDensity: VisualDensity.compact,

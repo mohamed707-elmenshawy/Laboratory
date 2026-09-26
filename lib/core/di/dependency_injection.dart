@@ -7,6 +7,10 @@ import '../../forgot_password/data/repos/forgot_password_repo.dart';
 import '../../forgot_password/logic/forgot_password_cubit.dart';
 import '../../home/data/repos/home_repo.dart';
 import '../../laboratories/data/repos/laboratories_repo.dart';
+import '../../laboratories/logic/create_laboratory_cubit.dart';
+import '../../laboratories/logic/delete_laboratory_cubit.dart';
+import '../../laboratories/logic/laboratory_details_cubit.dart';
+import '../../laboratories/logic/laboratory_status_cubit.dart';
 import '../../laboratories/logic/laboratories_cubit.dart';
 import '../../home/logic/home_cubit.dart';
 import '../../home/logic/logout_cubit.dart';
@@ -92,6 +96,22 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<LaboratoriesCubit>(
     () => LaboratoriesCubit(getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerFactory<CreateLaboratoryCubit>(
+    () => CreateLaboratoryCubit(getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerFactory<DeleteLaboratoryCubit>(
+    () => DeleteLaboratoryCubit(getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerFactory<LaboratoryDetailsCubit>(
+    () => LaboratoryDetailsCubit(getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerFactory<LaboratoryStatusCubit>(
+    () => LaboratoryStatusCubit(getIt<LaboratoriesRepo>()),
   );
 
   getIt.registerLazySingleton<SettingsRepo>(() => SettingsRepo(getIt<Dio>()));

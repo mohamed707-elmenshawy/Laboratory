@@ -27,7 +27,8 @@ class RegisterPasswordConfirmationField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         autofillHints: const <String>[AutofillHints.newPassword],
         onSubmitted: (_) {
-          if (Form.of(context).validate()) context.read<RegisterCubit>().register();
+          if (Form.of(context).validate())
+            context.read<RegisterCubit>().register();
         },
         onChanged: field.didChange,
       ),
@@ -38,7 +39,8 @@ class RegisterPasswordConfirmationField extends StatelessWidget {
     final String confirmation = cubit.passwordConfirmationController.text;
 
     if (confirmation.isEmpty) return s.passwordConfirmationRequired;
-    if (confirmation != cubit.passwordController.text) return s.passwordMismatch;
+    if (confirmation != cubit.passwordController.text)
+      return s.passwordMismatch;
     return null;
   }
 }

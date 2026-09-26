@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:laboratory/core/di/dependency_injection.dart';
 import 'package:laboratory/core/error/app_error.dart';
 import 'package:laboratory/core/error/result.dart';
 import 'package:laboratory/core/localization/localization.dart';
 import 'package:laboratory/laboratories/UI/laboratories_view.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_page.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_query.dart';
-import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
+
+import 'support/fake_laboratories_repo.dart';
 import 'package:laboratory/laboratories/UI/widgets/laboratories_table.dart';
 import 'package:laboratory/laboratories/UI/widgets/laboratories_toolbar.dart';
+import 'package:laboratory/laboratories/logic/create_laboratory_cubit.dart';
 import 'package:laboratory/laboratories/logic/laboratories_cubit.dart';
+import 'package:laboratory/laboratories/logic/laboratory_status_cubit.dart';
 
-class FakeLaboratoriesRepo implements LaboratoriesRepo {
+class FakeLaboratoriesRepo extends FakeLaboratoriesRepoBase {
   FakeLaboratoriesRepo({this.total = 23, this.error, this.noMatch = 'zzz'});
 
   final int total;
@@ -67,11 +71,18 @@ class FakeLaboratoriesRepo implements LaboratoriesRepo {
   }
 }
 
-Widget _app(LaboratoriesRepo repo) => AppLocaleScope(
+Widget _app(FakeLaboratoriesRepoBase repo) => AppLocaleScope(
   child: MaterialApp(
     home: Scaffold(
-      body: BlocProvider<LaboratoriesCubit>(
-        create: (_) => LaboratoriesCubit(repo)..load(),
+      body: MultiBlocProvider(
+        providers: <BlocProvider<dynamic>>[
+          BlocProvider<LaboratoriesCubit>(
+            create: (_) => LaboratoriesCubit(repo)..load(),
+          ),
+          BlocProvider<LaboratoryStatusCubit>(
+            create: (_) => LaboratoryStatusCubit(repo),
+          ),
+        ],
         child: const LaboratoriesView(),
       ),
     ),
@@ -400,48 +411,51 @@ void main() {
     expect(repo.calls.length, 2);
   });
 
-  testWidgets('row actions open the view, edit and delete dialogs', (
+  testWidgets('the edit action opens its dialog with the row prefilled', (
     WidgetTester tester,
   ) async {
     _desktop(tester);
     await tester.pumpWidget(_app(FakeLaboratoriesRepo()));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byTooltip('View').first);
-    await tester.pumpAndSettle();
-    expect(find.text('Laboratory details'), findsOneWidget);
-    expect(find.text('Laboratory 23'), findsNWidgets(2));
-    await tester.tap(find.text('Close'));
-    await tester.pumpAndSettle();
-
     await tester.tap(find.byTooltip('Edit').first);
     await tester.pumpAndSettle();
+
     expect(find.text('Edit laboratory'), findsOneWidget);
     expect(find.text('Not connected yet'), findsOneWidget);
     expect(
-      tester.widget<TextField>(find.byType(TextField)).controller!.text,
+      tester.widget<TextField>(find.byType(TextField).last).controller!.text,
       'Laboratory 23',
     );
-    await tester.tap(find.text('Cancel'));
-    await tester.pumpAndSettle();
 
-    await tester.tap(find.byTooltip('Delete').first);
-    await tester.pumpAndSettle();
-    expect(find.text('Delete laboratory'), findsOneWidget);
-    expect(
-      find.text('Delete Laboratory 23? This cannot be undone.'),
-      findsOneWidget,
-    );
     await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    expect(find.text('Edit laboratory'), findsNothing);
+  });
+
+  testWidgets('the create button opens the create page', (
+    WidgetTester tester,
+  ) async {
+    _desktop(tester);
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    getIt.registerFactory<CreateLaboratoryCubit>(
+      () => CreateLaboratoryCubit(repo),
+    );
+    addTearDown(() => getIt.unregister<CreateLaboratoryCubit>());
+
+    await tester.pumpWidget(_app(repo));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('New laboratory'));
     await tester.pumpAndSettle();
-    expect(find.text('New laboratory'), findsNWidgets(2));
+
+    expect(find.text('Back to laboratories'), findsOneWidget);
+    expect(find.text('Laboratory name'), findsOneWidget);
+    expect(find.byType(Dialog), findsNothing);
   });
 }
 
-class _ControlledRepo implements LaboratoriesRepo {
+class _ControlledRepo extends FakeLaboratoriesRepoBase {
   final Map<String, Completer<Result<LaboratoriesPage>>> _pending =
       <String, Completer<Result<LaboratoriesPage>>>{};
 

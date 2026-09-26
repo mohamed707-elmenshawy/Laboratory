@@ -16,12 +16,22 @@ final class ProfileLoading extends ProfileState {
 }
 
 final class ProfileLoaded extends ProfileState {
-  const ProfileLoaded(this.profile);
+  const ProfileLoaded(
+    this.profile, {
+    this.phoneTypes = const <PhoneTypeOption>[],
+  });
 
   final ProfileModel profile;
+  final List<PhoneTypeOption> phoneTypes;
 
   @override
-  List<Object?> get props => <Object?>[profile.id, profile.name, profile.email];
+  List<Object?> get props => <Object?>[
+    profile.id,
+    profile.name,
+    profile.email,
+    profile.phones,
+    phoneTypes,
+  ];
 }
 
 final class ProfileFailure extends ProfileState {

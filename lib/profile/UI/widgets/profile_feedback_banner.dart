@@ -21,9 +21,9 @@ class ProfileFeedbackBanner extends StatelessWidget {
             title: s.profileUpdatedTitle,
             message: s.profileUpdatedMessage,
           ),
-          UpdateProfileFailure(:final AppError error) => error.toFeedback(
+          UpdateProfileFailure(:final AppError error) => _failureFeedback(
+            error,
             s,
-            title: s.feedbackProfileTitle,
           ),
           UpdateProfileInitial() || UpdateProfileLoading() => null,
         };
@@ -48,6 +48,21 @@ class ProfileFeedbackBanner extends StatelessWidget {
                 ),
         );
       },
+    );
+  }
+
+  AppFeedback _failureFeedback(AppError error, AppStrings s) {
+    final AppFeedback feedback = error.toFeedback(
+      s,
+      title: s.feedbackProfileTitle,
+    );
+
+    if (!error.hasFieldErrors) return feedback;
+
+    return AppFeedback(
+      kind: feedback.kind,
+      title: feedback.title,
+      message: error.fieldErrors.values.first.first,
     );
   }
 }

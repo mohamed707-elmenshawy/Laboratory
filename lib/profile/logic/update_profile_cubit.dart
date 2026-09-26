@@ -6,16 +6,76 @@ import '../../core/error/result.dart';
 import '../data/models/profile_model.dart';
 import '../data/models/update_profile_request_body.dart';
 import '../data/repos/profile_repo.dart';
+import 'phone_draft.dart';
 part 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   UpdateProfileCubit(this._profileRepo) : super(const UpdateProfileInitial());
 
+  static const int maxPhones = 5;
+
   final ProfileRepo _profileRepo;
 
   final TextEditingController nameController = TextEditingController();
 
+  final ValueNotifier<List<PhoneDraft>> phones =
+      ValueNotifier<List<PhoneDraft>>(<PhoneDraft>[]);
+
+  final List<PhoneDraft> _retired = <PhoneDraft>[];
+
   bool get isBusy => state is UpdateProfileLoading;
+
+  bool get canAddPhone => phones.value.length < maxPhones;
+
+  void seed(ProfileModel profile) {
+    nameController.text = profile.name;
+    _replacePhones(
+      profile.phones.map(PhoneDraft.fromPhone).toList(growable: false),
+    );
+  }
+
+  void addPhone() {
+    if (!canAddPhone) return;
+    _clearFailure();
+    phones.value = <PhoneDraft>[...phones.value, PhoneDraft()];
+  }
+
+  void removePhone(PhoneDraft phone) {
+    if (!phones.value.contains(phone)) return;
+
+    _clearFailure();
+    phones.value = phones.value
+        .where((PhoneDraft draft) => draft != phone)
+        .toList(growable: false);
+    _retired.add(phone);
+  }
+
+  void setCountry(PhoneDraft phone, String country) {
+    if (phone.country == country) return;
+    _clearFailure();
+    phone.country = country;
+    phones.value = List<PhoneDraft>.of(phones.value);
+  }
+
+  void setType(PhoneDraft phone, String type) {
+    if (phone.type == type) return;
+    _clearFailure();
+    phone.type = type;
+    phones.value = List<PhoneDraft>.of(phones.value);
+  }
+
+  void phoneEdited() => _clearFailure();
+
+  String? duplicateOf(PhoneDraft phone) {
+    final String value = phone.phone;
+    if (value.isEmpty) return null;
+
+    for (final PhoneDraft other in phones.value) {
+      if (identical(other, phone)) break;
+      if (other.phone == value) return value;
+    }
+    return null;
+  }
 
   Future<void> save() async {
     if (isBusy) return;
@@ -23,14 +83,20 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     emit(const UpdateProfileLoading());
 
     final Result<ProfileModel> result = await _profileRepo.updateProfile(
-      UpdateProfileRequestBody(name: nameController.text.trim()),
+      UpdateProfileRequestBody(
+        name: nameController.text.trim(),
+        phones: phones.value
+            .where((PhoneDraft phone) => !phone.isEmpty)
+            .map((PhoneDraft phone) => phone.toRequest())
+            .toList(growable: false),
+      ),
     );
 
     if (isClosed) return;
 
     switch (result) {
       case Success<ProfileModel>(:final ProfileModel data):
-        nameController.text = data.name;
+        seed(data);
         emit(UpdateProfileSuccess(data));
       case Failure<ProfileModel>(:final AppError error):
         emit(UpdateProfileFailure(error));
@@ -43,9 +109,22 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     }
   }
 
+  void _clearFailure() {
+    if (state is UpdateProfileFailure) emit(const UpdateProfileInitial());
+  }
+
+  void _replacePhones(List<PhoneDraft> drafts) {
+    _retired.addAll(phones.value);
+    phones.value = drafts;
+  }
+
   @override
   Future<void> close() {
     nameController.dispose();
+    for (final PhoneDraft draft in <PhoneDraft>[...phones.value, ..._retired]) {
+      draft.dispose();
+    }
+    phones.dispose();
     return super.close();
   }
 }

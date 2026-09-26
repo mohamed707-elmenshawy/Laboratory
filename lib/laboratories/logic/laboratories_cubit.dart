@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/error/app_error.dart';
 import '../../core/error/result.dart';
 import '../data/models/laboratories_page.dart';
+import '../data/models/laboratory_model.dart';
 import '../data/models/laboratories_query.dart';
 import '../data/repos/laboratories_repo.dart';
 part 'laboratories_state.dart';
@@ -69,6 +70,24 @@ class LaboratoriesCubit extends Cubit<LaboratoriesState> {
     _search = '';
     _status = LaboratoryStatusFilter.all;
     return _fetch(1);
+  }
+
+  void laboratoryUpdated(LaboratoryModel laboratory) {
+    if (state case LaboratoriesLoaded(:final LaboratoriesPage page)) {
+      emit(
+        LaboratoriesLoaded(
+          LaboratoriesPage(
+            items: page.items
+                .map(
+                  (LaboratoryModel item) =>
+                      item.id == laboratory.id ? laboratory : item,
+                )
+                .toList(growable: false),
+            pagination: page.pagination,
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> _fetch(int page) async {

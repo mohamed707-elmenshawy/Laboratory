@@ -54,7 +54,8 @@ class LaboratoriesPage extends Equatable {
   final LaboratoriesPagination pagination;
 
   factory LaboratoriesPage.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> items = (json['items'] as List<dynamic>?) ?? <dynamic>[];
+    final List<dynamic> items =
+        (json['items'] as List<dynamic>?) ?? <dynamic>[];
 
     return LaboratoriesPage(
       items: items

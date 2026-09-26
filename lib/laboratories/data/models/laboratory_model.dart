@@ -7,6 +7,7 @@ class LaboratoryModel extends Equatable {
     required this.isActive,
     required this.branchesCount,
     this.admin,
+    this.logoUrl,
   });
 
   final int id;
@@ -14,6 +15,7 @@ class LaboratoryModel extends Equatable {
   final bool isActive;
   final int branchesCount;
   final String? admin;
+  final String? logoUrl;
 
   factory LaboratoryModel.fromJson(Map<String, dynamic> json) {
     return LaboratoryModel(
@@ -22,6 +24,10 @@ class LaboratoryModel extends Equatable {
       isActive: json['is_active'] == true,
       branchesCount: (json['branches_count'] as num?)?.toInt() ?? 0,
       admin: json['admin']?.toString(),
+      logoUrl: switch (json['logo']) {
+        final Map<dynamic, dynamic> logo => logo['url']?.toString(),
+        _ => null,
+      },
     );
   }
 
@@ -32,5 +38,6 @@ class LaboratoryModel extends Equatable {
     isActive,
     branchesCount,
     admin,
+    logoUrl,
   ];
 }

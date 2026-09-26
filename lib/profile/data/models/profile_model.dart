@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../core/models/user_model.dart';
 
 class ProfileModel {
@@ -45,12 +47,13 @@ class ProfileModel {
   );
 }
 
-class ProfilePhone {
+class ProfilePhone extends Equatable {
   const ProfilePhone({
     required this.id,
     required this.phone,
     this.phoneCountry,
     this.type,
+    this.typeLabel,
     this.dialCode,
   });
 
@@ -59,6 +62,7 @@ class ProfilePhone {
     phone: json['phone'] as String? ?? '',
     phoneCountry: json['phone_country'] as String?,
     type: json['type'] as String?,
+    typeLabel: json['type_label'] as String?,
     dialCode: json['dial_code'] as String?,
   );
 
@@ -66,5 +70,16 @@ class ProfilePhone {
   final String phone;
   final String? phoneCountry;
   final String? type;
+  final String? typeLabel;
   final String? dialCode;
+
+  @override
+  List<Object?> get props => <Object?>[
+    id,
+    phone,
+    phoneCountry,
+    type,
+    typeLabel,
+    dialCode,
+  ];
 }

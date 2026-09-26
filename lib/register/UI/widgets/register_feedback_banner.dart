@@ -48,7 +48,8 @@ class RegisterFeedbackBanner extends StatelessWidget {
                       feedback: feedback,
                       onDismiss: state is RegisterSuccess
                           ? null
-                          : () => context.read<RegisterCubit>().dismissFailure(),
+                          : () =>
+                                context.read<RegisterCubit>().dismissFailure(),
                       dismissTooltip: s.dismiss,
                     ),
                     const SizedBox(height: AppSpacing.lg),

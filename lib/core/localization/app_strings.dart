@@ -148,7 +148,20 @@ abstract class AppStrings {
   String get profileUpdatedTitle;
   String get profileUpdatedMessage;
   String get phonesTitle;
+  String get phonesSubtitle;
   String get phonesEmpty;
+  String phonesCount(int count, int max);
+  String phonesMaxReached(int max);
+  String get addPhone;
+  String get cancelPhone;
+  String get phoneNumberLabel;
+  String get phoneNumberHint;
+  String get phoneCountryLabel;
+  String get phoneTypeLabel;
+  String get phoneRequired;
+  String get phoneInvalid;
+  String get phoneDuplicate;
+  String phoneNumberOf(int position);
   String get phoneTypeBoth;
   String get phoneTypePhone;
   String get phoneTypeWhatsapp;
@@ -201,10 +214,43 @@ abstract class AppStrings {
   String get laboratoriesNoMatchMessage;
   String get feedbackLaboratoriesTitle;
   String get laboratoryDetailsTitle;
+  String get laboratoryDetailsSubtitle;
+  String laboratoryIdValue(int id);
+  String get feedbackLaboratoryDetailsTitle;
+  String get activate;
+  String get deactivate;
+  String get activating;
+  String get deactivating;
+  String get activateLaboratoryHint;
+  String get deactivateLaboratoryHint;
+  String get feedbackLaboratoryStatusTitle;
+  String get feedbackActivateLaboratoryTitle;
+  String get feedbackDeactivateLaboratoryTitle;
+  String get laboratoryActivatedTitle;
+  String get laboratoryActivatedMessage;
+  String get laboratoryDeactivatedTitle;
+  String get laboratoryDeactivatedMessage;
   String get createLaboratoryTitle;
+  String get createLaboratorySubtitle;
+  String get laboratoryNameRequired;
+  String get creatingLaboratory;
+  String get backToLaboratories;
+  String get laboratoryNameLanguageLabel;
+  String get laboratoryNameLanguageHint;
+  String get feedbackCreateLaboratoryTitle;
+  String get laboratoryCreatedTitle;
+  String get laboratoryCreatedMessage;
   String get editLaboratoryTitle;
   String get deleteLaboratoryTitle;
   String deleteLaboratoryPrompt(String name);
+  String get deleteLaboratoryHint;
+  String get deletingLaboratory;
+  String get deleteLaboratoryBranchesTitle;
+  String deleteLaboratoryBranchesMessage(int count);
+  String get feedbackDeleteLaboratoryTitle;
+  String get laboratoryGone;
+  String get laboratoryDeletedTitle;
+  String get laboratoryDeletedMessage;
   String get uiOnlyTitle;
   String get uiOnlyMessage;
   String get create;
@@ -501,6 +547,33 @@ class AppStringsEn extends AppStrings {
   @override
   String get phonesTitle => 'Phone numbers';
   @override
+  String get phonesSubtitle =>
+      'Numbers we can reach you on. Changes are saved with the form.';
+  @override
+  String phonesCount(int count, int max) => '$count of $max';
+  @override
+  String phonesMaxReached(int max) => 'You can save up to $max numbers.';
+  @override
+  String get addPhone => 'Add number';
+  @override
+  String get cancelPhone => 'Cancel this number';
+  @override
+  String get phoneNumberLabel => 'Phone number';
+  @override
+  String get phoneNumberHint => '01012345678';
+  @override
+  String get phoneCountryLabel => 'Country';
+  @override
+  String get phoneTypeLabel => 'Reachable on';
+  @override
+  String get phoneRequired => 'Enter a phone number.';
+  @override
+  String get phoneInvalid => 'Enter a valid phone number.';
+  @override
+  String get phoneDuplicate => 'This number is already in the list.';
+  @override
+  String phoneNumberOf(int position) => 'Phone number $position';
+  @override
   String get phonesEmpty => 'No phone numbers on your account.';
   @override
   String get phoneTypeBoth => 'Calls & WhatsApp';
@@ -613,14 +686,92 @@ class AppStringsEn extends AppStrings {
   @override
   String get laboratoryDetailsTitle => 'Laboratory details';
   @override
+  String get laboratoryDetailsSubtitle =>
+      'Everything the platform knows about this laboratory.';
+  @override
+  String laboratoryIdValue(int id) => 'ID $id';
+  @override
+  String get feedbackLaboratoryDetailsTitle => "Couldn't load the laboratory";
+  @override
+  String get activate => 'Activate';
+  @override
+  String get deactivate => 'Deactivate';
+  @override
+  String get activating => 'Activating…';
+  @override
+  String get deactivating => 'Deactivating…';
+  @override
+  String get activateLaboratoryHint =>
+      'An inactive laboratory stays on the platform but is closed for use.';
+  @override
+  String get deactivateLaboratoryHint =>
+      'Deactivating closes this laboratory for use. Nothing is deleted.';
+  @override
+  String get feedbackLaboratoryStatusTitle =>
+      "Couldn't change the laboratory status";
+  @override
+  String get feedbackActivateLaboratoryTitle =>
+      "Couldn't activate the laboratory";
+  @override
+  String get feedbackDeactivateLaboratoryTitle =>
+      "Couldn't deactivate the laboratory";
+  @override
+  String get laboratoryActivatedTitle => 'Laboratory activated';
+  @override
+  String get laboratoryActivatedMessage => 'It is open for use again.';
+  @override
+  String get laboratoryDeactivatedTitle => 'Laboratory deactivated';
+  @override
+  String get laboratoryDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
   String get createLaboratoryTitle => 'New laboratory';
+  @override
+  String get createLaboratorySubtitle =>
+      'Add a laboratory to the platform. You can rename it later.';
+  @override
+  String get laboratoryNameRequired => 'Enter the laboratory name.';
+  @override
+  String get creatingLaboratory => 'Creating…';
+  @override
+  String get backToLaboratories => 'Back to laboratories';
+  @override
+  String get laboratoryNameLanguageLabel => 'Name language';
+  @override
+  String get laboratoryNameLanguageHint =>
+      'The language this name is written in. Other languages can be added later.';
+  @override
+  String get feedbackCreateLaboratoryTitle => "Couldn't create the laboratory";
+  @override
+  String get laboratoryCreatedTitle => 'Laboratory created';
+  @override
+  String get laboratoryCreatedMessage => 'It is now listed below.';
   @override
   String get editLaboratoryTitle => 'Edit laboratory';
   @override
   String get deleteLaboratoryTitle => 'Delete laboratory';
   @override
-  String deleteLaboratoryPrompt(String name) =>
-      'Delete $name? This cannot be undone.';
+  String deleteLaboratoryPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteLaboratoryHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingLaboratory => 'Deleting…';
+  @override
+  String get deleteLaboratoryBranchesTitle => 'Its branches go with it';
+  @override
+  String deleteLaboratoryBranchesMessage(int count) => count == 1
+      ? 'The 1 branch in this laboratory is deleted too.'
+      : 'All $count branches in this laboratory are deleted too.';
+  @override
+  String get feedbackDeleteLaboratoryTitle => "Couldn't delete the laboratory";
+  @override
+  String get laboratoryGone =>
+      'This laboratory is no longer there. Refresh the list.';
+  @override
+  String get laboratoryDeletedTitle => 'Laboratory deleted';
+  @override
+  String get laboratoryDeletedMessage => 'It was moved to the trash.';
   @override
   String get uiOnlyTitle => 'Not connected yet';
   @override
@@ -920,6 +1071,33 @@ class AppStringsAr extends AppStrings {
   @override
   String get phonesTitle => 'أرقام الهاتف';
   @override
+  String get phonesSubtitle =>
+      'الأرقام التي يمكن التواصل معك عليها. تُحفظ مع النموذج.';
+  @override
+  String phonesCount(int count, int max) => '$count من $max';
+  @override
+  String phonesMaxReached(int max) => 'يمكنك حفظ $max أرقام كحد أقصى.';
+  @override
+  String get addPhone => 'إضافة رقم';
+  @override
+  String get cancelPhone => 'إلغاء هذا الرقم';
+  @override
+  String get phoneNumberLabel => 'رقم الهاتف';
+  @override
+  String get phoneNumberHint => '01012345678';
+  @override
+  String get phoneCountryLabel => 'الدولة';
+  @override
+  String get phoneTypeLabel => 'وسيلة التواصل';
+  @override
+  String get phoneRequired => 'أدخل رقم الهاتف.';
+  @override
+  String get phoneInvalid => 'أدخل رقم هاتف صحيح.';
+  @override
+  String get phoneDuplicate => 'هذا الرقم موجود بالفعل في القائمة.';
+  @override
+  String phoneNumberOf(int position) => 'رقم الهاتف $position';
+  @override
   String get phonesEmpty => 'لا توجد أرقام هاتف في حسابك.';
   @override
   String get phoneTypeBoth => 'اتصال وواتساب';
@@ -1030,14 +1208,87 @@ class AppStringsAr extends AppStrings {
   @override
   String get laboratoryDetailsTitle => 'بيانات المعمل';
   @override
+  String get laboratoryDetailsSubtitle => 'كل ما تعرفه المنصة عن هذا المعمل.';
+  @override
+  String laboratoryIdValue(int id) => 'المعرّف $id';
+  @override
+  String get feedbackLaboratoryDetailsTitle => 'تعذّر تحميل بيانات المعمل';
+  @override
+  String get activate => 'تفعيل';
+  @override
+  String get deactivate => 'إيقاف';
+  @override
+  String get activating => 'جارٍ التفعيل…';
+  @override
+  String get deactivating => 'جارٍ الإيقاف…';
+  @override
+  String get activateLaboratoryHint =>
+      'المعمل الموقوف يظل على المنصة لكنه مغلق للاستخدام.';
+  @override
+  String get deactivateLaboratoryHint =>
+      'الإيقاف يغلق هذا المعمل للاستخدام، ولا يحذف أي شيء.';
+  @override
+  String get feedbackLaboratoryStatusTitle => 'تعذّر تغيير حالة المعمل';
+  @override
+  String get feedbackActivateLaboratoryTitle => 'تعذّر تفعيل المعمل';
+  @override
+  String get feedbackDeactivateLaboratoryTitle => 'تعذّر إيقاف المعمل';
+  @override
+  String get laboratoryActivatedTitle => 'تم تفعيل المعمل';
+  @override
+  String get laboratoryActivatedMessage => 'أصبح متاحًا للاستخدام من جديد.';
+  @override
+  String get laboratoryDeactivatedTitle => 'تم إيقاف المعمل';
+  @override
+  String get laboratoryDeactivatedMessage =>
+      'يظل ظاهرًا في القائمة لكنه مغلق للاستخدام.';
+  @override
   String get createLaboratoryTitle => 'معمل جديد';
+  @override
+  String get createLaboratorySubtitle =>
+      'أضف معملًا إلى المنصة. يمكنك تغيير اسمه لاحقًا.';
+  @override
+  String get laboratoryNameRequired => 'أدخل اسم المعمل.';
+  @override
+  String get creatingLaboratory => 'جارٍ الإنشاء…';
+  @override
+  String get backToLaboratories => 'العودة إلى المعامل';
+  @override
+  String get laboratoryNameLanguageLabel => 'لغة الاسم';
+  @override
+  String get laboratoryNameLanguageHint =>
+      'اللغة المكتوب بها هذا الاسم. يمكن إضافة لغات أخرى لاحقًا.';
+  @override
+  String get feedbackCreateLaboratoryTitle => 'تعذّر إنشاء المعمل';
+  @override
+  String get laboratoryCreatedTitle => 'تم إنشاء المعمل';
+  @override
+  String get laboratoryCreatedMessage => 'أصبح ظاهرًا في القائمة بالأسفل.';
   @override
   String get editLaboratoryTitle => 'تعديل المعمل';
   @override
   String get deleteLaboratoryTitle => 'حذف المعمل';
   @override
-  String deleteLaboratoryPrompt(String name) =>
-      'حذف $name؟ لا يمكن التراجع عن ذلك.';
+  String deleteLaboratoryPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteLaboratoryHint =>
+      'ينتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادته.';
+  @override
+  String get deletingLaboratory => 'جارٍ الحذف…';
+  @override
+  String get deleteLaboratoryBranchesTitle => 'سيتم حذف فروعه أيضًا';
+  @override
+  String deleteLaboratoryBranchesMessage(int count) => count == 1
+      ? 'سيتم حذف الفرع الموجود في هذا المعمل أيضًا.'
+      : 'سيتم حذف جميع الفروع ($count) الموجودة في هذا المعمل أيضًا.';
+  @override
+  String get feedbackDeleteLaboratoryTitle => 'تعذّر حذف المعمل';
+  @override
+  String get laboratoryGone => 'هذا المعمل لم يعد موجودًا. حدّث القائمة.';
+  @override
+  String get laboratoryDeletedTitle => 'تم حذف المعمل';
+  @override
+  String get laboratoryDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
   @override
   String get uiOnlyTitle => 'غير مربوط بعد';
   @override

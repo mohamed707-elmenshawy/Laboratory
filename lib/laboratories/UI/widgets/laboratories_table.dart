@@ -15,6 +15,8 @@ class LaboratoriesTable extends StatelessWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
+    required this.statusBusyId,
   });
 
   static const double _stackFrom = 880;
@@ -24,6 +26,8 @@ class LaboratoriesTable extends StatelessWidget {
   final LaboratoryCallback onView;
   final LaboratoryCallback onEdit;
   final LaboratoryCallback onDelete;
+  final LaboratoryCallback onToggleStatus;
+  final int? statusBusyId;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,8 @@ class LaboratoriesTable extends StatelessWidget {
                   onView: onView,
                   onEdit: onEdit,
                   onDelete: onDelete,
+                  onToggleStatus: onToggleStatus,
+                  statusBusyId: statusBusyId,
                 )
               else
                 _TableRow(
@@ -51,6 +57,8 @@ class LaboratoriesTable extends StatelessWidget {
                   onView: onView,
                   onEdit: onEdit,
                   onDelete: onDelete,
+                  onToggleStatus: onToggleStatus,
+                  statusBusyId: statusBusyId,
                 ),
             ],
           ],
@@ -122,12 +130,16 @@ class _TableRow extends StatefulWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
+    required this.statusBusyId,
   });
 
   final LaboratoryModel laboratory;
   final LaboratoryCallback onView;
   final LaboratoryCallback onEdit;
   final LaboratoryCallback onDelete;
+  final LaboratoryCallback onToggleStatus;
+  final int? statusBusyId;
 
   @override
   State<_TableRow> createState() => _TableRowState();
@@ -175,6 +187,8 @@ class _TableRowState extends State<_TableRow> {
                   onView: () => widget.onView(laboratory),
                   onEdit: () => widget.onEdit(laboratory),
                   onDelete: () => widget.onDelete(laboratory),
+                  onToggleStatus: () => widget.onToggleStatus(laboratory),
+                  statusBusy: widget.statusBusyId == laboratory.id,
                 ),
               ),
             ),
@@ -191,12 +205,16 @@ class _StackedRow extends StatelessWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
+    required this.statusBusyId,
   });
 
   final LaboratoryModel laboratory;
   final LaboratoryCallback onView;
   final LaboratoryCallback onEdit;
   final LaboratoryCallback onDelete;
+  final LaboratoryCallback onToggleStatus;
+  final int? statusBusyId;
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +260,8 @@ class _StackedRow extends StatelessWidget {
               onView: () => onView(laboratory),
               onEdit: () => onEdit(laboratory),
               onDelete: () => onDelete(laboratory),
+              onToggleStatus: () => onToggleStatus(laboratory),
+              statusBusy: statusBusyId == laboratory.id,
             ),
           ),
         ],
@@ -260,11 +280,7 @@ class _StackedField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _HeaderText(label),
-        const SizedBox(height: 2),
-        child,
-      ],
+      children: <Widget>[_HeaderText(label), const SizedBox(height: 2), child],
     );
   }
 }

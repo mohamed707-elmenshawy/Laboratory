@@ -22,7 +22,5 @@ class LoginResponse {
 List<String> _stringList(Object? value) {
   if (value is! List) return const <String>[];
 
-  return value
-      .map((dynamic item) => item.toString())
-      .toList(growable: false);
+  return value.map((dynamic item) => item.toString()).toList(growable: false);
 }

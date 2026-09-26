@@ -8,7 +8,7 @@ import '../design_system/app_sizes.dart';
 import '../design_system/app_spacing.dart';
 import '../design_system/app_text_styles.dart';
 
-enum AppButtonVariant { primary, secondary, ghost }
+enum AppButtonVariant { primary, secondary, ghost, danger }
 
 enum AppButtonSize { large, medium, small }
 
@@ -47,6 +47,9 @@ class AppButton extends StatefulWidget {
   State<AppButton> createState() => _AppButtonState();
 }
 
+Color _shade(Color color, double amount) =>
+    Color.alphaBlend(const Color(0xFF000000).withValues(alpha: amount), color);
+
 class _AppButtonState extends State<AppButton> {
   bool _hovered = false;
   bool _focused = false;
@@ -81,7 +84,8 @@ class _AppButtonState extends State<AppButton> {
   Color get _background {
     if (!_isEnabled) {
       return switch (widget.variant) {
-        AppButtonVariant.primary => AppColors.surfaceSunken,
+        AppButtonVariant.primary ||
+        AppButtonVariant.danger => AppColors.surfaceSunken,
         AppButtonVariant.secondary => AppColors.surfaceMuted,
         AppButtonVariant.ghost => const Color(0x00000000),
       };
@@ -95,13 +99,16 @@ class _AppButtonState extends State<AppButton> {
       AppButtonVariant.secondary => AppColors.surface,
       AppButtonVariant.ghost when _pressed || _hovered => AppColors.brandWash,
       AppButtonVariant.ghost => const Color(0x00000000),
+      AppButtonVariant.danger when _pressed => _shade(AppColors.danger, 0.16),
+      AppButtonVariant.danger when _hovered => _shade(AppColors.danger, 0.08),
+      AppButtonVariant.danger => AppColors.danger,
     };
   }
 
   Color get _foreground {
     if (!_isEnabled) return AppColors.inkFaint;
     return switch (widget.variant) {
-      AppButtonVariant.primary => AppColors.onBrand,
+      AppButtonVariant.primary || AppButtonVariant.danger => AppColors.onBrand,
       AppButtonVariant.secondary => AppColors.ink,
       AppButtonVariant.ghost => AppColors.brand600,
     };
@@ -197,7 +204,11 @@ class _AppButtonState extends State<AppButton> {
               borderRadius: AppRadius.mdAll,
               border: _border,
               boxShadow: _focused
-                  ? AppShadows.focusRing(AppColors.focusRing)
+                  ? AppShadows.focusRing(
+                      widget.variant == AppButtonVariant.danger
+                          ? AppColors.dangerRing
+                          : AppColors.focusRing,
+                    )
                   : AppShadows.none,
             ),
             child: ExcludeSemantics(

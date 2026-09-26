@@ -11,12 +11,16 @@ class LaboratoryRowActions extends StatelessWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
+    this.statusBusy = false,
   });
 
   final LaboratoryModel laboratory;
   final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final VoidCallback onToggleStatus;
+  final bool statusBusy;
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +30,36 @@ class LaboratoryRowActions extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Tooltip(
-          message: isActive ? s.statusActive : s.statusInactive,
-          child: SizedBox(
+        if (statusBusy)
+          const SizedBox(
             width: AppSizes.hitTarget,
             height: AppSizes.hitTarget,
             child: Center(
-              child: Icon(
-                isActive ? Icons.toggle_on_rounded : Icons.toggle_off_outlined,
-                size: AppSizes.iconLg,
-                color: isActive ? AppColors.success : AppColors.inkFaint,
-                semanticLabel: isActive ? s.statusActive : s.statusInactive,
+              child: SizedBox(
+                width: AppSizes.iconMd,
+                height: AppSizes.iconMd,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.brand600,
+                ),
               ),
             ),
+          )
+        else
+          _RowAction(
+            icon: isActive
+                ? Icons.toggle_on_rounded
+                : Icons.toggle_off_outlined,
+            tooltip: isActive ? s.deactivate : s.activate,
+            iconSize: AppSizes.iconLg,
+            color: isActive ? AppColors.success : AppColors.inkFaint,
+            onPressed: onToggleStatus,
           ),
+        _RowAction(
+          icon: Icons.visibility_outlined,
+          tooltip: s.view,
+          onPressed: onView,
         ),
-
         _RowAction(
           icon: Icons.edit_outlined,
           tooltip: s.edit,
@@ -64,10 +82,12 @@ class _RowAction extends StatelessWidget {
     required this.tooltip,
     required this.onPressed,
     this.color,
+    this.iconSize = AppSizes.iconMd,
   });
 
   final IconData icon;
   final String tooltip;
+  final double iconSize;
   final VoidCallback onPressed;
   final Color? color;
 
@@ -76,7 +96,7 @@ class _RowAction extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       tooltip: tooltip,
-      iconSize: AppSizes.iconMd,
+      iconSize: iconSize,
       visualDensity: VisualDensity.compact,
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints.tightFor(

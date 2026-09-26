@@ -13,9 +13,7 @@ class LaboratoryStatusPill extends StatelessWidget {
     final AppStrings s = context.strings;
     final TextStyle base = DefaultTextStyle.of(context).style;
 
-    final Color foreground = isActive
-        ? AppColors.success
-        : AppColors.inkSubtle;
+    final Color foreground = isActive ? AppColors.success : AppColors.inkSubtle;
     final Color background = isActive
         ? AppColors.successWash
         : AppColors.surfaceMuted;

@@ -93,16 +93,20 @@ class _Body {
     if (data is! Map) return const _Body();
 
     final Object? errors = data['errors'];
-    final Map<String, List<String>> fields = errors is Map
-        ? _readFieldErrors(errors)
-        : const <String, List<String>>{};
+    final Object? meta = data['meta'];
+    final Object? metaErrors = meta is Map ? meta['validation_errors'] : null;
+
+    final Map<String, List<String>> fields = switch ((errors, metaErrors)) {
+      (final Map<dynamic, dynamic> raw, _) => _readFieldErrors(raw),
+      (_, final Map<dynamic, dynamic> raw) => _readFieldErrors(raw),
+      _ => const <String, List<String>>{},
+    };
 
     final Object? topLevel = data['message'];
     if (topLevel is String && topLevel.isNotEmpty) {
       return _Body(message: topLevel, fieldErrors: fields);
     }
 
-    final Object? meta = data['meta'];
     if (meta is Map) {
       final Object? metaMessage = meta['message'];
       if (metaMessage is String && metaMessage.isNotEmpty) {

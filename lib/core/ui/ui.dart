@@ -10,5 +10,6 @@ export 'app_feedback.dart';
 export 'app_language_switcher.dart';
 export 'app_logo.dart';
 export 'app_password_field.dart';
+export 'app_select.dart';
 export 'app_text_field.dart';
 export 'app_text_link.dart';
