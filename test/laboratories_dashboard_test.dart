@@ -14,9 +14,12 @@ import 'package:laboratory/laboratories/data/models/laboratories_query.dart';
 import 'support/fake_laboratories_repo.dart';
 import 'package:laboratory/laboratories/UI/widgets/laboratories_table.dart';
 import 'package:laboratory/laboratories/UI/widgets/laboratories_toolbar.dart';
+import 'package:laboratory/laboratories/data/models/laboratory_model.dart';
 import 'package:laboratory/laboratories/logic/create_laboratory_cubit.dart';
 import 'package:laboratory/laboratories/logic/laboratories_cubit.dart';
+import 'package:laboratory/laboratories/logic/laboratory_details_cubit.dart';
 import 'package:laboratory/laboratories/logic/laboratory_status_cubit.dart';
+import 'package:laboratory/laboratories/logic/update_laboratory_cubit.dart';
 
 class FakeLaboratoriesRepo extends FakeLaboratoriesRepoBase {
   FakeLaboratoriesRepo({this.total = 23, this.error, this.noMatch = 'zzz'});
@@ -28,6 +31,18 @@ class FakeLaboratoriesRepo extends FakeLaboratoriesRepoBase {
   final AppError? error;
 
   final List<LaboratoriesQuery> calls = <LaboratoriesQuery>[];
+
+  @override
+  Future<Result<LaboratoryModel>> fetchLaboratory(int id) async =>
+      Success<LaboratoryModel>(
+        LaboratoryModel(
+          id: id,
+          name: 'Laboratory $id',
+          isActive: id.isEven,
+          branchesCount: 0,
+          logoUrl: 'https://laboratory.example/logo.png',
+        ),
+      );
 
   @override
   Future<Result<LaboratoriesPage>> fetchLaboratories(
@@ -411,18 +426,29 @@ void main() {
     expect(repo.calls.length, 2);
   });
 
-  testWidgets('the edit action opens its dialog with the row prefilled', (
+  testWidgets('the edit action opens the page with the row prefilled', (
     WidgetTester tester,
   ) async {
     _desktop(tester);
-    await tester.pumpWidget(_app(FakeLaboratoriesRepo()));
+    final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
+    getIt.registerFactory<LaboratoryDetailsCubit>(
+      () => LaboratoryDetailsCubit(repo),
+    );
+    getIt.registerFactory<UpdateLaboratoryCubit>(
+      () => UpdateLaboratoryCubit(repo),
+    );
+    addTearDown(() => getIt.unregister<LaboratoryDetailsCubit>());
+    addTearDown(() => getIt.unregister<UpdateLaboratoryCubit>());
+
+    await tester.pumpWidget(_app(repo));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byTooltip('Edit').first);
     await tester.pumpAndSettle();
 
     expect(find.text('Edit laboratory'), findsOneWidget);
-    expect(find.text('Not connected yet'), findsOneWidget);
+    expect(find.text('Logo'), findsOneWidget);
+    expect(find.text('Not connected yet'), findsNothing);
     expect(
       tester.widget<TextField>(find.byType(TextField).last).controller!.text,
       'Laboratory 23',

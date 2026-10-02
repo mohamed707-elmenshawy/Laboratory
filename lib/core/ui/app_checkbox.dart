@@ -14,6 +14,7 @@ class AppCheckbox extends StatefulWidget {
     required this.value,
     required this.onChanged,
     required this.label,
+    this.semanticLabel,
     this.semanticHint,
     this.enabled = true,
   });
@@ -21,6 +22,8 @@ class AppCheckbox extends StatefulWidget {
   final bool value;
   final ValueChanged<bool>? onChanged;
   final String label;
+
+  final String? semanticLabel;
 
   final String? semanticHint;
 
@@ -55,7 +58,7 @@ class _AppCheckboxState extends State<AppCheckbox> {
     return Semantics(
       checked: widget.value,
       enabled: _isEnabled,
-      label: widget.label,
+      label: widget.semanticLabel ?? widget.label,
       hint: widget.semanticHint,
       child: FocusableActionDetector(
         enabled: _isEnabled,

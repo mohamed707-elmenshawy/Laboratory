@@ -6,9 +6,15 @@ import '../../change_password/logic/change_password_cubit.dart';
 import '../../forgot_password/data/repos/forgot_password_repo.dart';
 import '../../forgot_password/logic/forgot_password_cubit.dart';
 import '../../home/data/repos/home_repo.dart';
+import '../../branches/data/repos/branches_repo.dart';
+import '../../branches/logic/branch_details_cubit.dart';
+import '../../branches/logic/branches_cubit.dart';
+import '../../branches/logic/delete_branch_cubit.dart';
+import '../../branches/logic/update_branch_cubit.dart';
 import '../../laboratories/data/repos/laboratories_repo.dart';
 import '../../laboratories/logic/create_laboratory_cubit.dart';
 import '../../laboratories/logic/delete_laboratory_cubit.dart';
+import '../../laboratories/logic/update_laboratory_cubit.dart';
 import '../../laboratories/logic/laboratory_details_cubit.dart';
 import '../../laboratories/logic/laboratory_status_cubit.dart';
 import '../../laboratories/logic/laboratories_cubit.dart';
@@ -25,6 +31,8 @@ import '../../reset_password/data/repos/reset_password_repo.dart';
 import '../../reset_password/logic/reset_password_cubit.dart';
 import '../../settings/data/repos/settings_repo.dart';
 import '../../settings/logic/settings_cubit.dart';
+import '../../terms/data/repos/terms_repo.dart';
+import '../../terms/logic/terms_cubit.dart';
 import '../../verification/data/repos/verification_repo.dart';
 import '../../verification/logic/verification_cubit.dart';
 import '../networking/dio_factory.dart';
@@ -102,6 +110,10 @@ Future<void> setupGetIt() async {
     () => CreateLaboratoryCubit(getIt<LaboratoriesRepo>()),
   );
 
+  getIt.registerFactory<UpdateLaboratoryCubit>(
+    () => UpdateLaboratoryCubit(getIt<LaboratoriesRepo>()),
+  );
+
   getIt.registerFactory<DeleteLaboratoryCubit>(
     () => DeleteLaboratoryCubit(getIt<LaboratoriesRepo>()),
   );
@@ -114,9 +126,31 @@ Future<void> setupGetIt() async {
     () => LaboratoryStatusCubit(getIt<LaboratoriesRepo>()),
   );
 
+  getIt.registerLazySingleton<BranchesRepo>(() => BranchesRepo(getIt<Dio>()));
+
+  getIt.registerFactory<BranchesCubit>(
+    () => BranchesCubit(getIt<BranchesRepo>()),
+  );
+
+  getIt.registerFactory<BranchDetailsCubit>(
+    () => BranchDetailsCubit(getIt<BranchesRepo>()),
+  );
+
+  getIt.registerFactory<UpdateBranchCubit>(
+    () => UpdateBranchCubit(getIt<BranchesRepo>(), getIt<LaboratoriesRepo>()),
+  );
+
+  getIt.registerFactory<DeleteBranchCubit>(
+    () => DeleteBranchCubit(getIt<BranchesRepo>()),
+  );
+
   getIt.registerLazySingleton<SettingsRepo>(() => SettingsRepo(getIt<Dio>()));
 
   getIt.registerLazySingleton<SettingsCubit>(
     () => SettingsCubit(getIt<SettingsRepo>()),
   );
+
+  getIt.registerLazySingleton<TermsRepo>(() => TermsRepo(getIt<Dio>()));
+
+  getIt.registerFactory<TermsCubit>(() => TermsCubit(getIt<TermsRepo>()));
 }

@@ -19,12 +19,14 @@ class LaboratoryDetailsView extends StatelessWidget {
     super.key,
     required this.onBack,
     required this.onStatusChanged,
+    required this.onEdit,
   });
 
   static Widget page({
     required int id,
     required VoidCallback onBack,
     required ValueChanged<LaboratoryModel> onStatusChanged,
+    required ValueChanged<LaboratoryModel> onEdit,
   }) => MultiBlocProvider(
     providers: <BlocProvider<dynamic>>[
       BlocProvider<LaboratoryDetailsCubit>(
@@ -37,11 +39,13 @@ class LaboratoryDetailsView extends StatelessWidget {
     child: LaboratoryDetailsView(
       onBack: onBack,
       onStatusChanged: onStatusChanged,
+      onEdit: onEdit,
     ),
   );
 
   final VoidCallback onBack;
   final ValueChanged<LaboratoryModel> onStatusChanged;
+  final ValueChanged<LaboratoryModel> onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +88,10 @@ class LaboratoryDetailsView extends StatelessWidget {
                 const SizedBox(height: AppSpacing.x3l),
                 switch (state) {
                   LaboratoryDetailsLoaded(:final LaboratoryModel laboratory) =>
-                    LaboratoryDetailsCard(laboratory: laboratory),
+                    LaboratoryDetailsCard(
+                      laboratory: laboratory,
+                      onEdit: () => onEdit(laboratory),
+                    ),
                   LaboratoryDetailsFailure(:final AppError error) => _Failed(
                     error: error,
                   ),

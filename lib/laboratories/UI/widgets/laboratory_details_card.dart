@@ -9,9 +9,14 @@ import '../../data/models/laboratory_model.dart';
 import '../../logic/laboratory_status_cubit.dart';
 
 class LaboratoryDetailsCard extends StatelessWidget {
-  const LaboratoryDetailsCard({super.key, required this.laboratory});
+  const LaboratoryDetailsCard({
+    super.key,
+    required this.laboratory,
+    required this.onEdit,
+  });
 
   final LaboratoryModel laboratory;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class LaboratoryDetailsCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.xs),
           const Divider(height: 1, thickness: 1, color: AppColors.line),
           const SizedBox(height: AppSpacing.xl),
-          _StatusAction(laboratory: laboratory),
+          _StatusAction(laboratory: laboratory, onEdit: onEdit),
         ],
       ),
     );
@@ -46,9 +51,10 @@ class LaboratoryDetailsCard extends StatelessWidget {
 }
 
 class _StatusAction extends StatelessWidget {
-  const _StatusAction({required this.laboratory});
+  const _StatusAction({required this.laboratory, required this.onEdit});
 
   final LaboratoryModel laboratory;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -72,19 +78,24 @@ class _StatusAction extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
             ],
+            Text(
+              isActive ? s.deactivateLaboratoryHint : s.activateLaboratoryHint,
+              style: base
+                  .merge(AppTextStyles.caption)
+                  .copyWith(color: AppColors.inkSubtle),
+            ),
+            const SizedBox(height: AppSpacing.lg),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Expanded(
-                  child: Text(
-                    isActive
-                        ? s.deactivateLaboratoryHint
-                        : s.activateLaboratoryHint,
-                    style: base
-                        .merge(AppTextStyles.caption)
-                        .copyWith(color: AppColors.inkSubtle),
-                  ),
+                AppButton(
+                  label: s.edit,
+                  icon: Icons.edit_outlined,
+                  size: AppButtonSize.medium,
+                  variant: AppButtonVariant.secondary,
+                  onPressed: busy ? null : onEdit,
                 ),
-                const SizedBox(width: AppSpacing.lg),
+                const SizedBox(width: AppSpacing.md),
                 AppButton(
                   label: isActive ? s.deactivate : s.activate,
                   loadingLabel: isActive ? s.deactivating : s.activating,

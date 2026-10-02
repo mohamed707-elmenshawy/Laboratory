@@ -4,6 +4,7 @@ import '../../core/di/dependency_injection.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
 import '../../change_password/UI/change_password_view.dart';
+import '../../branches/UI/branches_view.dart';
 import '../../laboratories/UI/laboratories_view.dart';
 import '../../login/UI/login_screen.dart';
 import '../../profile/UI/profile_view.dart';
@@ -35,6 +36,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AppLocale? _locale;
   HomeDestination _destination = HomeDestination.overview;
+  int _branchesEntry = 0;
+
+  void _select(HomeDestination destination) {
+    setState(() {
+      _destination = destination;
+      if (destination == HomeDestination.branches) _branchesEntry++;
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -70,17 +79,21 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
       child: HomeLayout(
         selected: _destination,
-        onSelected: (HomeDestination destination) =>
-            setState(() => _destination = destination),
+        onSelected: _select,
         title: _destination.label(s),
         body: KeyedSubtree(
-          key: ValueKey<HomeDestination>(_destination),
+          key: ValueKey<Object>(
+            _destination == HomeDestination.branches
+                ? 'branches-$_branchesEntry'
+                : _destination,
+          ),
           child: switch (_destination) {
             HomeDestination.profile => ProfileView.page(),
             HomeDestination.changePassword => ChangePasswordView.page(
               email: context.read<HomeCubit>().user?.email ?? '',
             ),
             HomeDestination.overview => LaboratoriesView.page(),
+            HomeDestination.branches => BranchesView.page(),
             HomeDestination.analytics => const HomeContent(),
           },
         ),

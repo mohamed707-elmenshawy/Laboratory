@@ -13,8 +13,8 @@ import '../logic/laboratories_cubit.dart';
 import '../logic/laboratory_status_cubit.dart';
 import 'create_laboratory_view.dart';
 import 'dialogs/laboratory_delete_dialog.dart';
-import 'dialogs/laboratory_form_dialog.dart';
 import 'laboratory_details_view.dart';
+import 'update_laboratory_view.dart';
 import 'widgets/laboratories_header.dart';
 import 'widgets/laboratories_pagination_bar.dart';
 import 'widgets/laboratories_states.dart';
@@ -40,10 +40,11 @@ class LaboratoriesView extends StatefulWidget {
   State<LaboratoriesView> createState() => _LaboratoriesViewState();
 }
 
-enum _Notice { created, deleted, activated, deactivated }
+enum _Notice { created, updated, deleted, activated, deactivated }
 
 class _LaboratoriesViewState extends State<LaboratoriesView> {
   bool _creating = false;
+  int? _editingId;
   int? _detailsId;
   _Notice? _notice;
   AppError? _statusError;
@@ -63,6 +64,23 @@ class _LaboratoriesViewState extends State<LaboratoriesView> {
   void _closeDetails() {
     setState(() => _detailsId = null);
     context.read<LaboratoriesCubit>().load();
+  }
+
+  void _openEdit(LaboratoryModel laboratory) => setState(() {
+    _editingId = laboratory.id;
+    _detailsId = null;
+    _creating = false;
+    _notice = null;
+  });
+
+  void _closeEdit() => setState(() => _editingId = null);
+
+  void _onSaved(LaboratoryModel laboratory) {
+    setState(() {
+      _editingId = null;
+      _notice = _Notice.updated;
+    });
+    context.read<LaboratoriesCubit>().laboratoryUpdated(laboratory);
   }
 
   void _onToggleStatus(LaboratoryModel laboratory) {
@@ -107,11 +125,20 @@ class _LaboratoriesViewState extends State<LaboratoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    if (_editingId case final int id) {
+      return UpdateLaboratoryView.page(
+        id: id,
+        onCancel: _closeEdit,
+        onSaved: _onSaved,
+      );
+    }
+
     if (_detailsId case final int id) {
       return LaboratoryDetailsView.page(
         id: id,
         onBack: _closeDetails,
         onStatusChanged: _onStatusChanged,
+        onEdit: _openEdit,
       );
     }
 
@@ -162,6 +189,7 @@ class _LaboratoriesViewState extends State<LaboratoriesView> {
             const SizedBox(height: AppSpacing.x3l),
             _ListCard(
               onView: _openDetails,
+              onEdit: _openEdit,
               onDelete: _onDelete,
               onToggleStatus: _onToggleStatus,
             ),
@@ -216,6 +244,10 @@ class _NoticeBanner extends StatelessWidget {
           title: s.laboratoryCreatedTitle,
           message: s.laboratoryCreatedMessage,
         ),
+        _Notice.updated => AppFeedback.success(
+          title: s.laboratoryUpdatedTitle,
+          message: s.laboratoryUpdatedMessage,
+        ),
         _Notice.deleted => AppFeedback.success(
           title: s.laboratoryDeletedTitle,
           message: s.laboratoryDeletedMessage,
@@ -238,11 +270,13 @@ class _NoticeBanner extends StatelessWidget {
 class _ListCard extends StatelessWidget {
   const _ListCard({
     required this.onView,
+    required this.onEdit,
     required this.onDelete,
     required this.onToggleStatus,
   });
 
   final ValueChanged<LaboratoryModel> onView;
+  final ValueChanged<LaboratoryModel> onEdit;
   final ValueChanged<LaboratoryModel> onDelete;
   final ValueChanged<LaboratoryModel> onToggleStatus;
 
@@ -265,6 +299,7 @@ class _ListCard extends StatelessWidget {
                   LaboratoriesLoaded(:final LaboratoriesPage page) => _Loaded(
                     page: page,
                     onView: onView,
+                    onEdit: onEdit,
                     onDelete: onDelete,
                     onToggleStatus: onToggleStatus,
                   ),
@@ -284,12 +319,14 @@ class _Loaded extends StatelessWidget {
   const _Loaded({
     required this.page,
     required this.onView,
+    required this.onEdit,
     required this.onDelete,
     required this.onToggleStatus,
   });
 
   final LaboratoriesPage page;
   final ValueChanged<LaboratoryModel> onView;
+  final ValueChanged<LaboratoryModel> onEdit;
   final ValueChanged<LaboratoryModel> onDelete;
   final ValueChanged<LaboratoryModel> onToggleStatus;
 
@@ -306,8 +343,7 @@ class _Loaded extends StatelessWidget {
           LaboratoriesTable(
             laboratories: page.items,
             onView: onView,
-            onEdit: (LaboratoryModel laboratory) =>
-                LaboratoryFormDialog.show(context, laboratory: laboratory),
+            onEdit: onEdit,
             onDelete: onDelete,
             onToggleStatus: onToggleStatus,
             statusBusyId: context.select(

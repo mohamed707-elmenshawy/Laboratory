@@ -1,9 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import '../data/models/phone_country.dart';
-import '../data/models/phone_type_option.dart';
-import '../data/models/profile_model.dart';
-import '../data/models/update_profile_request_body.dart';
+import 'phone_country.dart';
+import 'phone_payload.dart';
+import 'phone_type_option.dart';
 
 class PhoneDraft {
   PhoneDraft({
@@ -20,12 +19,15 @@ class PhoneDraft {
            ? PhoneTypeOption.fallbackValue
            : type;
 
-  factory PhoneDraft.fromPhone(ProfilePhone phone) => PhoneDraft(
-    id: phone.id == 0 ? null : phone.id,
-    phone: phone.phone,
-    country: phone.phoneCountry,
-    type: phone.type,
-    dialCode: phone.dialCode,
+  factory PhoneDraft.fromJson(Map<String, dynamic> json) => PhoneDraft(
+    id: switch (json['id']) {
+      final int id when id > 0 => id,
+      _ => null,
+    },
+    phone: json['phone']?.toString() ?? '',
+    country: json['phone_country']?.toString(),
+    type: json['type']?.toString(),
+    dialCode: json['dial_code']?.toString(),
   );
 
   final int? id;
@@ -40,12 +42,8 @@ class PhoneDraft {
 
   bool get isEmpty => phone.isEmpty;
 
-  UpdateProfilePhone toRequest() => UpdateProfilePhone(
-    id: id,
-    phone: phone,
-    phoneCountry: country,
-    type: type,
-  );
+  PhonePayload toPayload() =>
+      PhonePayload(id: id, phone: phone, phoneCountry: country, type: type);
 
   void dispose() => controller.dispose();
 }

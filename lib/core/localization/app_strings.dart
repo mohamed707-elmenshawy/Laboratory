@@ -22,8 +22,6 @@ abstract class AppStrings {
   String get passwordHint;
   String get showPassword;
   String get hidePassword;
-  String get rememberMe;
-  String get rememberMeHint;
   String get forgotPassword;
   String get signIn;
   String get signingIn;
@@ -70,6 +68,10 @@ abstract class AppStrings {
   String get termsLabel;
   String get termsHint;
   String get termsRequired;
+  String get termsAgreePrefix;
+  String get termsTitle;
+  String get termsEmpty;
+  String get feedbackTermsTitle;
   String get createAccount;
   String get creatingAccount;
   String get accountCreated;
@@ -154,6 +156,7 @@ abstract class AppStrings {
   String phonesMaxReached(int max);
   String get addPhone;
   String get cancelPhone;
+  String get removePhone;
   String get phoneNumberLabel;
   String get phoneNumberHint;
   String get phoneCountryLabel;
@@ -177,6 +180,60 @@ abstract class AppStrings {
   String get forgotCurrentPasswordTitle;
   String resetLinkExplainer(String email);
   String get emailMeResetLink;
+
+  String get navBranches;
+  String get branchesTitle;
+  String get branchesSubtitle;
+  String get branchNameLabel;
+  String get branchNameHint;
+  String get branchNameRequired;
+  String get branchNameTooLong;
+  String get branchAddressLabel;
+  String get branchAddressHint;
+  String get branchAddressTooLong;
+  String get branchLaboratoryLabel;
+  String get branchLaboratoryRequired;
+  String get branchManagerLabel;
+  String get branchPhonesLabel;
+  String get phonesEmptyShort;
+  String get branchMainLabel;
+  String get branchMainHint;
+  String get branchMainPill;
+  String get nameLanguageLabel;
+  String get nameLanguageHint;
+  String get notAssigned;
+  String get searchBranchesHint;
+  String get allLaboratories;
+  String get branchesEmptyTitle;
+  String get branchesEmptyMessage;
+  String get branchesNoMatchTitle;
+  String get branchesNoMatchMessage;
+  String get feedbackBranchesTitle;
+  String get feedbackBranchDetailsTitle;
+  String get feedbackUpdateBranchTitle;
+  String get feedbackDeleteBranchTitle;
+  String get branchDetailsTitle;
+  String get branchDetailsSubtitle;
+  String get backToBranches;
+  String get newBranch;
+  String get createBranchTitle;
+  String get createBranchSubtitle;
+  String get creatingBranch;
+  String get branchCreatedTitle;
+  String get branchCreatedMessage;
+  String get editBranch;
+  String get editBranchTitle;
+  String get editBranchSubtitle;
+  String get branchUpdatedTitle;
+  String get branchUpdatedMessage;
+  String get deleteBranchTitle;
+  String deleteBranchPrompt(String name);
+  String get deleteBranchHint;
+  String get deletingBranch;
+  String get branchDeletedTitle;
+  String get branchDeletedMessage;
+  String get branchGone;
+  String branchPhonesCount(int count);
 
   String get laboratoriesTitle;
   String get laboratoriesSubtitle;
@@ -241,6 +298,17 @@ abstract class AppStrings {
   String get laboratoryCreatedTitle;
   String get laboratoryCreatedMessage;
   String get editLaboratoryTitle;
+  String get editLaboratorySubtitle;
+  String get feedbackUpdateLaboratoryTitle;
+  String get laboratoryUpdatedTitle;
+  String get laboratoryUpdatedMessage;
+  String get laboratoryLogoLabel;
+  String get laboratoryLogoHint;
+  String get chooseLogo;
+  String get changeLogo;
+  String get clearLogo;
+  String get logoTooLarge;
+  String get logoHint;
   String get deleteLaboratoryTitle;
   String deleteLaboratoryPrompt(String name);
   String get deleteLaboratoryHint;
@@ -294,10 +362,6 @@ class AppStringsEn extends AppStrings {
   String get showPassword => 'Show password';
   @override
   String get hidePassword => 'Hide password';
-  @override
-  String get rememberMe => 'Remember me';
-  @override
-  String get rememberMeHint => 'Stay signed in on this computer';
   @override
   String get forgotPassword => 'Forgot password?';
   @override
@@ -384,6 +448,14 @@ class AppStringsEn extends AppStrings {
   String get termsHint => 'Required to create an account';
   @override
   String get termsRequired => 'Accept the Terms and Conditions to continue.';
+  @override
+  String get termsAgreePrefix => 'I agree to the';
+  @override
+  String get termsTitle => 'Terms and Conditions';
+  @override
+  String get termsEmpty => 'No terms and conditions have been published yet.';
+  @override
+  String get feedbackTermsTitle => "Couldn't load the terms";
   @override
   String get createAccount => 'Create account';
   @override
@@ -558,6 +630,8 @@ class AppStringsEn extends AppStrings {
   @override
   String get cancelPhone => 'Cancel this number';
   @override
+  String get removePhone => 'Remove this number';
+  @override
   String get phoneNumberLabel => 'Phone number';
   @override
   String get phoneNumberHint => '01012345678';
@@ -608,6 +682,123 @@ class AppStringsEn extends AppStrings {
       "We'll email a reset link to $email. Using it signs you out on every device.";
   @override
   String get emailMeResetLink => 'Email me a reset link';
+
+  @override
+  @override
+  String get navBranches => 'Branches';
+  @override
+  String get branchesTitle => 'Branches';
+  @override
+  String get branchesSubtitle =>
+      'Every branch across your laboratories, with its contacts.';
+  @override
+  String get branchNameLabel => 'Branch name';
+  @override
+  String get branchNameHint => 'Downtown branch';
+  @override
+  String get branchNameRequired => 'Enter the branch name.';
+  @override
+  String get branchNameTooLong => 'Keep the name under 150 characters.';
+  @override
+  String get branchAddressLabel => 'Address';
+  @override
+  String get branchAddressHint => 'Street, city';
+  @override
+  String get branchAddressTooLong => 'Keep the address under 500 characters.';
+  @override
+  String get branchLaboratoryLabel => 'Laboratory';
+  @override
+  String get branchLaboratoryRequired => 'Choose a laboratory.';
+  @override
+  String get branchManagerLabel => 'Manager';
+  @override
+  String get branchPhonesLabel => 'Phone numbers';
+  @override
+  String get phonesEmptyShort => 'No numbers';
+  @override
+  String get branchMainLabel => 'Main branch';
+  @override
+  String get branchMainHint =>
+      'The main branch of a laboratory. Setting it here clears it from the others.';
+  @override
+  String get branchMainPill => 'Main';
+  @override
+  String get nameLanguageLabel => 'Name language';
+  @override
+  String get nameLanguageHint =>
+      'The language this name and address are written in.';
+  @override
+  String get notAssigned => 'Not assigned';
+  @override
+  String get searchBranchesHint => 'Search by branch name';
+  @override
+  String get allLaboratories => 'All laboratories';
+  @override
+  String get branchesEmptyTitle => 'No branches yet';
+  @override
+  String get branchesEmptyMessage =>
+      'Branches you add to a laboratory are listed here.';
+  @override
+  String get branchesNoMatchTitle => 'No branches match';
+  @override
+  String get branchesNoMatchMessage => 'Try a different search or filter.';
+  @override
+  String get feedbackBranchesTitle => "Couldn't load branches";
+  @override
+  String get feedbackBranchDetailsTitle => "Couldn't load the branch";
+  @override
+  String get feedbackUpdateBranchTitle => "Couldn't save the branch";
+  @override
+  String get feedbackDeleteBranchTitle => "Couldn't delete the branch";
+  @override
+  String get branchDetailsTitle => 'Branch details';
+  @override
+  String get branchDetailsSubtitle =>
+      'Everything the platform knows about this branch.';
+  @override
+  String get backToBranches => 'Back to branches';
+  @override
+  String get newBranch => 'New branch';
+  @override
+  String get createBranchTitle => 'New branch';
+  @override
+  String get createBranchSubtitle =>
+      'Add a branch to one of your laboratories.';
+  @override
+  String get creatingBranch => 'Creating…';
+  @override
+  String get branchCreatedTitle => 'Branch created';
+  @override
+  String get branchCreatedMessage => 'It is now listed below.';
+  @override
+  String get editBranch => 'Edit branch';
+  @override
+  String get editBranchTitle => 'Edit branch';
+  @override
+  String get editBranchSubtitle =>
+      'Update the branch details, its laboratory and its contacts.';
+  @override
+  String get branchUpdatedTitle => 'Branch saved';
+  @override
+  String get branchUpdatedMessage => 'Your changes are live.';
+  @override
+  String get deleteBranchTitle => 'Delete branch';
+  @override
+  String deleteBranchPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteBranchHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingBranch => 'Deleting…';
+  @override
+  String get branchDeletedTitle => 'Branch deleted';
+  @override
+  String get branchDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get branchGone => 'This branch is no longer there. Refresh the list.';
+  @override
+  String branchPhonesCount(int count) =>
+      count == 1 ? '1 number' : '$count numbers';
 
   @override
   String get laboratoriesTitle => 'Laboratories';
@@ -749,6 +940,30 @@ class AppStringsEn extends AppStrings {
   @override
   String get editLaboratoryTitle => 'Edit laboratory';
   @override
+  String get editLaboratorySubtitle =>
+      'Change the name or logo. The name is saved in the language you pick.';
+  @override
+  String get feedbackUpdateLaboratoryTitle => "Couldn't update the laboratory";
+  @override
+  String get laboratoryUpdatedTitle => 'Laboratory updated';
+  @override
+  String get laboratoryUpdatedMessage => 'The new details are saved.';
+  @override
+  String get laboratoryLogoLabel => 'Logo';
+  @override
+  String get laboratoryLogoHint =>
+      'Optional. Shown anywhere this laboratory appears.';
+  @override
+  String get chooseLogo => 'Choose logo';
+  @override
+  String get changeLogo => 'Change logo';
+  @override
+  String get clearLogo => 'Remove logo';
+  @override
+  String get logoTooLarge => 'Pick a PNG or JPG under 2 MB.';
+  @override
+  String get logoHint => 'PNG or JPG, up to 2 MB.';
+  @override
   String get deleteLaboratoryTitle => 'Delete laboratory';
   @override
   String deleteLaboratoryPrompt(String name) => 'Delete $name?';
@@ -819,10 +1034,6 @@ class AppStringsAr extends AppStrings {
   String get showPassword => 'إظهار كلمة المرور';
   @override
   String get hidePassword => 'إخفاء كلمة المرور';
-  @override
-  String get rememberMe => 'تذكرني';
-  @override
-  String get rememberMeHint => 'إبقائي مسجلاً على هذا الجهاز';
   @override
   String get forgotPassword => 'نسيت كلمة المرور؟';
   @override
@@ -909,6 +1120,14 @@ class AppStringsAr extends AppStrings {
   String get termsHint => 'مطلوبة لإنشاء الحساب';
   @override
   String get termsRequired => 'وافق على الشروط والأحكام للمتابعة.';
+  @override
+  String get termsAgreePrefix => 'أوافق على';
+  @override
+  String get termsTitle => 'الشروط والأحكام';
+  @override
+  String get termsEmpty => 'لم يتم نشر أي شروط وأحكام بعد.';
+  @override
+  String get feedbackTermsTitle => 'تعذّر تحميل الشروط والأحكام';
   @override
   String get createAccount => 'إنشاء الحساب';
   @override
@@ -1082,6 +1301,8 @@ class AppStringsAr extends AppStrings {
   @override
   String get cancelPhone => 'إلغاء هذا الرقم';
   @override
+  String get removePhone => 'حذف هذا الرقم';
+  @override
   String get phoneNumberLabel => 'رقم الهاتف';
   @override
   String get phoneNumberHint => '01012345678';
@@ -1131,6 +1352,117 @@ class AppStringsAr extends AppStrings {
       'سنرسل رابط إعادة التعيين إلى \u2066$email\u2069. استخدامه يسجّل خروجك من جميع الأجهزة.';
   @override
   String get emailMeResetLink => 'أرسل لي رابط إعادة التعيين';
+
+  @override
+  @override
+  String get navBranches => 'الفروع';
+  @override
+  String get branchesTitle => 'الفروع';
+  @override
+  String get branchesSubtitle => 'كل فروع معاملك وبيانات التواصل الخاصة بها.';
+  @override
+  String get branchNameLabel => 'اسم الفرع';
+  @override
+  String get branchNameHint => 'فرع وسط البلد';
+  @override
+  String get branchNameRequired => 'أدخل اسم الفرع.';
+  @override
+  String get branchNameTooLong => 'اجعل الاسم أقل من 150 حرفًا.';
+  @override
+  String get branchAddressLabel => 'العنوان';
+  @override
+  String get branchAddressHint => 'الشارع، المدينة';
+  @override
+  String get branchAddressTooLong => 'اجعل العنوان أقل من 500 حرف.';
+  @override
+  String get branchLaboratoryLabel => 'المعمل';
+  @override
+  String get branchLaboratoryRequired => 'اختر المعمل.';
+  @override
+  String get branchManagerLabel => 'المسؤول';
+  @override
+  String get branchPhonesLabel => 'أرقام الهاتف';
+  @override
+  String get phonesEmptyShort => 'لا توجد أرقام';
+  @override
+  String get branchMainLabel => 'الفرع الرئيسي';
+  @override
+  String get branchMainHint =>
+      'الفرع الرئيسي للمعمل. تعيينه هنا يلغيه عن باقي الفروع.';
+  @override
+  String get branchMainPill => 'رئيسي';
+  @override
+  String get nameLanguageLabel => 'لغة الاسم';
+  @override
+  String get nameLanguageHint => 'اللغة المكتوب بها الاسم والعنوان.';
+  @override
+  String get notAssigned => 'غير محدد';
+  @override
+  String get searchBranchesHint => 'ابحث باسم الفرع';
+  @override
+  String get allLaboratories => 'كل المعامل';
+  @override
+  String get branchesEmptyTitle => 'لا توجد فروع بعد';
+  @override
+  String get branchesEmptyMessage => 'الفروع التي تضيفها إلى معمل ستظهر هنا.';
+  @override
+  String get branchesNoMatchTitle => 'لا توجد فروع مطابقة';
+  @override
+  String get branchesNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackBranchesTitle => 'تعذّر تحميل الفروع';
+  @override
+  String get feedbackBranchDetailsTitle => 'تعذّر تحميل بيانات الفرع';
+  @override
+  String get feedbackUpdateBranchTitle => 'تعذّر حفظ الفرع';
+  @override
+  String get feedbackDeleteBranchTitle => 'تعذّر حذف الفرع';
+  @override
+  String get branchDetailsTitle => 'بيانات الفرع';
+  @override
+  String get branchDetailsSubtitle => 'كل ما تعرفه المنصة عن هذا الفرع.';
+  @override
+  String get backToBranches => 'العودة إلى الفروع';
+  @override
+  String get newBranch => 'فرع جديد';
+  @override
+  String get createBranchTitle => 'فرع جديد';
+  @override
+  String get createBranchSubtitle => 'أضف فرعًا إلى أحد معاملك.';
+  @override
+  String get creatingBranch => 'جارٍ الإنشاء…';
+  @override
+  String get branchCreatedTitle => 'تم إنشاء الفرع';
+  @override
+  String get branchCreatedMessage => 'أصبح ظاهرًا في القائمة بالأسفل.';
+  @override
+  String get editBranch => 'تعديل الفرع';
+  @override
+  String get editBranchTitle => 'تعديل الفرع';
+  @override
+  String get editBranchSubtitle => 'عدّل بيانات الفرع ومعمله ووسائل التواصل.';
+  @override
+  String get branchUpdatedTitle => 'تم حفظ الفرع';
+  @override
+  String get branchUpdatedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get deleteBranchTitle => 'حذف الفرع';
+  @override
+  String deleteBranchPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteBranchHint =>
+      'ينتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادته.';
+  @override
+  String get deletingBranch => 'جارٍ الحذف…';
+  @override
+  String get branchDeletedTitle => 'تم حذف الفرع';
+  @override
+  String get branchDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
+  @override
+  String get branchGone => 'هذا الفرع لم يعد موجودًا. حدّث القائمة.';
+  @override
+  String branchPhonesCount(int count) =>
+      count == 1 ? 'رقم واحد' : '$count أرقام';
 
   @override
   String get laboratoriesTitle => 'المعامل';
@@ -1266,6 +1598,29 @@ class AppStringsAr extends AppStrings {
   String get laboratoryCreatedMessage => 'أصبح ظاهرًا في القائمة بالأسفل.';
   @override
   String get editLaboratoryTitle => 'تعديل المعمل';
+  @override
+  String get editLaboratorySubtitle =>
+      'غيّر الاسم أو الشعار. يُحفظ الاسم باللغة التي تختارها.';
+  @override
+  String get feedbackUpdateLaboratoryTitle => 'تعذّر تحديث المعمل';
+  @override
+  String get laboratoryUpdatedTitle => 'تم تحديث المعمل';
+  @override
+  String get laboratoryUpdatedMessage => 'تم حفظ البيانات الجديدة.';
+  @override
+  String get laboratoryLogoLabel => 'الشعار';
+  @override
+  String get laboratoryLogoHint => 'اختياري. يظهر أينما يُعرض هذا المعمل.';
+  @override
+  String get chooseLogo => 'اختيار شعار';
+  @override
+  String get changeLogo => 'تغيير الشعار';
+  @override
+  String get clearLogo => 'إزالة الشعار';
+  @override
+  String get logoTooLarge => 'اختر صورة PNG أو JPG أقل من 2 ميجابايت.';
+  @override
+  String get logoHint => 'PNG أو JPG، بحد أقصى 2 ميجابايت.';
   @override
   String get deleteLaboratoryTitle => 'حذف المعمل';
   @override

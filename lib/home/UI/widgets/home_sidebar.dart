@@ -37,11 +37,15 @@ class HomeSidebar extends StatelessWidget {
             decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: AppColors.line)),
             ),
-            child: AppLogoLockup(
-              productName: s.productName,
-              tagline: s.productTagline,
-              onDark: false,
-              markSize: 32,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: AppLogoLockup(
+                productName: s.productName,
+                tagline: s.productTagline,
+                onDark: false,
+                markSize: 32,
+              ),
             ),
           ),
           Expanded(

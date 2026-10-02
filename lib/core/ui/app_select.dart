@@ -25,6 +25,8 @@ class AppSelect<T> extends StatefulWidget {
     required this.onChanged,
     this.errorText,
     this.enabled = true,
+    this.hideLabel = false,
+    this.height = AppSizes.controlLarge,
   });
 
   final String label;
@@ -33,6 +35,8 @@ class AppSelect<T> extends StatefulWidget {
   final ValueChanged<T>? onChanged;
   final String? errorText;
   final bool enabled;
+  final bool hideLabel;
+  final double height;
 
   @override
   State<AppSelect<T>> createState() => _AppSelectState<T>();
@@ -73,15 +77,17 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          widget.label,
-          style: base
-              .merge(AppTextStyles.label)
-              .copyWith(
-                color: _isEnabled ? AppColors.inkMuted : AppColors.inkFaint,
-              ),
-        ),
-        const SizedBox(height: AppSpacing.xs + 2),
+        if (!widget.hideLabel) ...<Widget>[
+          Text(
+            widget.label,
+            style: base
+                .merge(AppTextStyles.label)
+                .copyWith(
+                  color: _isEnabled ? AppColors.inkMuted : AppColors.inkFaint,
+                ),
+          ),
+          const SizedBox(height: AppSpacing.xs + 2),
+        ],
         MouseRegion(
           cursor: _isEnabled
               ? SystemMouseCursors.click
@@ -91,7 +97,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
           child: AnimatedContainer(
             duration: AppMotion.resolve(context, AppMotion.fast),
             curve: AppMotion.curve,
-            height: AppSizes.controlLarge,
+            height: widget.height,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
               color: _isEnabled ? AppColors.surface : AppColors.surfaceMuted,

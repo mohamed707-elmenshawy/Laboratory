@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
-import '../../data/models/phone_type_option.dart';
-import '../../logic/phone_draft.dart';
+import '../../../core/phones/phones.dart';
 import '../../logic/update_profile_cubit.dart';
 import 'profile_phone_row.dart';
 

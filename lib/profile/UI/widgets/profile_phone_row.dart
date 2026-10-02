@@ -5,9 +5,7 @@ import '../../../core/design_system/design_system.dart';
 import '../../../core/error/app_error.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
-import '../../data/models/phone_country.dart';
-import '../../data/models/phone_type_option.dart';
-import '../../logic/phone_draft.dart';
+import '../../../core/phones/phones.dart';
 import '../../logic/update_profile_cubit.dart';
 
 class ProfilePhoneRow extends StatelessWidget {

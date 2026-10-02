@@ -6,7 +6,7 @@ import '../../core/error/result.dart';
 import '../data/models/profile_model.dart';
 import '../data/models/update_profile_request_body.dart';
 import '../data/repos/profile_repo.dart';
-import 'phone_draft.dart';
+import '../../core/phones/phones.dart';
 part 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
@@ -30,7 +30,17 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   void seed(ProfileModel profile) {
     nameController.text = profile.name;
     _replacePhones(
-      profile.phones.map(PhoneDraft.fromPhone).toList(growable: false),
+      profile.phones
+          .map(
+            (ProfilePhone phone) => PhoneDraft(
+              id: phone.id == 0 ? null : phone.id,
+              phone: phone.phone,
+              country: phone.phoneCountry,
+              type: phone.type,
+              dialCode: phone.dialCode,
+            ),
+          )
+          .toList(growable: false),
     );
   }
 
@@ -87,7 +97,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
         name: nameController.text.trim(),
         phones: phones.value
             .where((PhoneDraft phone) => !phone.isEmpty)
-            .map((PhoneDraft phone) => phone.toRequest())
+            .map((PhoneDraft phone) => phone.toPayload())
             .toList(growable: false),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/design_system/design_system.dart';
 import '../../core/di/dependency_injection.dart';
+import '../../core/helpers/auth_redirect.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
 import '../../login/UI/widgets/login_brand_panel.dart';
@@ -30,7 +31,8 @@ class ForgotPasswordScreen extends StatefulWidget {
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
+    with AuthRedirect {
   AppLocale? _locale;
 
   @override
@@ -49,8 +51,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
       listenWhen: (ForgotPasswordState previous, ForgotPasswordState current) =>
           current is ForgotPasswordSuccess,
-      listener: (BuildContext context, ForgotPasswordState state) =>
-          TextInput.finishAutofillContext(),
+      listener: (BuildContext context, ForgotPasswordState state) {
+        TextInput.finishAutofillContext();
+        redirectToSignIn();
+      },
       child: Scaffold(
         backgroundColor: context.layoutSize.isMedium
             ? AppColors.ground

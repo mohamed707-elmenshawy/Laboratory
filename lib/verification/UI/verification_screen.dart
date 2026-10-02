@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/design_system/design_system.dart';
 import '../../core/di/dependency_injection.dart';
+import '../../core/helpers/auth_redirect.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
 import '../../login/UI/widgets/login_brand_panel.dart';
@@ -30,7 +31,8 @@ class VerificationScreen extends StatefulWidget {
   State<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
+class _VerificationScreenState extends State<VerificationScreen>
+    with AuthRedirect {
   AppLocale? _locale;
 
   @override
@@ -49,8 +51,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
     return BlocListener<VerificationCubit, VerificationState>(
       listenWhen: (VerificationState previous, VerificationState current) =>
           current is VerificationSuccess,
-      listener: (BuildContext context, VerificationState state) =>
-          TextInput.finishAutofillContext(),
+      listener: (BuildContext context, VerificationState state) {
+        TextInput.finishAutofillContext();
+        redirectToSignIn();
+      },
       child: Scaffold(
         backgroundColor: context.layoutSize.isMedium
             ? AppColors.ground

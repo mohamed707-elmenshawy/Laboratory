@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/design_system/design_system.dart';
 import '../../core/di/dependency_injection.dart';
+import '../../core/helpers/auth_redirect.dart';
 import '../../core/localization/localization.dart';
 import '../../core/networking/dio_factory.dart';
 import '../../login/UI/widgets/login_brand_panel.dart';
 import '../../login/UI/widgets/login_layout.dart';
+import '../../verification/UI/verification_screen.dart';
+import '../data/models/register_response.dart';
 import '../logic/register_cubit.dart';
 import 'widgets/register_email_field.dart';
 import 'widgets/register_feedback_banner.dart';
@@ -34,7 +37,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> with AuthRedirect {
   AppLocale? _locale;
 
   @override
@@ -53,8 +56,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocListener<RegisterCubit, RegisterState>(
       listenWhen: (RegisterState previous, RegisterState current) =>
           current is RegisterSuccess,
-      listener: (BuildContext context, RegisterState state) =>
-          TextInput.finishAutofillContext(),
+      listener: (BuildContext context, RegisterState state) {
+        TextInput.finishAutofillContext();
+        if (state case RegisterSuccess(:final RegisterResponse response)) {
+          scheduleRedirect(
+            (NavigatorState navigator) =>
+                navigator.push(VerificationScreen.route(email: response.email)),
+          );
+        }
+      },
       child: Scaffold(
         backgroundColor: context.layoutSize.isMedium
             ? AppColors.ground

@@ -8,7 +8,7 @@ import '../../core/localization/localization.dart';
 import '../../core/ui/ui.dart';
 import '../../home/UI/widgets/home_page_frame.dart';
 import '../../home/logic/home_cubit.dart';
-import '../data/models/phone_type_option.dart';
+import '../../core/phones/phones.dart';
 import '../data/models/profile_model.dart';
 import '../logic/profile_cubit.dart';
 import '../logic/update_profile_cubit.dart';

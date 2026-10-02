@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../core/localization/app_strings.dart';
+import '../localization/app_strings.dart';
 
 class PhoneTypeOption extends Equatable {
   const PhoneTypeOption({required this.value, required this.label});

@@ -1,36 +1,17 @@
-class UpdateProfilePhone {
-  const UpdateProfilePhone({
-    this.id,
-    required this.phone,
-    required this.phoneCountry,
-    required this.type,
-  });
-
-  final int? id;
-  final String phone;
-  final String phoneCountry;
-  final String type;
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    if (id != null) 'id': id,
-    'phone': phone,
-    'phone_country': phoneCountry,
-    'type': type,
-  };
-}
+import '../../../core/phones/phones.dart';
 
 class UpdateProfileRequestBody {
   const UpdateProfileRequestBody({required this.name, required this.phones});
 
   final String name;
-  final List<UpdateProfilePhone> phones;
+  final List<PhonePayload> phones;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'name': name,
     'phones': phones.isEmpty
         ? null
         : phones
-              .map((UpdateProfilePhone phone) => phone.toJson())
+              .map((PhonePayload phone) => phone.toJson())
               .toList(growable: false),
   };
 }

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/error/app_error.dart';
 import '../../core/error/result.dart';
-import '../data/models/phone_type_option.dart';
+import '../../core/phones/phones.dart';
 import '../data/models/profile_model.dart';
 import '../data/repos/profile_repo.dart';
 part 'profile_state.dart';

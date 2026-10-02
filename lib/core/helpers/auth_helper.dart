@@ -30,13 +30,10 @@ class AuthHelper {
     required String token,
     required String? tenantId,
     required int? branchId,
-    required bool persist,
   }) async {
     if (token.isEmpty) return;
 
     _apply(token: token, tenantId: tenantId);
-
-    if (!persist) return;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, token);

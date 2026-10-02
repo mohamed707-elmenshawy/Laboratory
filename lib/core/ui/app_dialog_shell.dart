@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/design_system/design_system.dart';
-import '../../../core/localization/localization.dart';
+import '../design_system/design_system.dart';
+import '../localization/localization.dart';
 
-class LaboratoryDialogShell extends StatelessWidget {
-  const LaboratoryDialogShell({
+class AppDialogShell extends StatelessWidget {
+  const AppDialogShell({
     super.key,
     required this.title,
     required this.child,

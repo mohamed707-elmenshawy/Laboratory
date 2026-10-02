@@ -1,6 +1,8 @@
 import 'package:laboratory/core/error/result.dart';
 import 'package:laboratory/laboratories/data/models/create_laboratory_request_body.dart';
+import 'package:laboratory/laboratories/data/models/update_laboratory_request_body.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_page.dart';
+import 'package:laboratory/laboratories/data/models/laboratory_menu_item.dart';
 import 'package:laboratory/laboratories/data/models/laboratories_query.dart';
 import 'package:laboratory/laboratories/data/models/laboratory_model.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
@@ -33,6 +35,13 @@ class FakeLaboratoriesRepoBase implements LaboratoriesRepo {
   ) async => Success<LaboratoriesPage>(emptyLaboratoriesPage());
 
   @override
+  Future<Result<List<LaboratoryMenuItem>>> fetchLaboratoriesMenu({
+    String search = '',
+  }) async => const Success<List<LaboratoryMenuItem>>(<LaboratoryMenuItem>[
+    LaboratoryMenuItem(id: 1, name: 'Laboratory 1'),
+  ]);
+
+  @override
   Future<Result<LaboratoryModel>> fetchLaboratory(int id) async =>
       const Success<LaboratoryModel>(sampleLaboratory);
 
@@ -46,6 +55,12 @@ class FakeLaboratoriesRepoBase implements LaboratoriesRepo {
   Future<Result<void>> createLaboratory(
     CreateLaboratoryRequestBody body,
   ) async => const Success<void>(null);
+
+  @override
+  Future<Result<LaboratoryModel>> updateLaboratory(
+    int id,
+    UpdateLaboratoryRequestBody body,
+  ) async => const Success<LaboratoryModel>(sampleLaboratory);
 
   @override
   Future<Result<void>> deleteLaboratory(int id) async =>

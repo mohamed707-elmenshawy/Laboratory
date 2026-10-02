@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
+import '../../../terms/UI/terms_dialog.dart';
 import '../../logic/register_cubit.dart';
 
 class RegisterTermsCheckbox extends StatefulWidget {
@@ -27,16 +28,26 @@ class _RegisterTermsCheckboxState extends State<RegisterTermsCheckbox> {
       builder: (FormFieldState<bool> field) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          AppCheckbox(
-            value: cubit.acceptedTerms,
-            label: s.termsLabel,
-            semanticHint: s.termsHint,
-            onChanged: enabled
-                ? (bool value) {
-                    setState(() => cubit.acceptedTerms = value);
-                    field.didChange(value);
-                  }
-                : null,
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              AppCheckbox(
+                value: cubit.acceptedTerms,
+                label: s.termsAgreePrefix,
+                semanticLabel: s.termsLabel,
+                semanticHint: s.termsHint,
+                onChanged: enabled
+                    ? (bool value) {
+                        setState(() => cubit.acceptedTerms = value);
+                        field.didChange(value);
+                      }
+                    : null,
+              ),
+              AppTextLink(
+                label: s.termsTitle,
+                onPressed: enabled ? () => TermsDialog.show(context) : null,
+              ),
+            ],
           ),
           if (field.hasError) ...<Widget>[
             const SizedBox(height: AppSpacing.xs + 2),

@@ -6,7 +6,7 @@ import 'package:laboratory/core/error/result.dart';
 import 'package:laboratory/core/localization/localization.dart';
 import 'package:laboratory/profile/UI/widgets/profile_phones_card.dart';
 import 'package:laboratory/profile/UI/widgets/profile_save_button.dart';
-import 'package:laboratory/profile/data/models/phone_type_option.dart';
+import 'package:laboratory/core/phones/phones.dart';
 import 'package:laboratory/profile/data/models/profile_model.dart';
 import 'package:laboratory/profile/data/models/update_profile_request_body.dart';
 import 'package:laboratory/profile/data/repos/profile_repo.dart';

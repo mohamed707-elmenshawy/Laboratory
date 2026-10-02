@@ -17,8 +17,6 @@ class LoginCubit extends Cubit<LoginState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool rememberMe = false;
-
   bool get isBusy => state is LoginLoading || state is LoginSuccess;
 
   Future<void> login() async {
@@ -39,7 +37,6 @@ class LoginCubit extends Cubit<LoginState> {
           token: data.token,
           tenantId: null,
           branchId: null,
-          persist: rememberMe,
         );
         if (isClosed) return;
         emit(LoginSuccess(data));

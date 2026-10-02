@@ -8,7 +8,6 @@ import '../../../core/localization/localization.dart';
 import '../../../core/ui/ui.dart';
 import '../../data/models/laboratory_model.dart';
 import '../../logic/delete_laboratory_cubit.dart';
-import 'laboratory_dialog_shell.dart';
 
 class LaboratoryDeleteDialog extends StatelessWidget {
   const LaboratoryDeleteDialog({super.key, required this.laboratory});
@@ -47,7 +46,7 @@ class LaboratoryDeleteDialog extends StatelessWidget {
             .read<DeleteLaboratoryCubit>();
         final bool busy = state is DeleteLaboratoryLoading;
 
-        return LaboratoryDialogShell(
+        return AppDialogShell(
           title: s.deleteLaboratoryTitle,
           icon: Icons.delete_outline_rounded,
           canClose: !busy,
