@@ -65,6 +65,17 @@ class BranchModel extends Equatable {
   final String? manager;
   final List<PhoneModel> phones;
 
+  BranchModel withActive(bool active) => BranchModel(
+    id: id,
+    name: name,
+    isActive: active,
+    isMainBranch: isMainBranch,
+    address: address,
+    laboratory: laboratory,
+    manager: manager,
+    phones: phones,
+  );
+
   @override
   List<Object?> get props => <Object?>[
     id,

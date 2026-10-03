@@ -9,9 +9,16 @@ import '../../home/data/repos/home_repo.dart';
 import '../../branches/data/repos/branches_repo.dart';
 import '../../branches/logic/branch_details_cubit.dart';
 import '../../branches/logic/branches_cubit.dart';
+import '../../branches/logic/branch_status_cubit.dart';
 import '../../branches/logic/delete_branch_cubit.dart';
 import '../../branches/logic/update_branch_cubit.dart';
 import '../../laboratories/data/repos/laboratories_repo.dart';
+import '../../test_categories/data/repos/test_categories_repo.dart';
+import '../../test_categories/logic/delete_test_category_cubit.dart';
+import '../../test_categories/logic/test_categories_cubit.dart';
+import '../../test_categories/logic/test_category_details_cubit.dart';
+import '../../test_categories/logic/test_category_form_cubit.dart';
+import '../../test_categories/logic/test_category_status_cubit.dart';
 import '../../laboratories/logic/create_laboratory_cubit.dart';
 import '../../laboratories/logic/delete_laboratory_cubit.dart';
 import '../../laboratories/logic/update_laboratory_cubit.dart';
@@ -142,6 +149,38 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<DeleteBranchCubit>(
     () => DeleteBranchCubit(getIt<BranchesRepo>()),
+  );
+
+  getIt.registerFactory<BranchStatusCubit>(
+    () => BranchStatusCubit(getIt<BranchesRepo>()),
+  );
+
+  getIt.registerLazySingleton<TestCategoriesRepo>(
+    () => TestCategoriesRepo(getIt<Dio>()),
+  );
+
+  getIt.registerFactory<TestCategoriesCubit>(
+    () => TestCategoriesCubit(getIt<TestCategoriesRepo>()),
+  );
+
+  getIt.registerFactory<TestCategoryDetailsCubit>(
+    () => TestCategoryDetailsCubit(getIt<TestCategoriesRepo>()),
+  );
+
+  getIt.registerFactory<DeleteTestCategoryCubit>(
+    () => DeleteTestCategoryCubit(getIt<TestCategoriesRepo>()),
+  );
+
+  getIt.registerFactory<TestCategoryStatusCubit>(
+    () => TestCategoryStatusCubit(getIt<TestCategoriesRepo>()),
+  );
+
+  getIt.registerFactory<TestCategoryFormCubit>(
+    () => TestCategoryFormCubit(
+      getIt<TestCategoriesRepo>(),
+      getIt<LaboratoriesRepo>(),
+      getIt<BranchesRepo>(),
+    ),
   );
 
   getIt.registerLazySingleton<SettingsRepo>(() => SettingsRepo(getIt<Dio>()));

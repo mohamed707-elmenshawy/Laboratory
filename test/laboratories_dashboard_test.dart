@@ -130,7 +130,7 @@ void main() {
   test('query sends search and is_active only when set', () {
     expect(
       const LaboratoriesQuery(page: 1, pageSize: 10).toJson(),
-      <String, dynamic>{'page': 1, 'page_size': 10},
+      <String, dynamic>{'page': 1, 'per_page': 10},
     );
     expect(
       const LaboratoriesQuery(
@@ -141,7 +141,7 @@ void main() {
       ).toJson(),
       <String, dynamic>{
         'page': 2,
-        'page_size': 25,
+        'per_page': 25,
         'search': 'Lab',
         'is_active': 1,
       },
@@ -182,7 +182,7 @@ void main() {
     expect(repo.calls.length, 3);
     expect(repo.calls.last.toJson(), <String, dynamic>{
       'page': 1,
-      'page_size': 10,
+      'per_page': 10,
       'search': 'Laboratory 1',
     });
   });
@@ -225,7 +225,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(repo.calls.last.toJson(), <String, dynamic>{
       'page': 1,
-      'page_size': 10,
+      'per_page': 10,
       'is_active': 1,
     });
 
@@ -265,7 +265,7 @@ void main() {
 
     expect(repo.calls.last.toJson(), <String, dynamic>{
       'page': 1,
-      'page_size': 10,
+      'per_page': 10,
     });
     expect(tester.widget<TextField>(_searchInput).controller!.text, isEmpty);
     expect(find.text('Showing 1 to 10 of 23 results'), findsOneWidget);
@@ -292,7 +292,7 @@ void main() {
     },
   );
 
-  testWidgets('first load asks for page 1 with page_size 10', (
+  testWidgets('first load asks for page 1 with per_page 10', (
     WidgetTester tester,
   ) async {
     final FakeLaboratoriesRepo repo = FakeLaboratoriesRepo();
@@ -305,7 +305,7 @@ void main() {
 
     expect(repo.calls.single.toJson(), <String, dynamic>{
       'page': 1,
-      'page_size': 10,
+      'per_page': 10,
     });
     expect(find.text('Laboratory 23'), findsOneWidget);
     expect(find.text('Laboratory 14'), findsOneWidget);
@@ -329,7 +329,7 @@ void main() {
 
     expect(repo.calls.last.toJson(), <String, dynamic>{
       'page': 3,
-      'page_size': 10,
+      'per_page': 10,
     });
     expect(find.text('Showing 21 to 23 of 23 results'), findsOneWidget);
     expect(find.text('Laboratory 3'), findsOneWidget);
@@ -365,7 +365,7 @@ void main() {
 
     expect(repo.calls.last.toJson(), <String, dynamic>{
       'page': 1,
-      'page_size': 25,
+      'per_page': 25,
     });
     expect(find.text('Showing 1 to 23 of 23 results'), findsOneWidget);
   });

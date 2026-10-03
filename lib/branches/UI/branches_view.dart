@@ -12,6 +12,7 @@ import '../../laboratories/data/repos/laboratories_repo.dart';
 import '../../core/error/result.dart';
 import '../data/models/branch_model.dart';
 import '../data/models/branches_page.dart';
+import '../logic/branch_status_cubit.dart';
 import '../logic/branches_cubit.dart';
 import 'branch_details_view.dart';
 import 'dialogs/branch_delete_dialog.dart';
@@ -25,8 +26,15 @@ import 'widgets/branches_toolbar.dart';
 class BranchesView extends StatefulWidget {
   const BranchesView({super.key});
 
-  static Widget page() => BlocProvider<BranchesCubit>(
-    create: (_) => getIt<BranchesCubit>()..load(),
+  static Widget page() => MultiBlocProvider(
+    providers: <BlocProvider<dynamic>>[
+      BlocProvider<BranchesCubit>(
+        create: (_) => getIt<BranchesCubit>()..load(),
+      ),
+      BlocProvider<BranchStatusCubit>(
+        create: (_) => getIt<BranchStatusCubit>(),
+      ),
+    ],
     child: const BranchesView(),
   );
 
@@ -34,13 +42,14 @@ class BranchesView extends StatefulWidget {
   State<BranchesView> createState() => _BranchesViewState();
 }
 
-enum _Notice { created, updated, deleted }
+enum _Notice { created, updated, deleted, activated, deactivated }
 
 class _BranchesViewState extends State<BranchesView> {
   int? _detailsId;
   int? _editingId;
   bool _creating = false;
   _Notice? _notice;
+  AppError? _statusError;
   List<LaboratoryMenuItem> _laboratories = const <LaboratoryMenuItem>[];
 
   @override
@@ -107,6 +116,22 @@ class _BranchesViewState extends State<BranchesView> {
     context.read<BranchesCubit>().branchUpdated(branch);
   }
 
+  void _onToggleStatus(BranchModel branch) {
+    setState(() {
+      _notice = null;
+      _statusError = null;
+    });
+    context.read<BranchStatusCubit>().toggle(branch);
+  }
+
+  void _onStatusChanged(BranchModel branch) {
+    setState(() {
+      _statusError = null;
+      _notice = branch.isActive ? _Notice.activated : _Notice.deactivated;
+    });
+    context.read<BranchesCubit>().branchUpdated(branch);
+  }
+
   Future<void> _onDelete(BranchModel branch) async {
     final bool deleted = await BranchDeleteDialog.show(context, branch);
     if (!deleted || !mounted) return;
@@ -142,29 +167,51 @@ class _BranchesViewState extends State<BranchesView> {
       );
     }
 
-    return HomePageFrame(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          BranchesHeader(
-            onRefresh: () => context.read<BranchesCubit>().load(),
-            onCreate: _openCreate,
-          ),
-          if (_notice case final _Notice notice) ...<Widget>[
-            const SizedBox(height: AppSpacing.xl),
-            _NoticeBanner(
-              notice: notice,
-              onDismiss: () => setState(() => _notice = null),
+    return BlocListener<BranchStatusCubit, BranchStatusState>(
+      listenWhen: (BranchStatusState previous, BranchStatusState next) =>
+          next is BranchStatusSuccess || next is BranchStatusFailure,
+      listener: (BuildContext context, BranchStatusState state) =>
+          switch (state) {
+            BranchStatusSuccess(:final BranchModel branch) => _onStatusChanged(
+              branch,
+            ),
+            BranchStatusFailure(:final AppError error) => setState(
+              () => _statusError = error,
+            ),
+            _ => null,
+          },
+      child: HomePageFrame(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            BranchesHeader(
+              onRefresh: () => context.read<BranchesCubit>().load(),
+              onCreate: _openCreate,
+            ),
+            if (_notice case final _Notice notice) ...<Widget>[
+              const SizedBox(height: AppSpacing.xl),
+              _NoticeBanner(
+                notice: notice,
+                onDismiss: () => setState(() => _notice = null),
+              ),
+            ],
+            if (_statusError case final AppError error) ...<Widget>[
+              const SizedBox(height: AppSpacing.xl),
+              _StatusErrorBanner(
+                error: error,
+                onDismiss: () => setState(() => _statusError = null),
+              ),
+            ],
+            const SizedBox(height: AppSpacing.x3l),
+            _ListCard(
+              laboratories: _laboratories,
+              onView: _openDetails,
+              onEdit: _openEdit,
+              onDelete: _onDelete,
+              onToggleStatus: _onToggleStatus,
             ),
           ],
-          const SizedBox(height: AppSpacing.x3l),
-          _ListCard(
-            laboratories: _laboratories,
-            onView: _openDetails,
-            onEdit: _openEdit,
-            onDelete: _onDelete,
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -194,7 +241,33 @@ class _NoticeBanner extends StatelessWidget {
           title: s.branchDeletedTitle,
           message: s.branchDeletedMessage,
         ),
+        _Notice.activated => AppFeedback.success(
+          title: s.branchActivatedTitle,
+          message: s.branchActivatedMessage,
+        ),
+        _Notice.deactivated => AppFeedback.success(
+          title: s.branchDeactivatedTitle,
+          message: s.branchDeactivatedMessage,
+        ),
       },
+      onDismiss: onDismiss,
+      dismissTooltip: s.dismiss,
+    );
+  }
+}
+
+class _StatusErrorBanner extends StatelessWidget {
+  const _StatusErrorBanner({required this.error, required this.onDismiss});
+
+  final AppError error;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppStrings s = context.strings;
+
+    return AppAlert(
+      feedback: error.toFeedback(s, title: s.feedbackBranchStatusTitle),
       onDismiss: onDismiss,
       dismissTooltip: s.dismiss,
     );
@@ -207,12 +280,14 @@ class _ListCard extends StatelessWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
   });
 
   final List<LaboratoryMenuItem> laboratories;
   final ValueChanged<BranchModel> onView;
   final ValueChanged<BranchModel> onEdit;
   final ValueChanged<BranchModel> onDelete;
+  final ValueChanged<BranchModel> onToggleStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +310,7 @@ class _ListCard extends StatelessWidget {
                     onView: onView,
                     onEdit: onEdit,
                     onDelete: onDelete,
+                    onToggleStatus: onToggleStatus,
                   ),
                   BranchesFailure(:final AppError error) =>
                     BranchesFailureState(error: error),
@@ -254,12 +330,14 @@ class _Loaded extends StatelessWidget {
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
   });
 
   final BranchesPage page;
   final ValueChanged<BranchModel> onView;
   final ValueChanged<BranchModel> onEdit;
   final ValueChanged<BranchModel> onDelete;
+  final ValueChanged<BranchModel> onToggleStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -274,6 +352,13 @@ class _Loaded extends StatelessWidget {
             onView: onView,
             onEdit: onEdit,
             onDelete: onDelete,
+            onToggleStatus: onToggleStatus,
+            statusBusyId: context.select(
+              (BranchStatusCubit cubit) => switch (cubit.state) {
+                BranchStatusLoading(:final int id) => id,
+                _ => null,
+              },
+            ),
           ),
         BranchesPaginationBar(pagination: page.pagination),
       ],

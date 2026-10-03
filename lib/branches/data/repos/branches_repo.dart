@@ -26,12 +26,7 @@ class BranchesRepo {
   }
 
   Future<Result<BranchModel>> fetchBranch(int id) {
-    return ErrorHandler.guard(() async {
-      final response = await _dio.get('${ApiConstants.branches}/$id');
-
-      final Map<String, dynamic> data = response.data!['data'];
-      return BranchModel.fromJson(data);
-    });
+    return ErrorHandler.guard(() => _readBranch(id));
   }
 
   Future<Result<void>> createBranch(UpdateBranchRequestBody body) {
@@ -45,13 +40,16 @@ class BranchesRepo {
     UpdateBranchRequestBody body,
   ) {
     return ErrorHandler.guard(() async {
-      final response = await _dio.post(
-        '${ApiConstants.branches}/$id',
-        data: body.toJson(),
-      );
+      await _dio.post('${ApiConstants.branches}/$id', data: body.toJson());
 
-      final Map<String, dynamic> data = response.data!['data'];
-      return BranchModel.fromJson(data);
+      return _readBranch(id);
+    });
+  }
+
+  Future<Result<void>> setBranchActive(int id, bool active) {
+    return ErrorHandler.guard(() async {
+      final String action = active ? 'activate' : 'deactivate';
+      await _dio.patch('${ApiConstants.branches}/$id/$action');
     });
   }
 
@@ -59,5 +57,12 @@ class BranchesRepo {
     return ErrorHandler.guard(() async {
       await _dio.delete('${ApiConstants.branches}/$id');
     });
+  }
+
+  Future<BranchModel> _readBranch(int id) async {
+    final response = await _dio.get('${ApiConstants.branches}/$id');
+
+    final Map<String, dynamic> data = response.data!['data'];
+    return BranchModel.fromJson(data);
   }
 }

@@ -181,6 +181,52 @@ abstract class AppStrings {
   String resetLinkExplainer(String email);
   String get emailMeResetLink;
 
+  String get newTestCategory;
+  String get createTestCategoryTitle;
+  String get createTestCategorySubtitle;
+  String get editTestCategoryTitle;
+  String get editTestCategorySubtitle;
+  String get testCategoryNameRequired;
+  String get testCategoryNameTooLong;
+  String get testCategoryDescriptionTooLong;
+  String get testCategoryBranchLabel;
+  String get testCategoryBranchRequired;
+  String get testCategoryBranchEmpty;
+  String get creatingTestCategory;
+  String get feedbackSaveTestCategoryTitle;
+  String get testCategoryCreatedTitle;
+  String get testCategoryCreatedMessage;
+  String get testCategorySavedTitle;
+  String get testCategorySavedMessage;
+  String get testCategoryDetailsTitle;
+  String get testCategoryDetailsSubtitle;
+  String get backToTestCategories;
+  String get feedbackTestCategoryDetailsTitle;
+  String get feedbackDeleteTestCategoryTitle;
+  String get deleteTestCategoryTitle;
+  String deleteTestCategoryPrompt(String name);
+  String get deleteTestCategoryHint;
+  String get deletingTestCategory;
+  String get testCategoryDeletedTitle;
+  String get testCategoryDeletedMessage;
+  String get testCategoryActivatedTitle;
+  String get testCategoryActivatedMessage;
+  String get testCategoryDeactivatedTitle;
+  String get testCategoryDeactivatedMessage;
+  String get feedbackTestCategoryStatusTitle;
+  String get testCategoryGone;
+  String get navTestCategories;
+  String get testCategoriesTitle;
+  String get testCategoriesSubtitle;
+  String get testCategoryNameLabel;
+  String get testCategoryDescriptionLabel;
+  String get searchTestCategoriesHint;
+  String get testCategoriesEmptyTitle;
+  String get testCategoriesEmptyMessage;
+  String get testCategoriesNoMatchTitle;
+  String get testCategoriesNoMatchMessage;
+  String get feedbackTestCategoriesTitle;
+  String get noDescription;
   String get navBranches;
   String get branchesTitle;
   String get branchesSubtitle;
@@ -232,6 +278,11 @@ abstract class AppStrings {
   String get deletingBranch;
   String get branchDeletedTitle;
   String get branchDeletedMessage;
+  String get branchActivatedTitle;
+  String get branchActivatedMessage;
+  String get branchDeactivatedTitle;
+  String get branchDeactivatedMessage;
+  String get feedbackBranchStatusTitle;
   String get branchGone;
   String branchPhonesCount(int count);
 
@@ -685,6 +736,113 @@ class AppStringsEn extends AppStrings {
 
   @override
   @override
+  @override
+  @override
+  @override
+  String get newTestCategory => 'New category';
+  @override
+  String get createTestCategoryTitle => 'New test category';
+  @override
+  String get createTestCategorySubtitle =>
+      'Add a category to a branch of one of your laboratories.';
+  @override
+  String get editTestCategoryTitle => 'Edit category';
+  @override
+  String get editTestCategorySubtitle =>
+      'Update the category details and where it belongs.';
+  @override
+  String get testCategoryNameRequired => 'Enter the category name.';
+  @override
+  String get testCategoryNameTooLong => 'Keep the name under 150 characters.';
+  @override
+  String get testCategoryDescriptionTooLong =>
+      'Keep the description under 500 characters.';
+  @override
+  String get testCategoryBranchLabel => 'Branch';
+  @override
+  String get testCategoryBranchRequired => 'Choose a branch.';
+  @override
+  String get testCategoryBranchEmpty =>
+      'This laboratory has no active branch. Activate one first.';
+  @override
+  String get creatingTestCategory => 'Creating…';
+  @override
+  String get feedbackSaveTestCategoryTitle => "Couldn't save the category";
+  @override
+  String get testCategoryCreatedTitle => 'Category created';
+  @override
+  String get testCategoryCreatedMessage => 'It is now listed below.';
+  @override
+  String get testCategorySavedTitle => 'Category saved';
+  @override
+  String get testCategorySavedMessage => 'Your changes are live.';
+  @override
+  String get testCategoryDetailsTitle => 'Category details';
+  @override
+  String get testCategoryDetailsSubtitle =>
+      'Everything the platform knows about this test category.';
+  @override
+  String get backToTestCategories => 'Back to test categories';
+  @override
+  String get feedbackTestCategoryDetailsTitle => "Couldn't load the category";
+  @override
+  String get feedbackDeleteTestCategoryTitle => "Couldn't delete the category";
+  @override
+  String get deleteTestCategoryTitle => 'Delete category';
+  @override
+  String deleteTestCategoryPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteTestCategoryHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingTestCategory => 'Deleting…';
+  @override
+  String get testCategoryDeletedTitle => 'Category deleted';
+  @override
+  String get testCategoryDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get testCategoryActivatedTitle => 'Category activated';
+  @override
+  String get testCategoryActivatedMessage => 'It is open for use again.';
+  @override
+  String get testCategoryDeactivatedTitle => 'Category deactivated';
+  @override
+  String get testCategoryDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
+  String get feedbackTestCategoryStatusTitle =>
+      "Couldn't change the category status";
+  @override
+  String get testCategoryGone =>
+      'This category is no longer there. Refresh the list.';
+  @override
+  String get navTestCategories => 'Test categories';
+  @override
+  String get testCategoriesTitle => 'Test categories';
+  @override
+  String get testCategoriesSubtitle =>
+      'The catalogue of test categories across your laboratories.';
+  @override
+  String get testCategoryNameLabel => 'Category';
+  @override
+  String get testCategoryDescriptionLabel => 'Description';
+  @override
+  String get searchTestCategoriesHint => 'Search by category name';
+  @override
+  String get testCategoriesEmptyTitle => 'No test categories yet';
+  @override
+  String get testCategoriesEmptyMessage =>
+      'Categories you add to a branch are listed here.';
+  @override
+  String get testCategoriesNoMatchTitle => 'No categories match';
+  @override
+  String get testCategoriesNoMatchMessage =>
+      'Try a different search or filter.';
+  @override
+  String get feedbackTestCategoriesTitle => "Couldn't load test categories";
+  @override
+  String get noDescription => 'No description';
+  @override
   String get navBranches => 'Branches';
   @override
   String get branchesTitle => 'Branches';
@@ -794,6 +952,17 @@ class AppStringsEn extends AppStrings {
   String get branchDeletedTitle => 'Branch deleted';
   @override
   String get branchDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get branchActivatedTitle => 'Branch activated';
+  @override
+  String get branchActivatedMessage => 'It is open for use again.';
+  @override
+  String get branchDeactivatedTitle => 'Branch deactivated';
+  @override
+  String get branchDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
+  String get feedbackBranchStatusTitle => "Couldn't change the branch status";
   @override
   String get branchGone => 'This branch is no longer there. Refresh the list.';
   @override
@@ -1355,6 +1524,105 @@ class AppStringsAr extends AppStrings {
 
   @override
   @override
+  @override
+  @override
+  @override
+  String get newTestCategory => 'فئة جديدة';
+  @override
+  String get createTestCategoryTitle => 'فئة تحاليل جديدة';
+  @override
+  String get createTestCategorySubtitle => 'أضف فئة إلى فرع في أحد معاملك.';
+  @override
+  String get editTestCategoryTitle => 'تعديل الفئة';
+  @override
+  String get editTestCategorySubtitle => 'عدّل بيانات الفئة ومكانها.';
+  @override
+  String get testCategoryNameRequired => 'أدخل اسم الفئة.';
+  @override
+  String get testCategoryNameTooLong => 'اجعل الاسم أقل من 150 حرفًا.';
+  @override
+  String get testCategoryDescriptionTooLong => 'اجعل الوصف أقل من 500 حرف.';
+  @override
+  String get testCategoryBranchLabel => 'الفرع';
+  @override
+  String get testCategoryBranchRequired => 'اختر الفرع.';
+  @override
+  String get testCategoryBranchEmpty =>
+      'لا يوجد فرع نشط في هذا المعمل. فعّل فرعًا أولًا.';
+  @override
+  String get creatingTestCategory => 'جارٍ الإنشاء…';
+  @override
+  String get feedbackSaveTestCategoryTitle => 'تعذّر حفظ الفئة';
+  @override
+  String get testCategoryCreatedTitle => 'تم إنشاء الفئة';
+  @override
+  String get testCategoryCreatedMessage => 'أصبحت ظاهرة في القائمة بالأسفل.';
+  @override
+  String get testCategorySavedTitle => 'تم حفظ الفئة';
+  @override
+  String get testCategorySavedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get testCategoryDetailsTitle => 'بيانات الفئة';
+  @override
+  String get testCategoryDetailsSubtitle => 'كل ما تعرفه المنصة عن هذه الفئة.';
+  @override
+  String get backToTestCategories => 'العودة إلى فئات التحاليل';
+  @override
+  String get feedbackTestCategoryDetailsTitle => 'تعذّر تحميل بيانات الفئة';
+  @override
+  String get feedbackDeleteTestCategoryTitle => 'تعذّر حذف الفئة';
+  @override
+  String get deleteTestCategoryTitle => 'حذف الفئة';
+  @override
+  String deleteTestCategoryPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteTestCategoryHint =>
+      'تنتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادتها.';
+  @override
+  String get deletingTestCategory => 'جارٍ الحذف…';
+  @override
+  String get testCategoryDeletedTitle => 'تم حذف الفئة';
+  @override
+  String get testCategoryDeletedMessage => 'تم نقلها إلى سلة المحذوفات.';
+  @override
+  String get testCategoryActivatedTitle => 'تم تفعيل التصنيف';
+  @override
+  String get testCategoryActivatedMessage => 'أصبح متاحًا للاستخدام من جديد.';
+  @override
+  String get testCategoryDeactivatedTitle => 'تم إيقاف التصنيف';
+  @override
+  String get testCategoryDeactivatedMessage =>
+      'يظل ظاهرًا في القائمة لكنه مغلق للاستخدام.';
+  @override
+  String get feedbackTestCategoryStatusTitle => 'تعذّر تغيير حالة التصنيف';
+  @override
+  String get testCategoryGone => 'هذه الفئة لم تعد موجودة. حدّث القائمة.';
+  @override
+  String get navTestCategories => 'فئات التحاليل';
+  @override
+  String get testCategoriesTitle => 'فئات التحاليل';
+  @override
+  String get testCategoriesSubtitle => 'دليل فئات التحاليل في معاملك.';
+  @override
+  String get testCategoryNameLabel => 'الفئة';
+  @override
+  String get testCategoryDescriptionLabel => 'الوصف';
+  @override
+  String get searchTestCategoriesHint => 'ابحث باسم الفئة';
+  @override
+  String get testCategoriesEmptyTitle => 'لا توجد فئات تحاليل بعد';
+  @override
+  String get testCategoriesEmptyMessage =>
+      'الفئات التي تضيفها إلى فرع ستظهر هنا.';
+  @override
+  String get testCategoriesNoMatchTitle => 'لا توجد فئات مطابقة';
+  @override
+  String get testCategoriesNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackTestCategoriesTitle => 'تعذّر تحميل فئات التحاليل';
+  @override
+  String get noDescription => 'بدون وصف';
+  @override
   String get navBranches => 'الفروع';
   @override
   String get branchesTitle => 'الفروع';
@@ -1458,6 +1726,17 @@ class AppStringsAr extends AppStrings {
   String get branchDeletedTitle => 'تم حذف الفرع';
   @override
   String get branchDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
+  @override
+  String get branchActivatedTitle => 'تم تفعيل الفرع';
+  @override
+  String get branchActivatedMessage => 'أصبح متاحًا للاستخدام من جديد.';
+  @override
+  String get branchDeactivatedTitle => 'تم إيقاف الفرع';
+  @override
+  String get branchDeactivatedMessage =>
+      'يظل ظاهرًا في القائمة لكنه مغلق للاستخدام.';
+  @override
+  String get feedbackBranchStatusTitle => 'تعذّر تغيير حالة الفرع';
   @override
   String get branchGone => 'هذا الفرع لم يعد موجودًا. حدّث القائمة.';
   @override

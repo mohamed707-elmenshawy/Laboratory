@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
+import '../../../core/models/named_ref.dart';
 import '../../../core/ui/ui.dart';
-import '../../data/models/branch_model.dart';
-import 'branch_row_actions.dart';
+import '../../data/models/test_category_model.dart';
 
-typedef BranchCallback = void Function(BranchModel branch);
+typedef TestCategoryCallback = void Function(TestCategoryModel category);
 
-class BranchesTable extends StatelessWidget {
-  const BranchesTable({
+class TestCategoriesTable extends StatelessWidget {
+  const TestCategoriesTable({
     super.key,
-    required this.branches,
+    required this.categories,
     required this.onView,
     required this.onEdit,
     required this.onDelete,
@@ -19,14 +19,14 @@ class BranchesTable extends StatelessWidget {
     required this.statusBusyId,
   });
 
-  static const double _stackFrom = 920;
+  static const double _stackFrom = 900;
   static const double actionsWidth = 176;
 
-  final List<BranchModel> branches;
-  final BranchCallback onView;
-  final BranchCallback onEdit;
-  final BranchCallback onDelete;
-  final BranchCallback onToggleStatus;
+  final List<TestCategoryModel> categories;
+  final TestCategoryCallback onView;
+  final TestCategoryCallback onEdit;
+  final TestCategoryCallback onDelete;
+  final TestCategoryCallback onToggleStatus;
   final int? statusBusyId;
 
   @override
@@ -39,12 +39,12 @@ class BranchesTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             if (!stacked) const _HeaderRow(),
-            for (int i = 0; i < branches.length; i++) ...<Widget>[
+            for (int i = 0; i < categories.length; i++) ...<Widget>[
               if (i > 0 || !stacked)
                 const Divider(height: 1, thickness: 1, color: AppColors.line),
               if (stacked)
                 _StackedRow(
-                  branch: branches[i],
+                  category: categories[i],
                   onView: onView,
                   onEdit: onEdit,
                   onDelete: onDelete,
@@ -53,7 +53,7 @@ class BranchesTable extends StatelessWidget {
                 )
               else
                 _TableRow(
-                  branch: branches[i],
+                  category: categories[i],
                   onView: onView,
                   onEdit: onEdit,
                   onDelete: onDelete,
@@ -83,12 +83,12 @@ class _HeaderRow extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Expanded(flex: 4, child: _HeaderText(s.branchNameLabel)),
+          Expanded(flex: 4, child: _HeaderText(s.testCategoryNameLabel)),
           Expanded(flex: 3, child: _HeaderText(s.branchLaboratoryLabel)),
-          Expanded(flex: 3, child: _HeaderText(s.branchPhonesLabel)),
+          Expanded(flex: 3, child: _HeaderText(s.branchNameLabel)),
           Expanded(flex: 2, child: _HeaderText(s.laboratoryStatusLabel)),
           SizedBox(
-            width: BranchesTable.actionsWidth,
+            width: TestCategoriesTable.actionsWidth,
             child: Align(
               alignment: AlignmentDirectional.centerEnd,
               child: _HeaderText(s.laboratoryActionsLabel),
@@ -126,7 +126,7 @@ class _HeaderText extends StatelessWidget {
 
 class _TableRow extends StatefulWidget {
   const _TableRow({
-    required this.branch,
+    required this.category,
     required this.onView,
     required this.onEdit,
     required this.onDelete,
@@ -134,11 +134,11 @@ class _TableRow extends StatefulWidget {
     required this.statusBusyId,
   });
 
-  final BranchModel branch;
-  final BranchCallback onView;
-  final BranchCallback onEdit;
-  final BranchCallback onDelete;
-  final BranchCallback onToggleStatus;
+  final TestCategoryModel category;
+  final TestCategoryCallback onView;
+  final TestCategoryCallback onEdit;
+  final TestCategoryCallback onDelete;
+  final TestCategoryCallback onToggleStatus;
   final int? statusBusyId;
 
   @override
@@ -150,7 +150,7 @@ class _TableRowState extends State<_TableRow> {
 
   @override
   Widget build(BuildContext context) {
-    final BranchModel branch = widget.branch;
+    final TestCategoryModel category = widget.category;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -165,24 +165,21 @@ class _TableRowState extends State<_TableRow> {
         ),
         child: Row(
           children: <Widget>[
-            Expanded(flex: 4, child: _NameCell(branch: branch)),
-            Expanded(
-              flex: 3,
-              child: _MutedText(branch.laboratory?.name ?? '—'),
-            ),
-            Expanded(flex: 3, child: _PhonesCell(branch: branch)),
-            Expanded(flex: 2, child: _StatusCell(isActive: branch.isActive)),
+            Expanded(flex: 4, child: _NameCell(category: category)),
+            Expanded(flex: 3, child: _RefCell(value: category.laboratory)),
+            Expanded(flex: 3, child: _RefCell(value: category.branch)),
+            Expanded(flex: 2, child: _StatusCell(isActive: category.isActive)),
             SizedBox(
-              width: BranchesTable.actionsWidth,
+              width: TestCategoriesTable.actionsWidth,
               child: Align(
                 alignment: AlignmentDirectional.centerEnd,
-                child: BranchRowActions(
-                  branch: branch,
-                  onView: () => widget.onView(branch),
-                  onEdit: () => widget.onEdit(branch),
-                  onDelete: () => widget.onDelete(branch),
-                  onToggleStatus: () => widget.onToggleStatus(branch),
-                  statusBusy: widget.statusBusyId == branch.id,
+                child: _RowActions(
+                  category: category,
+                  onView: () => widget.onView(category),
+                  onEdit: () => widget.onEdit(category),
+                  onDelete: () => widget.onDelete(category),
+                  onToggleStatus: () => widget.onToggleStatus(category),
+                  statusBusy: widget.statusBusyId == category.id,
                 ),
               ),
             ),
@@ -195,7 +192,7 @@ class _TableRowState extends State<_TableRow> {
 
 class _StackedRow extends StatelessWidget {
   const _StackedRow({
-    required this.branch,
+    required this.category,
     required this.onView,
     required this.onEdit,
     required this.onDelete,
@@ -203,11 +200,11 @@ class _StackedRow extends StatelessWidget {
     required this.statusBusyId,
   });
 
-  final BranchModel branch;
-  final BranchCallback onView;
-  final BranchCallback onEdit;
-  final BranchCallback onDelete;
-  final BranchCallback onToggleStatus;
+  final TestCategoryModel category;
+  final TestCategoryCallback onView;
+  final TestCategoryCallback onEdit;
+  final TestCategoryCallback onDelete;
+  final TestCategoryCallback onToggleStatus;
   final int? statusBusyId;
 
   @override
@@ -224,9 +221,9 @@ class _StackedRow extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(child: _NameCell(branch: branch)),
+              Expanded(child: _NameCell(category: category)),
               const SizedBox(width: AppSpacing.sm),
-              _StatusCell(isActive: branch.isActive),
+              _StatusCell(isActive: category.isActive),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -235,13 +232,13 @@ class _StackedRow extends StatelessWidget {
               Expanded(
                 child: _StackedField(
                   label: s.branchLaboratoryLabel,
-                  child: _MutedText(branch.laboratory?.name ?? '—'),
+                  child: _RefCell(value: category.laboratory),
                 ),
               ),
               Expanded(
                 child: _StackedField(
-                  label: s.branchPhonesLabel,
-                  child: _PhonesCell(branch: branch),
+                  label: s.branchNameLabel,
+                  child: _RefCell(value: category.branch),
                 ),
               ),
             ],
@@ -249,17 +246,121 @@ class _StackedRow extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Align(
             alignment: AlignmentDirectional.centerEnd,
-            child: BranchRowActions(
-              branch: branch,
-              onView: () => onView(branch),
-              onEdit: () => onEdit(branch),
-              onDelete: () => onDelete(branch),
-              onToggleStatus: () => onToggleStatus(branch),
-              statusBusy: statusBusyId == branch.id,
+            child: _RowActions(
+              category: category,
+              onView: () => onView(category),
+              onEdit: () => onEdit(category),
+              onDelete: () => onDelete(category),
+              onToggleStatus: () => onToggleStatus(category),
+              statusBusy: statusBusyId == category.id,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RowActions extends StatelessWidget {
+  const _RowActions({
+    required this.category,
+    required this.onView,
+    required this.onEdit,
+    required this.onDelete,
+    required this.onToggleStatus,
+    required this.statusBusy,
+  });
+
+  final TestCategoryModel category;
+  final VoidCallback onView;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+  final VoidCallback onToggleStatus;
+  final bool statusBusy;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppStrings s = context.strings;
+    final bool isActive = category.isActive;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        if (statusBusy)
+          const SizedBox(
+            width: AppSizes.hitTarget,
+            height: AppSizes.hitTarget,
+            child: Center(
+              child: SizedBox(
+                width: AppSizes.iconMd,
+                height: AppSizes.iconMd,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.brand600,
+                ),
+              ),
+            ),
+          )
+        else
+          _RowAction(
+            icon: isActive
+                ? Icons.toggle_on_rounded
+                : Icons.toggle_off_outlined,
+            tooltip: isActive ? s.deactivate : s.activate,
+            iconSize: AppSizes.iconLg,
+            color: isActive ? AppColors.success : AppColors.inkFaint,
+            onPressed: onToggleStatus,
+          ),
+        _RowAction(
+          icon: Icons.visibility_outlined,
+          tooltip: s.view,
+          onPressed: onView,
+        ),
+        _RowAction(
+          icon: Icons.edit_outlined,
+          tooltip: s.edit,
+          onPressed: onEdit,
+        ),
+        _RowAction(
+          icon: Icons.delete_outline_rounded,
+          tooltip: s.delete,
+          color: AppColors.danger,
+          onPressed: onDelete,
+        ),
+      ],
+    );
+  }
+}
+
+class _RowAction extends StatelessWidget {
+  const _RowAction({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.color,
+    this.iconSize = AppSizes.iconMd,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final Color? color;
+  final double iconSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      tooltip: tooltip,
+      iconSize: iconSize,
+      visualDensity: VisualDensity.compact,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints.tightFor(
+        width: AppSizes.hitTarget,
+        height: AppSizes.hitTarget,
+      ),
+      hoverColor: AppColors.brandWash,
+      icon: Icon(icon, color: color ?? AppColors.inkMuted),
     );
   }
 }
@@ -280,14 +381,15 @@ class _StackedField extends StatelessWidget {
 }
 
 class _NameCell extends StatelessWidget {
-  const _NameCell({required this.branch});
+  const _NameCell({required this.category});
 
-  final BranchModel branch;
+  final TestCategoryModel category;
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
     final TextStyle base = DefaultTextStyle.of(context).style;
+    final bool hasDescription = category.description?.trim().isNotEmpty == true;
 
     return Row(
       children: <Widget>[
@@ -299,19 +401,19 @@ class _NameCell extends StatelessWidget {
             borderRadius: AppRadius.smAll,
           ),
           child: const Icon(
-            Icons.store_mall_directory_outlined,
+            Icons.science_outlined,
             size: AppSizes.iconMd,
             color: AppColors.brand600,
           ),
         ),
         const SizedBox(width: AppSpacing.md),
-        Flexible(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                branch.name,
+                category.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: base
@@ -321,67 +423,40 @@ class _NameCell extends StatelessWidget {
                       color: AppColors.ink,
                     ),
               ),
-              if (branch.address?.isNotEmpty == true)
-                Text(
-                  branch.address!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: base
-                      .merge(AppTextStyles.caption)
-                      .copyWith(color: AppColors.inkFaint),
-                ),
+              Text(
+                hasDescription ? category.description! : s.noDescription,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: base
+                    .merge(AppTextStyles.caption)
+                    .copyWith(color: AppColors.inkFaint),
+              ),
             ],
           ),
         ),
-        if (branch.isMainBranch) ...<Widget>[
-          const SizedBox(width: AppSpacing.sm),
-          AppPill(
-            label: s.branchMainPill,
-            tone: AppPillTone.brand,
-            icon: Icons.star_rounded,
-          ),
-        ],
       ],
     );
   }
 }
 
-class _PhonesCell extends StatelessWidget {
-  const _PhonesCell({required this.branch});
+class _RefCell extends StatelessWidget {
+  const _RefCell({required this.value});
 
-  final BranchModel branch;
+  final NamedRef? value;
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
     final TextStyle base = DefaultTextStyle.of(context).style;
+    final bool has = value != null && value!.name.trim().isNotEmpty;
 
-    if (branch.phones.isEmpty) {
-      return _MutedText(s.phonesEmptyShort);
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(
-          branch.phones.first.phone,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textDirection: TextDirection.ltr,
-          textAlign: TextAlign.start,
-          style: base
-              .merge(AppTextStyles.body)
-              .copyWith(fontWeight: FontWeight.w500, color: AppColors.inkMuted),
-        ),
-        if (branch.phones.length > 1)
-          Text(
-            s.branchPhonesCount(branch.phones.length),
-            style: base
-                .merge(AppTextStyles.caption)
-                .copyWith(color: AppColors.inkFaint),
-          ),
-      ],
+    return Text(
+      has ? value!.name : s.notAssigned,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: base
+          .merge(AppTextStyles.body)
+          .copyWith(color: has ? AppColors.inkMuted : AppColors.inkFaint),
     );
   }
 }
@@ -404,24 +479,6 @@ class _StatusCell extends StatelessWidget {
             ? Icons.check_circle_rounded
             : Icons.pause_circle_outline_rounded,
       ),
-    );
-  }
-}
-
-class _MutedText extends StatelessWidget {
-  const _MutedText(this.value);
-
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle base = DefaultTextStyle.of(context).style;
-
-    return Text(
-      value,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: base.merge(AppTextStyles.body).copyWith(color: AppColors.inkMuted),
     );
   }
 }

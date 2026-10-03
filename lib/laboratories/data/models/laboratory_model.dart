@@ -31,6 +31,15 @@ class LaboratoryModel extends Equatable {
     );
   }
 
+  LaboratoryModel withActive(bool active) => LaboratoryModel(
+    id: id,
+    name: name,
+    isActive: active,
+    branchesCount: branchesCount,
+    admin: admin,
+    logoUrl: logoUrl,
+  );
+
   @override
   List<Object?> get props => <Object?>[
     id,

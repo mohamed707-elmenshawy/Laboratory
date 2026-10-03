@@ -8,6 +8,7 @@ import 'package:laboratory/branches/data/models/branches_query.dart';
 import 'package:laboratory/branches/data/models/update_branch_request_body.dart';
 import 'package:laboratory/branches/data/repos/branches_repo.dart';
 import 'package:laboratory/branches/logic/branch_details_cubit.dart';
+import 'package:laboratory/branches/logic/branch_status_cubit.dart';
 import 'package:laboratory/branches/logic/branches_cubit.dart';
 import 'package:laboratory/branches/logic/delete_branch_cubit.dart';
 import 'package:laboratory/branches/logic/update_branch_cubit.dart';
@@ -89,6 +90,10 @@ class _BranchesRepo implements BranchesRepo {
 
   @override
   Future<Result<void>> deleteBranch(int id) async => const Success<void>(null);
+
+  @override
+  Future<Result<void>> setBranchActive(int id, bool active) async =>
+      const Success<void>(null);
 }
 
 void main() {
@@ -106,6 +111,9 @@ void main() {
     );
     getIt.registerFactory<BranchesCubit>(
       () => BranchesCubit(getIt<BranchesRepo>()),
+    );
+    getIt.registerFactory<BranchStatusCubit>(
+      () => BranchStatusCubit(getIt<BranchesRepo>()),
     );
     getIt.registerFactory<BranchDetailsCubit>(
       () => BranchDetailsCubit(getIt<BranchesRepo>()),

@@ -2,26 +2,59 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_system/design_system.dart';
 import '../../../core/localization/localization.dart';
+import '../../data/models/branch_model.dart';
 
 class BranchRowActions extends StatelessWidget {
   const BranchRowActions({
     super.key,
+    required this.branch,
     required this.onView,
     required this.onEdit,
     required this.onDelete,
+    required this.onToggleStatus,
+    this.statusBusy = false,
   });
 
+  final BranchModel branch;
   final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final VoidCallback onToggleStatus;
+  final bool statusBusy;
 
   @override
   Widget build(BuildContext context) {
     final AppStrings s = context.strings;
+    final bool isActive = branch.isActive;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        if (statusBusy)
+          const SizedBox(
+            width: AppSizes.hitTarget,
+            height: AppSizes.hitTarget,
+            child: Center(
+              child: SizedBox(
+                width: AppSizes.iconMd,
+                height: AppSizes.iconMd,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.brand600,
+                ),
+              ),
+            ),
+          )
+        else
+          _RowAction(
+            icon: isActive
+                ? Icons.toggle_on_rounded
+                : Icons.toggle_off_outlined,
+            tooltip: isActive ? s.deactivate : s.activate,
+            iconSize: AppSizes.iconLg,
+            color: isActive ? AppColors.success : AppColors.inkFaint,
+            onPressed: onToggleStatus,
+          ),
         _RowAction(
           icon: Icons.visibility_outlined,
           tooltip: s.view,
@@ -49,10 +82,12 @@ class _RowAction extends StatelessWidget {
     required this.tooltip,
     required this.onPressed,
     this.color,
+    this.iconSize = AppSizes.iconMd,
   });
 
   final IconData icon;
   final String tooltip;
+  final double iconSize;
   final VoidCallback onPressed;
   final Color? color;
 
@@ -61,7 +96,7 @@ class _RowAction extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       tooltip: tooltip,
-      iconSize: AppSizes.iconMd,
+      iconSize: iconSize,
       visualDensity: VisualDensity.compact,
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints.tightFor(

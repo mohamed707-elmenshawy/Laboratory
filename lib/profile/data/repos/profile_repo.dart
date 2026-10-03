@@ -13,24 +13,22 @@ class ProfileRepo {
   const ProfileRepo(this._dio);
 
   Future<Result<ProfileModel>> fetchProfile() {
-    return ErrorHandler.guard(() async {
-      final response = await _dio.get(ApiConstants.profile);
-
-      final Map<String, dynamic> data = response.data!['data'];
-      return ProfileModel.fromJson(data);
-    });
+    return ErrorHandler.guard(_readProfile);
   }
 
   Future<Result<ProfileModel>> updateProfile(UpdateProfileRequestBody body) {
     return ErrorHandler.guard(() async {
-      final response = await _dio.post(
-        ApiConstants.updateProfile,
-        data: body.toJson(),
-      );
+      await _dio.post(ApiConstants.updateProfile, data: body.toJson());
 
-      final Map<String, dynamic> data = response.data!['data'];
-      return ProfileModel.fromJson(data);
+      return _readProfile();
     });
+  }
+
+  Future<ProfileModel> _readProfile() async {
+    final response = await _dio.get(ApiConstants.profile);
+
+    final Map<String, dynamic> data = response.data!['data'];
+    return ProfileModel.fromJson(data);
   }
 
   Future<Result<List<PhoneTypeOption>>> fetchPhoneTypes() {

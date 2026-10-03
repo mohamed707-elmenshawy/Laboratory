@@ -8,6 +8,7 @@ import 'package:laboratory/branches/data/models/branches_query.dart';
 import 'package:laboratory/branches/data/models/update_branch_request_body.dart';
 import 'package:laboratory/branches/data/repos/branches_repo.dart';
 import 'package:laboratory/branches/logic/branch_details_cubit.dart';
+import 'package:laboratory/branches/logic/branch_status_cubit.dart';
 import 'package:laboratory/branches/logic/branches_cubit.dart';
 import 'package:laboratory/branches/logic/delete_branch_cubit.dart';
 import 'package:laboratory/branches/logic/update_branch_cubit.dart';
@@ -52,11 +53,19 @@ Map<String, dynamic> _branchJson({
 };
 
 class FakeBranchesRepo implements BranchesRepo {
-  FakeBranchesRepo({this.total = 2, this.updateError, this.deleteError});
+  FakeBranchesRepo({
+    this.total = 2,
+    this.updateError,
+    this.deleteError,
+    this.statusError,
+  });
 
   final int total;
   final AppError? updateError;
   final AppError? deleteError;
+  final AppError? statusError;
+
+  final List<Map<String, Object>> statusCalls = <Map<String, Object>>[];
 
   final List<BranchesQuery> queries = <BranchesQuery>[];
   final List<Map<String, dynamic>> saved = <Map<String, dynamic>>[];
@@ -132,6 +141,14 @@ class FakeBranchesRepo implements BranchesRepo {
     if (deleteError != null) return Failure<void>(deleteError!);
     return const Success<void>(null);
   }
+
+  @override
+  Future<Result<void>> setBranchActive(int id, bool active) async {
+    statusCalls.add(<String, Object>{'id': id, 'active': active});
+
+    if (statusError != null) return Failure<void>(statusError!);
+    return const Success<void>(null);
+  }
 }
 
 class MenuRepo extends FakeLaboratoriesRepoBase {
@@ -144,11 +161,14 @@ class MenuRepo extends FakeLaboratoriesRepoBase {
   ]);
 }
 
-Widget _app(BranchesCubit cubit) => AppLocaleScope(
+Widget _app(BranchesCubit cubit, BranchStatusCubit status) => AppLocaleScope(
   child: MaterialApp(
     home: Scaffold(
-      body: BlocProvider<BranchesCubit>.value(
-        value: cubit,
+      body: MultiBlocProvider(
+        providers: <BlocProvider<dynamic>>[
+          BlocProvider<BranchesCubit>.value(value: cubit),
+          BlocProvider<BranchStatusCubit>.value(value: status),
+        ],
         child: const BranchesView(),
       ),
     ),
@@ -177,7 +197,10 @@ Future<BranchesCubit> _open(WidgetTester tester, FakeBranchesRepo repo) async {
   final BranchesCubit cubit = BranchesCubit(repo)..load();
   addTearDown(cubit.close);
 
-  await tester.pumpWidget(_app(cubit));
+  final BranchStatusCubit status = BranchStatusCubit(repo);
+  addTearDown(status.close);
+
+  await tester.pumpWidget(_app(cubit, status));
   await tester.pumpAndSettle();
 
   return cubit;
@@ -369,6 +392,41 @@ void main() {
     expect(repo.created.single['lang'], 'en');
     expect(repo.created.single['phones'], isNull);
     expect(find.text('Branch created'), findsOneWidget);
+  });
+
+  testWidgets('the row toggle deactivates that branch and only that one', (
+    WidgetTester tester,
+  ) async {
+    final FakeBranchesRepo repo = FakeBranchesRepo();
+    await _open(tester, repo);
+
+    await tester.tap(find.byTooltip('Deactivate').first);
+    await tester.pumpAndSettle();
+
+    expect(repo.statusCalls, <Map<String, Object>>[
+      <String, Object>{'id': 13, 'active': false},
+    ]);
+    expect(find.text('Branch deactivated'), findsOneWidget);
+    expect(find.byTooltip('Deactivate'), findsNothing);
+    expect(find.byTooltip('Activate'), findsNWidgets(2));
+  });
+
+  testWidgets('a failed toggle keeps the row and shows the reason', (
+    WidgetTester tester,
+  ) async {
+    final FakeBranchesRepo repo = FakeBranchesRepo(
+      statusError: const AppError(
+        kind: AppErrorKind.validation,
+        message: 'The branch is already inactive.',
+      ),
+    );
+    await _open(tester, repo);
+
+    await tester.tap(find.byTooltip('Deactivate').first);
+    await tester.pumpAndSettle();
+
+    expect(find.text("Couldn't change the branch status"), findsOneWidget);
+    expect(find.text('Branch deactivated'), findsNothing);
   });
 
   testWidgets('deleting asks first, then refreshes with a notice', (

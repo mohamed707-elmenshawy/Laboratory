@@ -1,7 +1,7 @@
 class ApiConstants {
   ApiConstants._();
 
-  static const String baseUrl = 'https://laboratory-backend.ddev.site/api/';
+  static const String baseUrl = 'https://laboratory-backend.ddev.site/api/v1/';
 
   static const String login = 'auth/login';
   static const String register = 'auth/register';
@@ -17,6 +17,7 @@ class ApiConstants {
   static const String laboratories = 'laboratories';
   static const String laboratoriesMenu = 'laboratories/menu';
   static const String branches = 'branches';
+  static const String testCategories = 'test-categories';
   static const String settingsList = 'settings/list';
   static const String termsList = 'terms/list';
 

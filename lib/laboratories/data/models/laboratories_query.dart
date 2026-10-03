@@ -28,7 +28,7 @@ class LaboratoriesQuery {
 
     return <String, dynamic>{
       'page': page,
-      'page_size': pageSize,
+      'per_page': pageSize,
       if (search.isNotEmpty) 'search': search,
       if (isActive != null) 'is_active': isActive ? 1 : 0,
     };

@@ -38,13 +38,12 @@ class LaboratoriesRepo {
     UpdateLaboratoryRequestBody body,
   ) {
     return ErrorHandler.guard(() async {
-      final response = await _dio.post(
+      await _dio.post(
         '${ApiConstants.laboratories}/$id',
         data: body.toFormData(),
       );
 
-      final Map<String, dynamic> data = response.data!['data'];
-      return LaboratoryModel.fromJson(data);
+      return _readLaboratory(id);
     });
   }
 
@@ -71,23 +70,13 @@ class LaboratoriesRepo {
   }
 
   Future<Result<LaboratoryModel>> fetchLaboratory(int id) {
-    return ErrorHandler.guard(() async {
-      final response = await _dio.get('${ApiConstants.laboratories}/$id');
-
-      final Map<String, dynamic> data = response.data!['data'];
-      return LaboratoryModel.fromJson(data);
-    });
+    return ErrorHandler.guard(() => _readLaboratory(id));
   }
 
-  Future<Result<LaboratoryModel>> setLaboratoryActive(int id, bool active) {
+  Future<Result<void>> setLaboratoryActive(int id, bool active) {
     return ErrorHandler.guard(() async {
       final String action = active ? 'activate' : 'deactivate';
-      final response = await _dio.patch(
-        '${ApiConstants.laboratories}/$id/$action',
-      );
-
-      final Map<String, dynamic> data = response.data!['data'];
-      return LaboratoryModel.fromJson(data);
+      await _dio.patch('${ApiConstants.laboratories}/$id/$action');
     });
   }
 
@@ -95,5 +84,12 @@ class LaboratoriesRepo {
     return ErrorHandler.guard(() async {
       await _dio.delete('${ApiConstants.laboratories}/$id');
     });
+  }
+
+  Future<LaboratoryModel> _readLaboratory(int id) async {
+    final response = await _dio.get('${ApiConstants.laboratories}/$id');
+
+    final Map<String, dynamic> data = response.data!['data'];
+    return LaboratoryModel.fromJson(data);
   }
 }

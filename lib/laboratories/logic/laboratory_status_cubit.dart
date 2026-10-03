@@ -22,17 +22,20 @@ class LaboratoryStatusCubit extends Cubit<LaboratoryStatusState> {
   Future<void> toggle(LaboratoryModel laboratory) async {
     if (isBusy) return;
 
+    final bool active = !laboratory.isActive;
     emit(LaboratoryStatusLoading(laboratory.id));
 
-    final Result<LaboratoryModel> result = await _laboratoriesRepo
-        .setLaboratoryActive(laboratory.id, !laboratory.isActive);
+    final Result<void> result = await _laboratoriesRepo.setLaboratoryActive(
+      laboratory.id,
+      active,
+    );
 
     if (isClosed) return;
 
     switch (result) {
-      case Success<LaboratoryModel>(:final LaboratoryModel data):
-        emit(LaboratoryStatusSuccess(data));
-      case Failure<LaboratoryModel>(:final AppError error):
+      case Success<void>():
+        emit(LaboratoryStatusSuccess(laboratory.withActive(active)));
+      case Failure<void>(:final AppError error):
         emit(LaboratoryStatusFailure(error));
     }
   }
