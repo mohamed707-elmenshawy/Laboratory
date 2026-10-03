@@ -19,6 +19,7 @@ class ApiConstants {
   static const String branches = 'branches';
   static const String settingsList = 'settings/list';
   static const String termsList = 'terms/list';
+  static const String testCategory = 'test-categories';
 
   static const String authorizationHeader = 'Authorization';
   static const String tenantHeader = 'X-Tenant';

@@ -48,6 +48,9 @@ class BranchesPagination extends Equatable {
 }
 
 class BranchesPage extends Equatable {
+  final List<BranchModel> items;
+  final BranchesPagination pagination;
+
   const BranchesPage({required this.items, required this.pagination});
 
   factory BranchesPage.fromJson(Map<String, dynamic> json) {
@@ -67,9 +70,6 @@ class BranchesPage extends Equatable {
       ),
     );
   }
-
-  final List<BranchModel> items;
-  final BranchesPagination pagination;
 
   @override
   List<Object?> get props => <Object?>[items, pagination];

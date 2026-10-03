@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'api_constants.dart';
+import 'client_adapter.dart'
+    if (dart.library.js_interop) 'client_adapter_web.dart';
 
 class DioFactory {
   DioFactory._();
@@ -30,17 +30,18 @@ class DioFactory {
       ),
     );
 
+    dio!.httpClientAdapter = createClientAdapter();
     dio!.interceptors.add(_LocaleInterceptor());
 
-    if (kDebugMode) {
-      dio!.interceptors.add(
-        PrettyDioLogger(
-          requestBody: false,
-          requestHeader: false,
-          responseHeader: false,
-        ),
-      );
-    }
+    // if (kDebugMode) {
+    //   dio!.interceptors.add(
+    //     PrettyDioLogger(
+    //       requestBody: false,
+    //       requestHeader: false,
+    //       responseHeader: false,
+    //     ),
+    //   );
+    // }
 
     return dio!;
   }

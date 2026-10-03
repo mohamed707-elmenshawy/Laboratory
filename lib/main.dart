@@ -1,14 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laboratory/test/UI/list_category_screen.dart';
+import 'package:laboratory/test/data/repo/test_category_repo.dart';
+
 import 'core/design_system/design_system.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';
 import 'core/helpers/locale_helper.dart';
 import 'core/localization/localization.dart';
 import 'core/networking/dio_factory.dart';
-import 'home/UI/home_screen.dart';
-import 'login/UI/login_screen.dart';
-import 'reset_password/UI/reset_password_screen.dart';
 import 'reset_password/data/models/reset_password_link.dart';
 import 'settings/logic/settings_cubit.dart';
 
@@ -17,11 +18,13 @@ Future<void> main() async {
 
   await setupGetIt();
   getIt<SettingsCubit>();
+
   final AppLocale? savedLocale = await LocaleHelper.restore();
   final AppLocale initialLocale = savedLocale ?? AppLocale.en;
   DioFactory.setLocale(initialLocale.code);
   final bool hasSession = await AuthHelper.restoreSession();
-
+  TestCategoryRepo testCategoryRepo = TestCategoryRepo(getIt<Dio>());
+  await testCategoryRepo.testCategoryRepo();
   runApp(
     LaboratoryApp(
       resetPasswordLink: ResetPasswordLink.fromUri(Uri.base),
@@ -82,17 +85,19 @@ class LaboratoryApp extends StatelessWidget {
                         textDirection: locale.textDirection,
                         child: child!,
                       ),
-                  onGenerateRoute: (_) => LoginScreen.route(),
-                  onGenerateInitialRoutes: (_) => <Route<dynamic>>[
-                    if (resetPasswordLink
-                        case final ResetPasswordLink link) ...<Route<dynamic>>[
-                      LoginScreen.route(),
-                      ResetPasswordScreen.route(link: link),
-                    ] else if (hasSession)
-                      HomeScreen.route()
-                    else
-                      LoginScreen.route(),
-                  ],
+                  // onGenerateRoute: (_) => LoginScreen.route(),
+                  // onGenerateInitialRoutes: (_) => <Route<dynamic>>[
+                  //   if (resetPasswordLink
+                  //       case final ResetPasswordLink link) ...<Route<dynamic>>[
+                  //     LoginScreen.route(),
+                  //     ResetPasswordScreen.route(link: link),
+                  //   ] else if (hasSession)
+                  //     HomeScreen.route()
+                  //   else
+                  //     LoginScreen.route(),
+                  // ],
+
+                  home: ListCategoryScreen(),
                 );
               },
             ),
