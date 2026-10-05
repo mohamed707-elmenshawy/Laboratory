@@ -33,8 +33,14 @@ class LabSettings extends Equatable {
         names.values.first;
   }
 
+  /// Throws a [FormatException] when [json] is not a settings list, so a
+  /// malformed response is never mistaken for "the server has no settings".
   factory LabSettings.fromJson(dynamic json) {
-    return LabSettings.fromItems(_itemsOf(json), isRemote: true);
+    final List<dynamic>? items = _itemsOf(json);
+    if (items == null) {
+      throw const FormatException('settings/list: expected a list of settings');
+    }
+    return LabSettings.fromItems(items, isRemote: true);
   }
 
   factory LabSettings.fromItems(List<dynamic> items, {bool isRemote = false}) {
@@ -82,9 +88,9 @@ class LabSettings extends Equatable {
     );
   }
 
-  static List<dynamic> _itemsOf(dynamic json) {
+  static List<dynamic>? _itemsOf(dynamic json) {
     if (json is List) return json;
-    if (json is! Map) return const <dynamic>[];
+    if (json is! Map) return null;
 
     final Object? data = json['data'];
     if (data is List) return data;
@@ -93,7 +99,7 @@ class LabSettings extends Equatable {
       if (inner is List) return inner;
     }
 
-    return const <dynamic>[];
+    return null;
   }
 
   static List<String> _stringList(Object? value) {

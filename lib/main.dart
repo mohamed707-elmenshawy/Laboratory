@@ -52,14 +52,9 @@ class LaboratoryApp extends StatelessWidget {
       value: getIt<SettingsCubit>(),
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (BuildContext context, SettingsState state) {
-          final LabSettings settings = switch (state) {
-            SettingsLoaded(:final LabSettings settings) => settings,
-            _ => LabSettings.fallback,
-          };
-
           return AppLocaleScope(
             initialLocale: initialLocale,
-            settings: settings,
+            settings: state.settings,
             hasSavedLocale: hasSavedLocale,
             onLocaleChanged: (AppLocale locale) {
               DioFactory.setLocale(locale.code);

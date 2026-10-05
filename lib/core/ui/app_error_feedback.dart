@@ -17,6 +17,7 @@ extension AppErrorFeedback on AppError {
         // written for users, so it is never shown.
         AppErrorKind.server ||
         AppErrorKind.cancelled ||
+        AppErrorKind.parsing ||
         AppErrorKind.unknown => AppFeedback.danger(
           title: s.feedbackServerTitle,
           message: s.serverErrorMessage,

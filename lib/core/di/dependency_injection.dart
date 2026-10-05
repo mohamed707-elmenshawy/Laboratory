@@ -42,12 +42,15 @@ import '../../terms/data/repos/terms_repo.dart';
 import '../../terms/logic/terms_cubit.dart';
 import '../../verification/data/repos/verification_repo.dart';
 import '../../verification/logic/verification_cubit.dart';
+import '../networking/api_client.dart';
 import '../networking/dio_factory.dart';
 
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
   getIt.registerSingleton<Dio>(DioFactory.getDio());
+
+  getIt.registerLazySingleton<ApiClient>(() => ApiClient(getIt<Dio>()));
 
   getIt.registerLazySingleton<LoginRepo>(() => LoginRepo(getIt<Dio>()));
 
@@ -183,7 +186,9 @@ Future<void> setupGetIt() async {
     ),
   );
 
-  getIt.registerLazySingleton<SettingsRepo>(() => SettingsRepo(getIt<Dio>()));
+  getIt.registerLazySingleton<SettingsRepo>(
+    () => SettingsRepo(getIt<ApiClient>()),
+  );
 
   getIt.registerLazySingleton<SettingsCubit>(
     () => SettingsCubit(getIt<SettingsRepo>()),
