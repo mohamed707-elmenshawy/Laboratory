@@ -13,28 +13,30 @@ import 'package:laboratory/branches/data/models/update_branch_request_body.dart'
 import 'package:laboratory/branches/data/repos/branches_repo.dart';
 import 'package:laboratory/laboratories/data/models/laboratory_menu_item.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
-import 'package:laboratory/test_categories/UI/test_categories_view.dart';
-import 'package:laboratory/test_categories/data/models/test_categories_page.dart';
-import 'package:laboratory/test_categories/data/models/test_categories_query.dart';
-import 'package:laboratory/test_categories/data/models/test_category_model.dart';
-import 'package:laboratory/test_categories/data/models/test_category_request_body.dart';
-import 'package:laboratory/test_categories/data/repos/test_categories_repo.dart';
-import 'package:laboratory/test_categories/logic/delete_test_category_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_categories_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_status_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_details_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_form_cubit.dart';
+import 'package:laboratory/units/UI/units_view.dart';
+import 'package:laboratory/units/data/models/units_page.dart';
+import 'package:laboratory/units/data/models/units_query.dart';
+import 'package:laboratory/units/data/models/unit_model.dart';
+import 'package:laboratory/units/data/models/unit_request_body.dart';
+import 'package:laboratory/units/data/repos/units_repo.dart';
+import 'package:laboratory/units/logic/delete_unit_cubit.dart';
+import 'package:laboratory/units/logic/units_cubit.dart';
+import 'package:laboratory/units/logic/unit_status_cubit.dart';
+import 'package:laboratory/units/logic/unit_details_cubit.dart';
+import 'package:laboratory/units/logic/unit_form_cubit.dart';
 
 import 'support/fake_laboratories_repo.dart';
 
-Map<String, dynamic> _categoryJson({
+Map<String, dynamic> _unitJson({
   int id = 5,
   String name = 'Gerlach Ltd',
+  String symbol = 'g/L',
   bool isActive = false,
   String? description = 'Quality-focused superstructure',
 }) => <String, dynamic>{
   'id': id,
   'name': name,
+  'symbol': symbol,
   'description': description,
   'is_active': isActive,
   'branch': <String, dynamic>{'id': 2, 'name': 'Zemlak-Pollich'},
@@ -44,8 +46,8 @@ Map<String, dynamic> _categoryJson({
   },
 };
 
-class FakeTestCategoriesRepo implements TestCategoriesRepo {
-  FakeTestCategoriesRepo({this.showError, this.deleteError, this.statusError});
+class FakeUnitsRepo implements UnitsRepo {
+  FakeUnitsRepo({this.showError, this.deleteError, this.statusError});
 
   final AppError? showError;
   final AppError? deleteError;
@@ -53,25 +55,24 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
 
   final List<Map<String, Object>> statusCalls = <Map<String, Object>>[];
 
-  final List<TestCategoriesQuery> queries = <TestCategoriesQuery>[];
+  final List<UnitsQuery> queries = <UnitsQuery>[];
   final List<int> shown = <int>[];
   final List<int> deleted = <int>[];
   final List<Map<String, dynamic>> created = <Map<String, dynamic>>[];
   final List<Map<String, dynamic>> saved = <Map<String, dynamic>>[];
 
   @override
-  Future<Result<TestCategoriesPage>> fetchTestCategories(
-    TestCategoriesQuery query,
-  ) async {
+  Future<Result<UnitsPage>> fetchUnits(UnitsQuery query) async {
     queries.add(query);
 
-    return Success<TestCategoriesPage>(
-      TestCategoriesPage.fromJson(<String, dynamic>{
+    return Success<UnitsPage>(
+      UnitsPage.fromJson(<String, dynamic>{
         'items': <Map<String, dynamic>>[
-          _categoryJson(),
-          _categoryJson(
+          _unitJson(),
+          _unitJson(
             id: 3,
             name: 'Pfannerstill Inc',
+            symbol: 'mL',
             isActive: true,
             description: null,
           ),
@@ -91,32 +92,27 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
   }
 
   @override
-  Future<Result<TestCategoryModel>> fetchTestCategory(int id) async {
+  Future<Result<UnitModel>> fetchUnit(int id) async {
     shown.add(id);
 
-    if (showError != null) return Failure<TestCategoryModel>(showError!);
-    return Success<TestCategoryModel>(
-      TestCategoryModel.fromJson(_categoryJson(id: id)),
-    );
+    if (showError != null) return Failure<UnitModel>(showError!);
+    return Success<UnitModel>(UnitModel.fromJson(_unitJson(id: id)));
   }
 
   @override
-  Future<Result<void>> createTestCategory(TestCategoryRequestBody body) async {
+  Future<Result<void>> createUnit(UnitRequestBody body) async {
     created.add(body.toJson());
     return const Success<void>(null);
   }
 
   @override
-  Future<Result<void>> updateTestCategory(
-    int id,
-    TestCategoryRequestBody body,
-  ) async {
+  Future<Result<void>> updateUnit(int id, UnitRequestBody body) async {
     saved.add(<String, dynamic>{'id': id, ...body.toJson()});
     return const Success<void>(null);
   }
 
   @override
-  Future<Result<void>> deleteTestCategory(int id) async {
+  Future<Result<void>> deleteUnit(int id) async {
     deleted.add(id);
 
     if (deleteError != null) return Failure<void>(deleteError!);
@@ -124,7 +120,7 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
   }
 
   @override
-  Future<Result<void>> setTestCategoryActive(int id, bool active) async {
+  Future<Result<void>> setUnitActive(int id, bool active) async {
     statusCalls.add(<String, Object>{'id': id, 'active': active});
 
     if (statusError != null) return Failure<void>(statusError!);
@@ -193,37 +189,32 @@ class MenuRepo extends FakeLaboratoriesRepoBase {
   ]);
 }
 
-Widget _app(TestCategoriesCubit cubit, TestCategoryStatusCubit status) =>
-    AppLocaleScope(
-      child: MaterialApp(
-        home: Scaffold(
-          body: MultiBlocProvider(
-            providers: <BlocProvider<dynamic>>[
-              BlocProvider<TestCategoriesCubit>.value(value: cubit),
-              BlocProvider<TestCategoryStatusCubit>.value(value: status),
-            ],
-            child: const TestCategoriesView(),
-          ),
-        ),
+Widget _app(UnitsCubit cubit, UnitStatusCubit status) => AppLocaleScope(
+  child: MaterialApp(
+    home: Scaffold(
+      body: MultiBlocProvider(
+        providers: <BlocProvider<dynamic>>[
+          BlocProvider<UnitsCubit>.value(value: cubit),
+          BlocProvider<UnitStatusCubit>.value(value: status),
+        ],
+        child: const UnitsView(),
       ),
-    );
+    ),
+  ),
+);
 
-Future<void> _open(WidgetTester tester, FakeTestCategoriesRepo repo) async {
+Future<void> _open(WidgetTester tester, FakeUnitsRepo repo) async {
   getIt.registerLazySingleton<LaboratoriesRepo>(MenuRepo.new);
-  getIt.registerFactory<TestCategoryDetailsCubit>(
-    () => TestCategoryDetailsCubit(repo),
-  );
-  getIt.registerFactory<DeleteTestCategoryCubit>(
-    () => DeleteTestCategoryCubit(repo),
-  );
-  getIt.registerFactory<TestCategoryFormCubit>(
-    () => TestCategoryFormCubit(repo, MenuRepo(), FakeBranchesRepo()),
+  getIt.registerFactory<UnitDetailsCubit>(() => UnitDetailsCubit(repo));
+  getIt.registerFactory<DeleteUnitCubit>(() => DeleteUnitCubit(repo));
+  getIt.registerFactory<UnitFormCubit>(
+    () => UnitFormCubit(repo, MenuRepo(), FakeBranchesRepo()),
   );
   addTearDown(() {
     getIt.unregister<LaboratoriesRepo>();
-    getIt.unregister<TestCategoryDetailsCubit>();
-    getIt.unregister<DeleteTestCategoryCubit>();
-    getIt.unregister<TestCategoryFormCubit>();
+    getIt.unregister<UnitDetailsCubit>();
+    getIt.unregister<DeleteUnitCubit>();
+    getIt.unregister<UnitFormCubit>();
   });
 
   tester.view.physicalSize = const Size(1500, 1400);
@@ -231,10 +222,10 @@ Future<void> _open(WidgetTester tester, FakeTestCategoriesRepo repo) async {
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
 
-  final TestCategoriesCubit cubit = TestCategoriesCubit(repo)..load();
+  final UnitsCubit cubit = UnitsCubit(repo)..load();
   addTearDown(cubit.close);
 
-  final TestCategoryStatusCubit status = TestCategoryStatusCubit(repo);
+  final UnitStatusCubit status = UnitStatusCubit(repo);
   addTearDown(status.close);
 
   await tester.pumpWidget(_app(cubit, status));
@@ -245,7 +236,7 @@ void main() {
   testWidgets('the list asks for page 1 with per_page 10 and renders rows', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     expect(repo.queries.single.toJson(), <String, dynamic>{
@@ -254,15 +245,17 @@ void main() {
     });
     expect(find.text('Gerlach Ltd'), findsOneWidget);
     expect(find.text('Pfannerstill Inc'), findsOneWidget);
+    expect(find.text('g/L'), findsOneWidget);
+    expect(find.text('mL'), findsOneWidget);
     expect(find.text('Heathcote, Walsh and Jones'), findsNWidgets(2));
     expect(find.text('No description'), findsOneWidget);
     expect(find.text('Showing 1 to 2 of 2 results'), findsOneWidget);
   });
 
-  testWidgets('the row toggle activates that category and only that one', (
+  testWidgets('the row toggle activates that unit and only that one', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Activate').first);
@@ -271,13 +264,13 @@ void main() {
     expect(repo.statusCalls, <Map<String, Object>>[
       <String, Object>{'id': 5, 'active': true},
     ]);
-    expect(find.text('Category activated'), findsOneWidget);
+    expect(find.text('Unit activated'), findsOneWidget);
   });
 
   testWidgets('the toggle of the second row carries its own id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Deactivate').first);
@@ -286,18 +279,18 @@ void main() {
     expect(repo.statusCalls, <Map<String, Object>>[
       <String, Object>{'id': 3, 'active': false},
     ]);
-    expect(find.text('Category deactivated'), findsOneWidget);
+    expect(find.text('Unit deactivated'), findsOneWidget);
   });
 
   testWidgets('status and laboratory filters reach the query', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(
       find.descendant(
-        of: find.byType(AppSegmentedFilter<TestCategoryStatusFilter>),
+        of: find.byType(AppSegmentedFilter<UnitStatusFilter>),
         matching: find.text('Active'),
       ),
     );
@@ -316,23 +309,23 @@ void main() {
   testWidgets('the view action opens the details page for that row', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('View').first);
     await tester.pumpAndSettle();
 
     expect(repo.shown, <int>[5]);
-    expect(find.text('Back to test categories'), findsOneWidget);
+    expect(find.text('Back to units'), findsOneWidget);
     expect(find.text('Gerlach Ltd'), findsOneWidget);
     expect(find.text('Quality-focused superstructure'), findsOneWidget);
     expect(find.text('Zemlak-Pollich'), findsOneWidget);
   });
 
-  testWidgets('a missing category explains itself and retries', (
+  testWidgets('a missing unit explains itself and retries', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo(
+    final FakeUnitsRepo repo = FakeUnitsRepo(
       showError: const AppError(kind: AppErrorKind.notFound, statusCode: 404),
     );
     await _open(tester, repo);
@@ -341,7 +334,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('This category is no longer there. Refresh the list.'),
+      find.text('This unit is no longer there. Refresh the list.'),
       findsOneWidget,
     );
 
@@ -353,7 +346,7 @@ void main() {
   testWidgets('deleting from the list asks first, then refreshes', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     final int before = repo.queries.length;
@@ -372,14 +365,14 @@ void main() {
 
     expect(repo.deleted, <int>[5]);
     expect(find.byType(Dialog), findsNothing);
-    expect(find.text('Category deleted'), findsOneWidget);
+    expect(find.text('Unit deleted'), findsOneWidget);
     expect(repo.queries.length, before + 1);
   });
 
   testWidgets('cancelling the delete changes nothing', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Delete').first);
@@ -388,13 +381,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.deleted, isEmpty);
-    expect(find.text('Category deleted'), findsNothing);
+    expect(find.text('Unit deleted'), findsNothing);
   });
 
   testWidgets('a failed delete keeps the dialog open with the reason', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo(
+    final FakeUnitsRepo repo = FakeUnitsRepo(
       deleteError: const AppError(
         kind: AppErrorKind.forbidden,
         statusCode: 403,
@@ -410,13 +403,13 @@ void main() {
 
     expect(find.byType(Dialog), findsOneWidget);
     expect(find.text('This action is unauthorized.'), findsOneWidget);
-    expect(find.text('Category deleted'), findsNothing);
+    expect(find.text('Unit deleted'), findsNothing);
   });
 
   testWidgets('deleting from the details page returns to the list', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('View').first);
@@ -428,26 +421,27 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.deleted, <int>[5]);
-    expect(find.text('Back to test categories'), findsNothing);
-    expect(find.text('Category deleted'), findsOneWidget);
+    expect(find.text('Back to units'), findsNothing);
+    expect(find.text('Unit deleted'), findsOneWidget);
   });
 
   testWidgets('creating posts every field without an id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
-    await tester.tap(find.text('New category'));
+    await tester.tap(find.text('New unit'));
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Add a category to a branch of one of your laboratories.'),
+      find.text('Add a unit to a branch of one of your laboratories.'),
       findsOneWidget,
     );
 
     await tester.enterText(find.byType(TextField).first, 'Haematology');
-    await tester.enterText(find.byType(TextField).at(1), 'Blood work');
+    await tester.enterText(find.byType(TextField).at(1), 'mmol/L');
+    await tester.enterText(find.byType(TextField).at(2), 'Blood work');
 
     await tester.tap(find.byType(AppSelect<int>).first);
     await tester.pumpAndSettle();
@@ -465,20 +459,21 @@ void main() {
     expect(repo.created.single, <String, dynamic>{
       'lang': 'en',
       'name': 'Haematology',
+      'symbol': 'mmol/L',
       'description': 'Blood work',
       'laboratory_id': 2,
       'branch_id': 2,
     });
-    expect(find.text('Category created'), findsOneWidget);
+    expect(find.text('Unit created'), findsOneWidget);
   });
 
   testWidgets('create blocks until a laboratory and branch are chosen', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
-    await tester.tap(find.text('New category'));
+    await tester.tap(find.text('New unit'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField).first, 'Haematology');
@@ -491,7 +486,7 @@ void main() {
   testWidgets('editing prefills the row and posts to its id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeUnitsRepo repo = FakeUnitsRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Edit').first);
@@ -512,10 +507,11 @@ void main() {
       'id': 5,
       'lang': 'en',
       'name': 'Gerlach edited',
+      'symbol': 'g/L',
       'description': 'Quality-focused superstructure',
       'laboratory_id': 2,
       'branch_id': 2,
     });
-    expect(find.text('Category saved'), findsOneWidget);
+    expect(find.text('Unit saved'), findsOneWidget);
   });
 }

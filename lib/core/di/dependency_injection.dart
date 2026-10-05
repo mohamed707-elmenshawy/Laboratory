@@ -13,7 +13,19 @@ import '../../branches/logic/branch_status_cubit.dart';
 import '../../branches/logic/delete_branch_cubit.dart';
 import '../../branches/logic/update_branch_cubit.dart';
 import '../../laboratories/data/repos/laboratories_repo.dart';
+import '../../sample_types/data/repos/sample_types_repo.dart';
+import '../../sample_types/logic/delete_sample_type_cubit.dart';
+import '../../sample_types/logic/sample_type_details_cubit.dart';
+import '../../sample_types/logic/sample_type_form_cubit.dart';
+import '../../sample_types/logic/sample_type_status_cubit.dart';
+import '../../sample_types/logic/sample_types_cubit.dart';
 import '../../test_categories/data/repos/test_categories_repo.dart';
+import '../../units/data/repos/units_repo.dart';
+import '../../units/logic/delete_unit_cubit.dart';
+import '../../units/logic/unit_details_cubit.dart';
+import '../../units/logic/unit_form_cubit.dart';
+import '../../units/logic/unit_status_cubit.dart';
+import '../../units/logic/units_cubit.dart';
 import '../../test_categories/logic/delete_test_category_cubit.dart';
 import '../../test_categories/logic/test_categories_cubit.dart';
 import '../../test_categories/logic/test_category_details_cubit.dart';
@@ -173,6 +185,58 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<TestCategoryStatusCubit>(
     () => TestCategoryStatusCubit(getIt<TestCategoriesRepo>()),
+  );
+
+  getIt.registerLazySingleton<SampleTypesRepo>(
+    () => SampleTypesRepo(getIt<Dio>()),
+  );
+
+  getIt.registerFactory<SampleTypesCubit>(
+    () => SampleTypesCubit(getIt<SampleTypesRepo>()),
+  );
+
+  getIt.registerFactory<SampleTypeDetailsCubit>(
+    () => SampleTypeDetailsCubit(getIt<SampleTypesRepo>()),
+  );
+
+  getIt.registerFactory<DeleteSampleTypeCubit>(
+    () => DeleteSampleTypeCubit(getIt<SampleTypesRepo>()),
+  );
+
+  getIt.registerFactory<SampleTypeStatusCubit>(
+    () => SampleTypeStatusCubit(getIt<SampleTypesRepo>()),
+  );
+
+  getIt.registerFactory<SampleTypeFormCubit>(
+    () => SampleTypeFormCubit(
+      getIt<SampleTypesRepo>(),
+      getIt<LaboratoriesRepo>(),
+      getIt<BranchesRepo>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<UnitsRepo>(() => UnitsRepo(getIt<Dio>()));
+
+  getIt.registerFactory<UnitsCubit>(() => UnitsCubit(getIt<UnitsRepo>()));
+
+  getIt.registerFactory<UnitDetailsCubit>(
+    () => UnitDetailsCubit(getIt<UnitsRepo>()),
+  );
+
+  getIt.registerFactory<DeleteUnitCubit>(
+    () => DeleteUnitCubit(getIt<UnitsRepo>()),
+  );
+
+  getIt.registerFactory<UnitStatusCubit>(
+    () => UnitStatusCubit(getIt<UnitsRepo>()),
+  );
+
+  getIt.registerFactory<UnitFormCubit>(
+    () => UnitFormCubit(
+      getIt<UnitsRepo>(),
+      getIt<LaboratoriesRepo>(),
+      getIt<BranchesRepo>(),
+    ),
   );
 
   getIt.registerFactory<TestCategoryFormCubit>(

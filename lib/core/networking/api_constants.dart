@@ -18,6 +18,8 @@ class ApiConstants {
   static const String laboratoriesMenu = 'laboratories/menu';
   static const String branches = 'branches';
   static const String testCategories = 'test-categories';
+  static const String sampleTypes = 'sample-types';
+  static const String units = 'units';
   static const String settingsList = 'settings/list';
   static const String termsList = 'terms/list';
 

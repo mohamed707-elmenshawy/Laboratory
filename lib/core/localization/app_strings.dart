@@ -226,6 +226,102 @@ abstract class AppStrings {
   String get testCategoriesNoMatchTitle;
   String get testCategoriesNoMatchMessage;
   String get feedbackTestCategoriesTitle;
+
+  String get newSampleType;
+  String get createSampleTypeTitle;
+  String get createSampleTypeSubtitle;
+  String get editSampleTypeTitle;
+  String get editSampleTypeSubtitle;
+  String get sampleTypeNameRequired;
+  String get sampleTypeNameTooLong;
+  String get sampleTypeDescriptionTooLong;
+  String get sampleTypeBranchLabel;
+  String get sampleTypeBranchRequired;
+  String get sampleTypeBranchEmpty;
+  String get creatingSampleType;
+  String get feedbackSaveSampleTypeTitle;
+  String get sampleTypeCreatedTitle;
+  String get sampleTypeCreatedMessage;
+  String get sampleTypeSavedTitle;
+  String get sampleTypeSavedMessage;
+  String get sampleTypeDetailsTitle;
+  String get sampleTypeDetailsSubtitle;
+  String get backToSampleTypes;
+  String get feedbackSampleTypeDetailsTitle;
+  String get feedbackDeleteSampleTypeTitle;
+  String get deleteSampleTypeTitle;
+  String deleteSampleTypePrompt(String name);
+  String get deleteSampleTypeHint;
+  String get deletingSampleType;
+  String get sampleTypeDeletedTitle;
+  String get sampleTypeDeletedMessage;
+  String get sampleTypeActivatedTitle;
+  String get sampleTypeActivatedMessage;
+  String get sampleTypeDeactivatedTitle;
+  String get sampleTypeDeactivatedMessage;
+  String get feedbackSampleTypeStatusTitle;
+  String get sampleTypeGone;
+  String get navSampleTypes;
+  String get sampleTypesTitle;
+  String get sampleTypesSubtitle;
+  String get sampleTypeNameLabel;
+  String get sampleTypeDescriptionLabel;
+  String get searchSampleTypesHint;
+  String get sampleTypesEmptyTitle;
+  String get sampleTypesEmptyMessage;
+  String get sampleTypesNoMatchTitle;
+  String get sampleTypesNoMatchMessage;
+  String get feedbackSampleTypesTitle;
+
+  String get newUnit;
+  String get createUnitTitle;
+  String get createUnitSubtitle;
+  String get editUnitTitle;
+  String get editUnitSubtitle;
+  String get unitNameRequired;
+  String get unitNameTooLong;
+  String get unitSymbolRequired;
+  String get unitSymbolTooLong;
+  String get unitDescriptionTooLong;
+  String get unitBranchLabel;
+  String get unitBranchRequired;
+  String get unitBranchEmpty;
+  String get creatingUnit;
+  String get feedbackSaveUnitTitle;
+  String get unitCreatedTitle;
+  String get unitCreatedMessage;
+  String get unitSavedTitle;
+  String get unitSavedMessage;
+  String get unitDetailsTitle;
+  String get unitDetailsSubtitle;
+  String get backToUnits;
+  String get feedbackUnitDetailsTitle;
+  String get feedbackDeleteUnitTitle;
+  String get deleteUnitTitle;
+  String deleteUnitPrompt(String name);
+  String get deleteUnitHint;
+  String get deletingUnit;
+  String get unitDeletedTitle;
+  String get unitDeletedMessage;
+  String get unitActivatedTitle;
+  String get unitActivatedMessage;
+  String get unitDeactivatedTitle;
+  String get unitDeactivatedMessage;
+  String get feedbackUnitStatusTitle;
+  String get unitGone;
+  String get navUnits;
+  String get unitsTitle;
+  String get unitsSubtitle;
+  String get unitNameLabel;
+  String get unitSymbolLabel;
+  String get unitDescriptionLabel;
+  String get searchUnitsHint;
+  String get unitsEmptyTitle;
+  String get unitsEmptyMessage;
+  String get unitsNoMatchTitle;
+  String get unitsNoMatchMessage;
+  String get feedbackUnitsTitle;
+
   String get noDescription;
   String get navBranches;
   String get branchesTitle;
@@ -840,6 +936,211 @@ class AppStringsEn extends AppStrings {
       'Try a different search or filter.';
   @override
   String get feedbackTestCategoriesTitle => "Couldn't load test categories";
+  @override
+  String get newSampleType => 'New sample type';
+  @override
+  String get createSampleTypeTitle => 'New sample type';
+  @override
+  String get createSampleTypeSubtitle =>
+      'Add a sample type to a branch of one of your laboratories.';
+  @override
+  String get editSampleTypeTitle => 'Edit sample type';
+  @override
+  String get editSampleTypeSubtitle =>
+      'Update the sample type details and where it belongs.';
+  @override
+  String get sampleTypeNameRequired => 'Enter the sample type name.';
+  @override
+  String get sampleTypeNameTooLong => 'Keep the name under 150 characters.';
+  @override
+  String get sampleTypeDescriptionTooLong =>
+      'Keep the description under 500 characters.';
+  @override
+  String get sampleTypeBranchLabel => 'Branch';
+  @override
+  String get sampleTypeBranchRequired => 'Choose a branch.';
+  @override
+  String get sampleTypeBranchEmpty =>
+      'This laboratory has no active branch. Activate one first.';
+  @override
+  String get creatingSampleType => 'Creating…';
+  @override
+  String get feedbackSaveSampleTypeTitle => "Couldn't save the sample type";
+  @override
+  String get sampleTypeCreatedTitle => 'Sample type created';
+  @override
+  String get sampleTypeCreatedMessage => 'It is now listed below.';
+  @override
+  String get sampleTypeSavedTitle => 'Sample type saved';
+  @override
+  String get sampleTypeSavedMessage => 'Your changes are live.';
+  @override
+  String get sampleTypeDetailsTitle => 'Sample type details';
+  @override
+  String get sampleTypeDetailsSubtitle =>
+      'Everything the platform knows about this sample type.';
+  @override
+  String get backToSampleTypes => 'Back to sample types';
+  @override
+  String get feedbackSampleTypeDetailsTitle => "Couldn't load the sample type";
+  @override
+  String get feedbackDeleteSampleTypeTitle => "Couldn't delete the sample type";
+  @override
+  String get deleteSampleTypeTitle => 'Delete sample type';
+  @override
+  String deleteSampleTypePrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteSampleTypeHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingSampleType => 'Deleting…';
+  @override
+  String get sampleTypeDeletedTitle => 'Sample type deleted';
+  @override
+  String get sampleTypeDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get sampleTypeActivatedTitle => 'Sample type activated';
+  @override
+  String get sampleTypeActivatedMessage => 'It is open for use again.';
+  @override
+  String get sampleTypeDeactivatedTitle => 'Sample type deactivated';
+  @override
+  String get sampleTypeDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
+  String get feedbackSampleTypeStatusTitle =>
+      "Couldn't change the sample type status";
+  @override
+  String get sampleTypeGone =>
+      'This sample type is no longer there. Refresh the list.';
+  @override
+  String get navSampleTypes => 'Sample types';
+  @override
+  String get sampleTypesTitle => 'Sample types';
+  @override
+  String get sampleTypesSubtitle =>
+      'The catalogue of sample types across your laboratories.';
+  @override
+  String get sampleTypeNameLabel => 'Sample type';
+  @override
+  String get sampleTypeDescriptionLabel => 'Description';
+  @override
+  String get searchSampleTypesHint => 'Search by sample type name';
+  @override
+  String get sampleTypesEmptyTitle => 'No sample types yet';
+  @override
+  String get sampleTypesEmptyMessage =>
+      'Sample types you add to a branch are listed here.';
+  @override
+  String get sampleTypesNoMatchTitle => 'No sample types match';
+  @override
+  String get sampleTypesNoMatchMessage => 'Try a different search or filter.';
+  @override
+  String get feedbackSampleTypesTitle => "Couldn't load sample types";
+  @override
+  String get newUnit => 'New unit';
+  @override
+  String get createUnitTitle => 'New unit';
+  @override
+  String get createUnitSubtitle =>
+      'Add a unit to a branch of one of your laboratories.';
+  @override
+  String get editUnitTitle => 'Edit unit';
+  @override
+  String get editUnitSubtitle =>
+      'Update the unit details and where it belongs.';
+  @override
+  String get unitNameRequired => 'Enter the unit name.';
+  @override
+  String get unitNameTooLong => 'Keep the name under 150 characters.';
+  @override
+  String get unitSymbolRequired => 'Enter the unit symbol.';
+  @override
+  String get unitSymbolTooLong => 'Keep the symbol under 50 characters.';
+  @override
+  String get unitDescriptionTooLong =>
+      'Keep the description under 500 characters.';
+  @override
+  String get unitBranchLabel => 'Branch';
+  @override
+  String get unitBranchRequired => 'Choose a branch.';
+  @override
+  String get unitBranchEmpty =>
+      'This laboratory has no active branch. Activate one first.';
+  @override
+  String get creatingUnit => 'Creating…';
+  @override
+  String get feedbackSaveUnitTitle => "Couldn't save the unit";
+  @override
+  String get unitCreatedTitle => 'Unit created';
+  @override
+  String get unitCreatedMessage => 'It is now listed below.';
+  @override
+  String get unitSavedTitle => 'Unit saved';
+  @override
+  String get unitSavedMessage => 'Your changes are live.';
+  @override
+  String get unitDetailsTitle => 'Unit details';
+  @override
+  String get unitDetailsSubtitle =>
+      'Everything the platform knows about this unit.';
+  @override
+  String get backToUnits => 'Back to units';
+  @override
+  String get feedbackUnitDetailsTitle => "Couldn't load the unit";
+  @override
+  String get feedbackDeleteUnitTitle => "Couldn't delete the unit";
+  @override
+  String get deleteUnitTitle => 'Delete unit';
+  @override
+  String deleteUnitPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteUnitHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingUnit => 'Deleting…';
+  @override
+  String get unitDeletedTitle => 'Unit deleted';
+  @override
+  String get unitDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get unitActivatedTitle => 'Unit activated';
+  @override
+  String get unitActivatedMessage => 'It is open for use again.';
+  @override
+  String get unitDeactivatedTitle => 'Unit deactivated';
+  @override
+  String get unitDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
+  String get feedbackUnitStatusTitle => "Couldn't change the unit status";
+  @override
+  String get unitGone => 'This unit is no longer there. Refresh the list.';
+  @override
+  String get navUnits => 'Units';
+  @override
+  String get unitsTitle => 'Units';
+  @override
+  String get unitsSubtitle =>
+      'The catalogue of measurement units across your laboratories.';
+  @override
+  String get unitNameLabel => 'Unit';
+  @override
+  String get unitSymbolLabel => 'Symbol';
+  @override
+  String get unitDescriptionLabel => 'Description';
+  @override
+  String get searchUnitsHint => 'Search by unit name';
+  @override
+  String get unitsEmptyTitle => 'No units yet';
+  @override
+  String get unitsEmptyMessage => 'Units you add to a branch are listed here.';
+  @override
+  String get unitsNoMatchTitle => 'No units match';
+  @override
+  String get unitsNoMatchMessage => 'Try a different search or filter.';
+  @override
+  String get feedbackUnitsTitle => "Couldn't load units";
   @override
   String get noDescription => 'No description';
   @override
@@ -1620,6 +1921,200 @@ class AppStringsAr extends AppStrings {
   String get testCategoriesNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
   @override
   String get feedbackTestCategoriesTitle => 'تعذّر تحميل فئات التحاليل';
+  @override
+  String get newSampleType => 'نوع عينة جديد';
+  @override
+  String get createSampleTypeTitle => 'نوع عينة جديد';
+  @override
+  String get createSampleTypeSubtitle => 'أضف نوع عينة إلى فرع في أحد معاملك.';
+  @override
+  String get editSampleTypeTitle => 'تعديل نوع العينة';
+  @override
+  String get editSampleTypeSubtitle => 'عدّل بيانات نوع العينة ومكانه.';
+  @override
+  String get sampleTypeNameRequired => 'أدخل اسم نوع العينة.';
+  @override
+  String get sampleTypeNameTooLong => 'اجعل الاسم أقل من 150 حرفًا.';
+  @override
+  String get sampleTypeDescriptionTooLong => 'اجعل الوصف أقل من 500 حرف.';
+  @override
+  String get sampleTypeBranchLabel => 'الفرع';
+  @override
+  String get sampleTypeBranchRequired => 'اختر الفرع.';
+  @override
+  String get sampleTypeBranchEmpty =>
+      'لا يوجد فرع نشط في هذا المعمل. فعّل فرعًا أولًا.';
+  @override
+  String get creatingSampleType => 'جارٍ الإنشاء…';
+  @override
+  String get feedbackSaveSampleTypeTitle => 'تعذّر حفظ نوع العينة';
+  @override
+  String get sampleTypeCreatedTitle => 'تم إنشاء نوع العينة';
+  @override
+  String get sampleTypeCreatedMessage => 'أصبح ظاهرًا في القائمة بالأسفل.';
+  @override
+  String get sampleTypeSavedTitle => 'تم حفظ نوع العينة';
+  @override
+  String get sampleTypeSavedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get sampleTypeDetailsTitle => 'بيانات نوع العينة';
+  @override
+  String get sampleTypeDetailsSubtitle =>
+      'كل ما تعرفه المنصة عن نوع العينة هذا.';
+  @override
+  String get backToSampleTypes => 'العودة إلى أنواع العينات';
+  @override
+  String get feedbackSampleTypeDetailsTitle => 'تعذّر تحميل بيانات نوع العينة';
+  @override
+  String get feedbackDeleteSampleTypeTitle => 'تعذّر حذف نوع العينة';
+  @override
+  String get deleteSampleTypeTitle => 'حذف نوع العينة';
+  @override
+  String deleteSampleTypePrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteSampleTypeHint =>
+      'ينتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادته.';
+  @override
+  String get deletingSampleType => 'جارٍ الحذف…';
+  @override
+  String get sampleTypeDeletedTitle => 'تم حذف نوع العينة';
+  @override
+  String get sampleTypeDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
+  @override
+  String get sampleTypeActivatedTitle => 'تم تفعيل نوع العينة';
+  @override
+  String get sampleTypeActivatedMessage => 'أصبح متاحًا للاستخدام من جديد.';
+  @override
+  String get sampleTypeDeactivatedTitle => 'تم إيقاف نوع العينة';
+  @override
+  String get sampleTypeDeactivatedMessage =>
+      'يظل ظاهرًا في القائمة لكنه مغلق للاستخدام.';
+  @override
+  String get feedbackSampleTypeStatusTitle => 'تعذّر تغيير حالة نوع العينة';
+  @override
+  String get sampleTypeGone => 'نوع العينة هذا لم يعد موجودًا. حدّث القائمة.';
+  @override
+  String get navSampleTypes => 'أنواع العينات';
+  @override
+  String get sampleTypesTitle => 'أنواع العينات';
+  @override
+  String get sampleTypesSubtitle => 'دليل أنواع العينات في معاملك.';
+  @override
+  String get sampleTypeNameLabel => 'نوع العينة';
+  @override
+  String get sampleTypeDescriptionLabel => 'الوصف';
+  @override
+  String get searchSampleTypesHint => 'ابحث باسم نوع العينة';
+  @override
+  String get sampleTypesEmptyTitle => 'لا توجد أنواع عينات بعد';
+  @override
+  String get sampleTypesEmptyMessage =>
+      'أنواع العينات التي تضيفها إلى فرع ستظهر هنا.';
+  @override
+  String get sampleTypesNoMatchTitle => 'لا توجد أنواع عينات مطابقة';
+  @override
+  String get sampleTypesNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackSampleTypesTitle => 'تعذّر تحميل أنواع العينات';
+  @override
+  String get newUnit => 'وحدة جديدة';
+  @override
+  String get createUnitTitle => 'وحدة جديدة';
+  @override
+  String get createUnitSubtitle => 'أضف وحدة إلى فرع في أحد معاملك.';
+  @override
+  String get editUnitTitle => 'تعديل الوحدة';
+  @override
+  String get editUnitSubtitle => 'عدّل بيانات الوحدة ومكانها.';
+  @override
+  String get unitNameRequired => 'أدخل اسم الوحدة.';
+  @override
+  String get unitNameTooLong => 'اجعل الاسم أقل من 150 حرفًا.';
+  @override
+  String get unitSymbolRequired => 'أدخل رمز الوحدة.';
+  @override
+  String get unitSymbolTooLong => 'اجعل الرمز أقل من 50 حرفًا.';
+  @override
+  String get unitDescriptionTooLong => 'اجعل الوصف أقل من 500 حرف.';
+  @override
+  String get unitBranchLabel => 'الفرع';
+  @override
+  String get unitBranchRequired => 'اختر الفرع.';
+  @override
+  String get unitBranchEmpty =>
+      'لا يوجد فرع نشط في هذا المعمل. فعّل فرعًا أولًا.';
+  @override
+  String get creatingUnit => 'جارٍ الإنشاء…';
+  @override
+  String get feedbackSaveUnitTitle => 'تعذّر حفظ الوحدة';
+  @override
+  String get unitCreatedTitle => 'تم إنشاء الوحدة';
+  @override
+  String get unitCreatedMessage => 'أصبحت ظاهرة في القائمة بالأسفل.';
+  @override
+  String get unitSavedTitle => 'تم حفظ الوحدة';
+  @override
+  String get unitSavedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get unitDetailsTitle => 'بيانات الوحدة';
+  @override
+  String get unitDetailsSubtitle => 'كل ما تعرفه المنصة عن هذه الوحدة.';
+  @override
+  String get backToUnits => 'العودة إلى الوحدات';
+  @override
+  String get feedbackUnitDetailsTitle => 'تعذّر تحميل بيانات الوحدة';
+  @override
+  String get feedbackDeleteUnitTitle => 'تعذّر حذف الوحدة';
+  @override
+  String get deleteUnitTitle => 'حذف الوحدة';
+  @override
+  String deleteUnitPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteUnitHint =>
+      'تنتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادتها.';
+  @override
+  String get deletingUnit => 'جارٍ الحذف…';
+  @override
+  String get unitDeletedTitle => 'تم حذف الوحدة';
+  @override
+  String get unitDeletedMessage => 'تم نقلها إلى سلة المحذوفات.';
+  @override
+  String get unitActivatedTitle => 'تم تفعيل الوحدة';
+  @override
+  String get unitActivatedMessage => 'أصبحت متاحة للاستخدام من جديد.';
+  @override
+  String get unitDeactivatedTitle => 'تم إيقاف الوحدة';
+  @override
+  String get unitDeactivatedMessage =>
+      'تظل ظاهرة في القائمة لكنها مغلقة للاستخدام.';
+  @override
+  String get feedbackUnitStatusTitle => 'تعذّر تغيير حالة الوحدة';
+  @override
+  String get unitGone => 'هذه الوحدة لم تعد موجودة. حدّث القائمة.';
+  @override
+  String get navUnits => 'الوحدات';
+  @override
+  String get unitsTitle => 'الوحدات';
+  @override
+  String get unitsSubtitle => 'دليل وحدات القياس في معاملك.';
+  @override
+  String get unitNameLabel => 'الوحدة';
+  @override
+  String get unitSymbolLabel => 'الرمز';
+  @override
+  String get unitDescriptionLabel => 'الوصف';
+  @override
+  String get searchUnitsHint => 'ابحث باسم الوحدة';
+  @override
+  String get unitsEmptyTitle => 'لا توجد وحدات بعد';
+  @override
+  String get unitsEmptyMessage => 'الوحدات التي تضيفها إلى فرع ستظهر هنا.';
+  @override
+  String get unitsNoMatchTitle => 'لا توجد وحدات مطابقة';
+  @override
+  String get unitsNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackUnitsTitle => 'تعذّر تحميل الوحدات';
   @override
   String get noDescription => 'بدون وصف';
   @override

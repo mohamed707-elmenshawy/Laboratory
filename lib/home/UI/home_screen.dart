@@ -6,7 +6,9 @@ import '../../core/networking/dio_factory.dart';
 import '../../change_password/UI/change_password_view.dart';
 import '../../branches/UI/branches_view.dart';
 import '../../laboratories/UI/laboratories_view.dart';
+import '../../sample_types/UI/sample_types_view.dart';
 import '../../test_categories/UI/test_categories_view.dart';
+import '../../units/UI/units_view.dart';
 import '../../login/UI/login_screen.dart';
 import '../../profile/UI/profile_view.dart';
 import '../logic/home_cubit.dart';
@@ -96,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
             HomeDestination.overview => LaboratoriesView.page(),
             HomeDestination.branches => BranchesView.page(),
             HomeDestination.testCategories => TestCategoriesView.page(),
+            HomeDestination.sampleTypes => SampleTypesView.page(),
+            HomeDestination.units => UnitsView.page(),
             HomeDestination.analytics => const HomeContent(),
           },
         ),

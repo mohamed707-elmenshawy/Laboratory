@@ -14,7 +14,9 @@ import 'package:laboratory/laboratories/data/models/laboratory_model.dart';
 import 'package:laboratory/laboratories/data/models/update_laboratory_request_body.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
 import 'package:laboratory/laboratories/logic/laboratory_status_cubit.dart';
+import 'package:laboratory/sample_types/data/repos/sample_types_repo.dart';
 import 'package:laboratory/test_categories/data/repos/test_categories_repo.dart';
+import 'package:laboratory/units/data/repos/units_repo.dart';
 
 class _Call {
   const _Call(this.method, this.path, this.query);
@@ -109,6 +111,30 @@ void main() {
       expect(adapter.calls.map((_Call call) => call.path), <String>[
         '/api/v1/branches/7/activate',
         '/api/v1/branches/7/deactivate',
+      ]);
+    });
+
+    test('sample type status hits sample-types/{id}/activate', () async {
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final SampleTypesRepo repo = SampleTypesRepo(_dio(adapter));
+
+      expect(await repo.setSampleTypeActive(6, true), isA<Success<void>>());
+      expect(await repo.setSampleTypeActive(6, false), isA<Success<void>>());
+      expect(adapter.calls.map((_Call call) => call.path), <String>[
+        '/api/v1/sample-types/6/activate',
+        '/api/v1/sample-types/6/deactivate',
+      ]);
+    });
+
+    test('unit status hits units/{id}/activate', () async {
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final UnitsRepo repo = UnitsRepo(_dio(adapter));
+
+      expect(await repo.setUnitActive(3, true), isA<Success<void>>());
+      expect(await repo.setUnitActive(8, false), isA<Success<void>>());
+      expect(adapter.calls.map((_Call call) => call.path), <String>[
+        '/api/v1/units/3/activate',
+        '/api/v1/units/8/deactivate',
       ]);
     });
 

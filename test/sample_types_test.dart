@@ -13,21 +13,21 @@ import 'package:laboratory/branches/data/models/update_branch_request_body.dart'
 import 'package:laboratory/branches/data/repos/branches_repo.dart';
 import 'package:laboratory/laboratories/data/models/laboratory_menu_item.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
-import 'package:laboratory/test_categories/UI/test_categories_view.dart';
-import 'package:laboratory/test_categories/data/models/test_categories_page.dart';
-import 'package:laboratory/test_categories/data/models/test_categories_query.dart';
-import 'package:laboratory/test_categories/data/models/test_category_model.dart';
-import 'package:laboratory/test_categories/data/models/test_category_request_body.dart';
-import 'package:laboratory/test_categories/data/repos/test_categories_repo.dart';
-import 'package:laboratory/test_categories/logic/delete_test_category_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_categories_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_status_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_details_cubit.dart';
-import 'package:laboratory/test_categories/logic/test_category_form_cubit.dart';
+import 'package:laboratory/sample_types/UI/sample_types_view.dart';
+import 'package:laboratory/sample_types/data/models/sample_types_page.dart';
+import 'package:laboratory/sample_types/data/models/sample_types_query.dart';
+import 'package:laboratory/sample_types/data/models/sample_type_model.dart';
+import 'package:laboratory/sample_types/data/models/sample_type_request_body.dart';
+import 'package:laboratory/sample_types/data/repos/sample_types_repo.dart';
+import 'package:laboratory/sample_types/logic/delete_sample_type_cubit.dart';
+import 'package:laboratory/sample_types/logic/sample_types_cubit.dart';
+import 'package:laboratory/sample_types/logic/sample_type_status_cubit.dart';
+import 'package:laboratory/sample_types/logic/sample_type_details_cubit.dart';
+import 'package:laboratory/sample_types/logic/sample_type_form_cubit.dart';
 
 import 'support/fake_laboratories_repo.dart';
 
-Map<String, dynamic> _categoryJson({
+Map<String, dynamic> _sampleTypeJson({
   int id = 5,
   String name = 'Gerlach Ltd',
   bool isActive = false,
@@ -44,8 +44,8 @@ Map<String, dynamic> _categoryJson({
   },
 };
 
-class FakeTestCategoriesRepo implements TestCategoriesRepo {
-  FakeTestCategoriesRepo({this.showError, this.deleteError, this.statusError});
+class FakeSampleTypesRepo implements SampleTypesRepo {
+  FakeSampleTypesRepo({this.showError, this.deleteError, this.statusError});
 
   final AppError? showError;
   final AppError? deleteError;
@@ -53,23 +53,23 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
 
   final List<Map<String, Object>> statusCalls = <Map<String, Object>>[];
 
-  final List<TestCategoriesQuery> queries = <TestCategoriesQuery>[];
+  final List<SampleTypesQuery> queries = <SampleTypesQuery>[];
   final List<int> shown = <int>[];
   final List<int> deleted = <int>[];
   final List<Map<String, dynamic>> created = <Map<String, dynamic>>[];
   final List<Map<String, dynamic>> saved = <Map<String, dynamic>>[];
 
   @override
-  Future<Result<TestCategoriesPage>> fetchTestCategories(
-    TestCategoriesQuery query,
+  Future<Result<SampleTypesPage>> fetchSampleTypes(
+    SampleTypesQuery query,
   ) async {
     queries.add(query);
 
-    return Success<TestCategoriesPage>(
-      TestCategoriesPage.fromJson(<String, dynamic>{
+    return Success<SampleTypesPage>(
+      SampleTypesPage.fromJson(<String, dynamic>{
         'items': <Map<String, dynamic>>[
-          _categoryJson(),
-          _categoryJson(
+          _sampleTypeJson(),
+          _sampleTypeJson(
             id: 3,
             name: 'Pfannerstill Inc',
             isActive: true,
@@ -91,32 +91,32 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
   }
 
   @override
-  Future<Result<TestCategoryModel>> fetchTestCategory(int id) async {
+  Future<Result<SampleTypeModel>> fetchSampleType(int id) async {
     shown.add(id);
 
-    if (showError != null) return Failure<TestCategoryModel>(showError!);
-    return Success<TestCategoryModel>(
-      TestCategoryModel.fromJson(_categoryJson(id: id)),
+    if (showError != null) return Failure<SampleTypeModel>(showError!);
+    return Success<SampleTypeModel>(
+      SampleTypeModel.fromJson(_sampleTypeJson(id: id)),
     );
   }
 
   @override
-  Future<Result<void>> createTestCategory(TestCategoryRequestBody body) async {
+  Future<Result<void>> createSampleType(SampleTypeRequestBody body) async {
     created.add(body.toJson());
     return const Success<void>(null);
   }
 
   @override
-  Future<Result<void>> updateTestCategory(
+  Future<Result<void>> updateSampleType(
     int id,
-    TestCategoryRequestBody body,
+    SampleTypeRequestBody body,
   ) async {
     saved.add(<String, dynamic>{'id': id, ...body.toJson()});
     return const Success<void>(null);
   }
 
   @override
-  Future<Result<void>> deleteTestCategory(int id) async {
+  Future<Result<void>> deleteSampleType(int id) async {
     deleted.add(id);
 
     if (deleteError != null) return Failure<void>(deleteError!);
@@ -124,7 +124,7 @@ class FakeTestCategoriesRepo implements TestCategoriesRepo {
   }
 
   @override
-  Future<Result<void>> setTestCategoryActive(int id, bool active) async {
+  Future<Result<void>> setSampleTypeActive(int id, bool active) async {
     statusCalls.add(<String, Object>{'id': id, 'active': active});
 
     if (statusError != null) return Failure<void>(statusError!);
@@ -193,37 +193,37 @@ class MenuRepo extends FakeLaboratoriesRepoBase {
   ]);
 }
 
-Widget _app(TestCategoriesCubit cubit, TestCategoryStatusCubit status) =>
+Widget _app(SampleTypesCubit cubit, SampleTypeStatusCubit status) =>
     AppLocaleScope(
       child: MaterialApp(
         home: Scaffold(
           body: MultiBlocProvider(
             providers: <BlocProvider<dynamic>>[
-              BlocProvider<TestCategoriesCubit>.value(value: cubit),
-              BlocProvider<TestCategoryStatusCubit>.value(value: status),
+              BlocProvider<SampleTypesCubit>.value(value: cubit),
+              BlocProvider<SampleTypeStatusCubit>.value(value: status),
             ],
-            child: const TestCategoriesView(),
+            child: const SampleTypesView(),
           ),
         ),
       ),
     );
 
-Future<void> _open(WidgetTester tester, FakeTestCategoriesRepo repo) async {
+Future<void> _open(WidgetTester tester, FakeSampleTypesRepo repo) async {
   getIt.registerLazySingleton<LaboratoriesRepo>(MenuRepo.new);
-  getIt.registerFactory<TestCategoryDetailsCubit>(
-    () => TestCategoryDetailsCubit(repo),
+  getIt.registerFactory<SampleTypeDetailsCubit>(
+    () => SampleTypeDetailsCubit(repo),
   );
-  getIt.registerFactory<DeleteTestCategoryCubit>(
-    () => DeleteTestCategoryCubit(repo),
+  getIt.registerFactory<DeleteSampleTypeCubit>(
+    () => DeleteSampleTypeCubit(repo),
   );
-  getIt.registerFactory<TestCategoryFormCubit>(
-    () => TestCategoryFormCubit(repo, MenuRepo(), FakeBranchesRepo()),
+  getIt.registerFactory<SampleTypeFormCubit>(
+    () => SampleTypeFormCubit(repo, MenuRepo(), FakeBranchesRepo()),
   );
   addTearDown(() {
     getIt.unregister<LaboratoriesRepo>();
-    getIt.unregister<TestCategoryDetailsCubit>();
-    getIt.unregister<DeleteTestCategoryCubit>();
-    getIt.unregister<TestCategoryFormCubit>();
+    getIt.unregister<SampleTypeDetailsCubit>();
+    getIt.unregister<DeleteSampleTypeCubit>();
+    getIt.unregister<SampleTypeFormCubit>();
   });
 
   tester.view.physicalSize = const Size(1500, 1400);
@@ -231,10 +231,10 @@ Future<void> _open(WidgetTester tester, FakeTestCategoriesRepo repo) async {
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
 
-  final TestCategoriesCubit cubit = TestCategoriesCubit(repo)..load();
+  final SampleTypesCubit cubit = SampleTypesCubit(repo)..load();
   addTearDown(cubit.close);
 
-  final TestCategoryStatusCubit status = TestCategoryStatusCubit(repo);
+  final SampleTypeStatusCubit status = SampleTypeStatusCubit(repo);
   addTearDown(status.close);
 
   await tester.pumpWidget(_app(cubit, status));
@@ -245,7 +245,7 @@ void main() {
   testWidgets('the list asks for page 1 with per_page 10 and renders rows', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     expect(repo.queries.single.toJson(), <String, dynamic>{
@@ -259,10 +259,10 @@ void main() {
     expect(find.text('Showing 1 to 2 of 2 results'), findsOneWidget);
   });
 
-  testWidgets('the row toggle activates that category and only that one', (
+  testWidgets('the row toggle activates that sample type and only that one', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Activate').first);
@@ -271,13 +271,13 @@ void main() {
     expect(repo.statusCalls, <Map<String, Object>>[
       <String, Object>{'id': 5, 'active': true},
     ]);
-    expect(find.text('Category activated'), findsOneWidget);
+    expect(find.text('Sample type activated'), findsOneWidget);
   });
 
   testWidgets('the toggle of the second row carries its own id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Deactivate').first);
@@ -286,18 +286,18 @@ void main() {
     expect(repo.statusCalls, <Map<String, Object>>[
       <String, Object>{'id': 3, 'active': false},
     ]);
-    expect(find.text('Category deactivated'), findsOneWidget);
+    expect(find.text('Sample type deactivated'), findsOneWidget);
   });
 
   testWidgets('status and laboratory filters reach the query', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(
       find.descendant(
-        of: find.byType(AppSegmentedFilter<TestCategoryStatusFilter>),
+        of: find.byType(AppSegmentedFilter<SampleTypeStatusFilter>),
         matching: find.text('Active'),
       ),
     );
@@ -316,23 +316,23 @@ void main() {
   testWidgets('the view action opens the details page for that row', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('View').first);
     await tester.pumpAndSettle();
 
     expect(repo.shown, <int>[5]);
-    expect(find.text('Back to test categories'), findsOneWidget);
+    expect(find.text('Back to sample types'), findsOneWidget);
     expect(find.text('Gerlach Ltd'), findsOneWidget);
     expect(find.text('Quality-focused superstructure'), findsOneWidget);
     expect(find.text('Zemlak-Pollich'), findsOneWidget);
   });
 
-  testWidgets('a missing category explains itself and retries', (
+  testWidgets('a missing sample type explains itself and retries', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo(
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo(
       showError: const AppError(kind: AppErrorKind.notFound, statusCode: 404),
     );
     await _open(tester, repo);
@@ -341,7 +341,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('This category is no longer there. Refresh the list.'),
+      find.text('This sample type is no longer there. Refresh the list.'),
       findsOneWidget,
     );
 
@@ -353,7 +353,7 @@ void main() {
   testWidgets('deleting from the list asks first, then refreshes', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     final int before = repo.queries.length;
@@ -372,14 +372,14 @@ void main() {
 
     expect(repo.deleted, <int>[5]);
     expect(find.byType(Dialog), findsNothing);
-    expect(find.text('Category deleted'), findsOneWidget);
+    expect(find.text('Sample type deleted'), findsOneWidget);
     expect(repo.queries.length, before + 1);
   });
 
   testWidgets('cancelling the delete changes nothing', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Delete').first);
@@ -388,13 +388,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.deleted, isEmpty);
-    expect(find.text('Category deleted'), findsNothing);
+    expect(find.text('Sample type deleted'), findsNothing);
   });
 
   testWidgets('a failed delete keeps the dialog open with the reason', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo(
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo(
       deleteError: const AppError(
         kind: AppErrorKind.forbidden,
         statusCode: 403,
@@ -410,13 +410,13 @@ void main() {
 
     expect(find.byType(Dialog), findsOneWidget);
     expect(find.text('This action is unauthorized.'), findsOneWidget);
-    expect(find.text('Category deleted'), findsNothing);
+    expect(find.text('Sample type deleted'), findsNothing);
   });
 
   testWidgets('deleting from the details page returns to the list', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('View').first);
@@ -428,21 +428,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.deleted, <int>[5]);
-    expect(find.text('Back to test categories'), findsNothing);
-    expect(find.text('Category deleted'), findsOneWidget);
+    expect(find.text('Back to sample types'), findsNothing);
+    expect(find.text('Sample type deleted'), findsOneWidget);
   });
 
   testWidgets('creating posts every field without an id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
-    await tester.tap(find.text('New category'));
+    await tester.tap(find.text('New sample type'));
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Add a category to a branch of one of your laboratories.'),
+      find.text('Add a sample type to a branch of one of your laboratories.'),
       findsOneWidget,
     );
 
@@ -469,16 +469,16 @@ void main() {
       'laboratory_id': 2,
       'branch_id': 2,
     });
-    expect(find.text('Category created'), findsOneWidget);
+    expect(find.text('Sample type created'), findsOneWidget);
   });
 
   testWidgets('create blocks until a laboratory and branch are chosen', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
-    await tester.tap(find.text('New category'));
+    await tester.tap(find.text('New sample type'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField).first, 'Haematology');
@@ -491,7 +491,7 @@ void main() {
   testWidgets('editing prefills the row and posts to its id', (
     WidgetTester tester,
   ) async {
-    final FakeTestCategoriesRepo repo = FakeTestCategoriesRepo();
+    final FakeSampleTypesRepo repo = FakeSampleTypesRepo();
     await _open(tester, repo);
 
     await tester.tap(find.byTooltip('Edit').first);
@@ -516,6 +516,6 @@ void main() {
       'laboratory_id': 2,
       'branch_id': 2,
     });
-    expect(find.text('Category saved'), findsOneWidget);
+    expect(find.text('Sample type saved'), findsOneWidget);
   });
 }
