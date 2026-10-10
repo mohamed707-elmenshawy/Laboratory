@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'api_constants.dart';
+import 'cors_warning.dart';
 
 class DioFactory {
   DioFactory._();
@@ -30,12 +31,14 @@ class DioFactory {
       ),
     );
 
+    disableCorsWarning(dio!);
+
     dio!.interceptors.add(_LocaleInterceptor());
 
     if (kDebugMode) {
       dio!.interceptors.add(
         PrettyDioLogger(
-          requestBody: false,
+          requestBody: true,
           requestHeader: false,
           responseHeader: false,
         ),

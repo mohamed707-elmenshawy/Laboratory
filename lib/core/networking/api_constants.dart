@@ -20,10 +20,14 @@ class ApiConstants {
   static const String testCategories = 'test-categories';
   static const String sampleTypes = 'sample-types';
   static const String units = 'units';
+  static const String users = 'users';
+  static const String roles = 'roles';
+  static const String parameters = 'parameters';
   static const String settingsList = 'settings/list';
   static const String termsList = 'terms/list';
 
   static const String authorizationHeader = 'Authorization';
   static const String tenantHeader = 'X-Tenant';
   static const String acceptLanguageHeader = 'Accept-Language';
+  static const String listUser = 'users';
 }

@@ -14,6 +14,7 @@ import 'package:laboratory/laboratories/data/models/laboratory_model.dart';
 import 'package:laboratory/laboratories/data/models/update_laboratory_request_body.dart';
 import 'package:laboratory/laboratories/data/repos/laboratories_repo.dart';
 import 'package:laboratory/laboratories/logic/laboratory_status_cubit.dart';
+import 'package:laboratory/parameters/data/repos/parameters_repo.dart';
 import 'package:laboratory/sample_types/data/repos/sample_types_repo.dart';
 import 'package:laboratory/test_categories/data/repos/test_categories_repo.dart';
 import 'package:laboratory/units/data/repos/units_repo.dart';
@@ -123,6 +124,18 @@ void main() {
       expect(adapter.calls.map((_Call call) => call.path), <String>[
         '/api/v1/sample-types/6/activate',
         '/api/v1/sample-types/6/deactivate',
+      ]);
+    });
+
+    test('parameter status hits parameters/{id}/activate', () async {
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final ParametersRepo repo = ParametersRepo(_dio(adapter));
+
+      expect(await repo.setParameterActive(2, true), isA<Success<void>>());
+      expect(await repo.setParameterActive(7, false), isA<Success<void>>());
+      expect(adapter.calls.map((_Call call) => call.path), <String>[
+        '/api/v1/parameters/2/activate',
+        '/api/v1/parameters/7/deactivate',
       ]);
     });
 

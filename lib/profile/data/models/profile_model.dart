@@ -10,6 +10,8 @@ class ProfileModel {
     required this.tenantId,
     required this.branchId,
     this.phones = const <ProfilePhone>[],
+    this.roles = const <String>[],
+    this.permissions = const <String>[],
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
@@ -29,6 +31,8 @@ class ProfileModel {
             .toList(),
       _ => const <ProfilePhone>[],
     },
+    roles: _names(json['roles']),
+    permissions: _names(json['permissions']),
   );
 
   final int id;
@@ -37,6 +41,10 @@ class ProfileModel {
   final String? tenantId;
   final int? branchId;
   final List<ProfilePhone> phones;
+  final List<String> roles;
+  final List<String> permissions;
+
+  bool get isSuperAdmin => roles.contains('super-admin');
 
   UserModel toUser() => UserModel(
     id: id,
@@ -46,6 +54,13 @@ class ProfileModel {
     branchId: branchId,
   );
 }
+
+List<String> _names(Object? value) => switch (value) {
+  final List<dynamic> list => list
+      .map((dynamic item) => item.toString())
+      .toList(growable: false),
+  _ => const <String>[],
+};
 
 class ProfilePhone extends Equatable {
   const ProfilePhone({

@@ -273,6 +273,52 @@ abstract class AppStrings {
   String get sampleTypesNoMatchMessage;
   String get feedbackSampleTypesTitle;
 
+  String get navParameters;
+  String get parametersTitle;
+  String get parametersSubtitle;
+  String get newParameter;
+  String get createParameterTitle;
+  String get createParameterSubtitle;
+  String get editParameterTitle;
+  String get editParameterSubtitle;
+  String get parameterNameLabel;
+  String get parameterNameRequired;
+  String get parameterNameTooLong;
+  String get parameterDescriptionLabel;
+  String get parameterDescriptionTooLong;
+  String get parameterBranchLabel;
+  String get parameterBranchRequired;
+  String get parameterBranchEmpty;
+  String get creatingParameter;
+  String get feedbackSaveParameterTitle;
+  String get parameterCreatedTitle;
+  String get parameterCreatedMessage;
+  String get parameterSavedTitle;
+  String get parameterSavedMessage;
+  String get parameterDetailsTitle;
+  String get parameterDetailsSubtitle;
+  String get backToParameters;
+  String get feedbackParameterDetailsTitle;
+  String get feedbackDeleteParameterTitle;
+  String get deleteParameterTitle;
+  String deleteParameterPrompt(String name);
+  String get deleteParameterHint;
+  String get deletingParameter;
+  String get parameterDeletedTitle;
+  String get parameterDeletedMessage;
+  String get parameterActivatedTitle;
+  String get parameterActivatedMessage;
+  String get parameterDeactivatedTitle;
+  String get parameterDeactivatedMessage;
+  String get feedbackParameterStatusTitle;
+  String get parameterGone;
+  String get searchParametersHint;
+  String get parametersEmptyTitle;
+  String get parametersEmptyMessage;
+  String get parametersNoMatchTitle;
+  String get parametersNoMatchMessage;
+  String get feedbackParametersTitle;
+
   String get newUnit;
   String get createUnitTitle;
   String get createUnitSubtitle;
@@ -321,6 +367,77 @@ abstract class AppStrings {
   String get unitsNoMatchTitle;
   String get unitsNoMatchMessage;
   String get feedbackUnitsTitle;
+
+  String get navUsers;
+  String get usersTitle;
+  String get usersSubtitle;
+  String get newUser;
+  String get createUserTitle;
+  String get createUserSubtitle;
+  String get editUserTitle;
+  String get editUserSubtitle;
+  String get userAccountSection;
+  String get userAccessSection;
+  String get userNameLabel;
+  String get userNameRequired;
+  String get userNameTooLong;
+  String get userEmailLabel;
+  String get userEmailTooLong;
+  String get userPasswordLabel;
+  String get userNewPasswordLabel;
+  String get userPasswordKeepHint;
+  String get userPasswordTooShort;
+  String get userRolesLabel;
+  String get userRolesHint;
+  String get userRolesUnavailable;
+  String get userBranchLabel;
+  String get userBranchEmpty;
+  String get userCommissionLabel;
+  String get userCommissionRequired;
+  String get userCommissionRange;
+  String get userPermissionsLabel;
+  String get userNoPermissions;
+  String userPermissionsCount(int count);
+  String get userNoPhones;
+  String get userVerified;
+  String get userUnverified;
+  String get allRoles;
+  String roleLabel(String name);
+  String get creatingUser;
+  String get feedbackSaveUserTitle;
+  String get userCreatedTitle;
+  String get userCreatedMessage;
+  String get userSavedTitle;
+  String get userSavedMessage;
+  String get userDetailsTitle;
+  String get userDetailsSubtitle;
+  String get backToUsers;
+  String get feedbackUserDetailsTitle;
+  String get feedbackDeleteUserTitle;
+  String get deleteUserTitle;
+  String deleteUserPrompt(String name);
+  String get deleteUserHint;
+  String get deletingUser;
+  String get userDeletedTitle;
+  String get userDeletedMessage;
+  String get userGone;
+  String get searchUsersHint;
+  String get usersEmptyTitle;
+  String get usersEmptyMessage;
+  String get usersNoMatchTitle;
+  String get usersNoMatchMessage;
+  String get feedbackUsersTitle;
+  String userPermissionsSelected(int count);
+  String get userPermissionsHint;
+  String get userPermissionsUnavailable;
+  String get searchPermissionsHint;
+  String get permissionsNoMatch;
+  String get selectAll;
+  String get deselectAll;
+  String get clearSelection;
+  String get loadingPermissions;
+  String get feedbackPermissionsTitle;
+  String get feedbackPermissionsMessage;
 
   String get noDescription;
   String get navBranches;
@@ -1038,6 +1155,107 @@ class AppStringsEn extends AppStrings {
   @override
   String get feedbackSampleTypesTitle => "Couldn't load sample types";
   @override
+  String get navParameters => 'Parameters';
+  @override
+  String get parametersTitle => 'Parameters';
+  @override
+  String get parametersSubtitle =>
+      'The measurements your tests report, across your laboratories.';
+  @override
+  String get newParameter => 'New parameter';
+  @override
+  String get createParameterTitle => 'New parameter';
+  @override
+  String get createParameterSubtitle =>
+      'Add a parameter to a branch of one of your laboratories.';
+  @override
+  String get editParameterTitle => 'Edit parameter';
+  @override
+  String get editParameterSubtitle =>
+      'Update the parameter details and where it belongs.';
+  @override
+  String get parameterNameLabel => 'Parameter';
+  @override
+  String get parameterNameRequired => 'Enter the parameter name.';
+  @override
+  String get parameterNameTooLong => 'Keep the name under 150 characters.';
+  @override
+  String get parameterDescriptionLabel => 'Description';
+  @override
+  String get parameterDescriptionTooLong =>
+      'Keep the description under 500 characters.';
+  @override
+  String get parameterBranchLabel => 'Branch';
+  @override
+  String get parameterBranchRequired => 'Choose a branch.';
+  @override
+  String get parameterBranchEmpty =>
+      'This laboratory has no active branch. Activate one first.';
+  @override
+  String get creatingParameter => 'Creating…';
+  @override
+  String get feedbackSaveParameterTitle => "Couldn't save the parameter";
+  @override
+  String get parameterCreatedTitle => 'Parameter created';
+  @override
+  String get parameterCreatedMessage => 'It is now listed below.';
+  @override
+  String get parameterSavedTitle => 'Parameter saved';
+  @override
+  String get parameterSavedMessage => 'Your changes are live.';
+  @override
+  String get parameterDetailsTitle => 'Parameter details';
+  @override
+  String get parameterDetailsSubtitle =>
+      'Everything the platform knows about this parameter.';
+  @override
+  String get backToParameters => 'Back to parameters';
+  @override
+  String get feedbackParameterDetailsTitle => "Couldn't load the parameter";
+  @override
+  String get feedbackDeleteParameterTitle => "Couldn't delete the parameter";
+  @override
+  String get deleteParameterTitle => 'Delete parameter';
+  @override
+  String deleteParameterPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteParameterHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingParameter => 'Deleting…';
+  @override
+  String get parameterDeletedTitle => 'Parameter deleted';
+  @override
+  String get parameterDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get parameterActivatedTitle => 'Parameter activated';
+  @override
+  String get parameterActivatedMessage => 'It is open for use again.';
+  @override
+  String get parameterDeactivatedTitle => 'Parameter deactivated';
+  @override
+  String get parameterDeactivatedMessage =>
+      'It stays listed, but is closed for use.';
+  @override
+  String get feedbackParameterStatusTitle =>
+      "Couldn't change the parameter status";
+  @override
+  String get parameterGone =>
+      'This parameter is no longer there. Refresh the list.';
+  @override
+  String get searchParametersHint => 'Search by parameter name';
+  @override
+  String get parametersEmptyTitle => 'No parameters yet';
+  @override
+  String get parametersEmptyMessage =>
+      'Parameters you add to a branch are listed here.';
+  @override
+  String get parametersNoMatchTitle => 'No parameters match';
+  @override
+  String get parametersNoMatchMessage => 'Try a different search or filter.';
+  @override
+  String get feedbackParametersTitle => "Couldn't load parameters";
+  @override
   String get newUnit => 'New unit';
   @override
   String get createUnitTitle => 'New unit';
@@ -1141,6 +1359,164 @@ class AppStringsEn extends AppStrings {
   String get unitsNoMatchMessage => 'Try a different search or filter.';
   @override
   String get feedbackUnitsTitle => "Couldn't load units";
+  @override
+  String get navUsers => 'Users';
+  @override
+  String get usersTitle => 'Users';
+  @override
+  String get usersSubtitle => 'Everyone with access to the platform.';
+  @override
+  String get newUser => 'New user';
+  @override
+  String get createUserTitle => 'New user';
+  @override
+  String get createUserSubtitle =>
+      'Create an account and choose what it can reach.';
+  @override
+  String get editUserTitle => 'Edit user';
+  @override
+  String get editUserSubtitle => 'Update the account details and its access.';
+  @override
+  String get userAccountSection => 'Account';
+  @override
+  String get userAccessSection => 'Access';
+  @override
+  String get userNameLabel => 'Full name';
+  @override
+  String get userNameRequired => 'Enter the full name.';
+  @override
+  String get userNameTooLong => 'Keep the name under 30 characters.';
+  @override
+  String get userEmailLabel => 'Email address';
+  @override
+  String get userEmailTooLong => 'Keep the email under 100 characters.';
+  @override
+  String get userPasswordLabel => 'Password';
+  @override
+  String get userNewPasswordLabel => 'New password';
+  @override
+  String get userPasswordKeepHint =>
+      'Leave empty to keep the current password.';
+  @override
+  String get userPasswordTooShort => 'Use at least 8 characters.';
+  @override
+  String get userRolesLabel => 'Roles';
+  @override
+  String get userRolesHint =>
+      'The role decides where the account lives and what it can reach.';
+  @override
+  String get userRolesUnavailable => 'You cannot assign any role.';
+  @override
+  String get userBranchLabel => 'Branch';
+  @override
+  String get userBranchEmpty =>
+      'This laboratory has no active branch. Activate one first.';
+  @override
+  String get userCommissionLabel => 'Commission %';
+  @override
+  String get userCommissionRequired =>
+      'A commission is required for team members.';
+  @override
+  String get userCommissionRange => 'Enter a number between 1 and 100.';
+  @override
+  String get userPermissionsLabel => 'Permissions';
+  @override
+  String get userNoPermissions => 'No permissions';
+  @override
+  String userPermissionsCount(int count) => '$count permissions';
+  @override
+  String get userNoPhones => 'No phone numbers yet.';
+  @override
+  String get userVerified => 'Verified';
+  @override
+  String get userUnverified => 'Not verified';
+  @override
+  String get allRoles => 'All roles';
+  @override
+  String roleLabel(String name) => switch (name) {
+    'super-admin' => 'Super admin',
+    'team-member' => 'Team member',
+    'laboratory-admin' => 'Laboratory admin',
+    'branch-manager' => 'Branch manager',
+    'doctor' => 'Doctor',
+    'receptionist' => 'Receptionist',
+    _ => name,
+  };
+  @override
+  String get creatingUser => 'Creating…';
+  @override
+  String get feedbackSaveUserTitle => "Couldn't save the user";
+  @override
+  String get userCreatedTitle => 'User created';
+  @override
+  String get userCreatedMessage => 'The account is ready to sign in.';
+  @override
+  String get userSavedTitle => 'User saved';
+  @override
+  String get userSavedMessage => 'Your changes are live.';
+  @override
+  String get userDetailsTitle => 'User details';
+  @override
+  String get userDetailsSubtitle =>
+      'Everything the platform knows about this account.';
+  @override
+  String get backToUsers => 'Back to users';
+  @override
+  String get feedbackUserDetailsTitle => "Couldn't load the user";
+  @override
+  String get feedbackDeleteUserTitle => "Couldn't delete the user";
+  @override
+  String get deleteUserTitle => 'Delete user';
+  @override
+  String deleteUserPrompt(String name) => 'Delete $name?';
+  @override
+  String get deleteUserHint =>
+      'It moves to the trash, so an admin can still restore it.';
+  @override
+  String get deletingUser => 'Deleting…';
+  @override
+  String get userDeletedTitle => 'User deleted';
+  @override
+  String get userDeletedMessage => 'It was moved to the trash.';
+  @override
+  String get userGone => 'This user is no longer there. Refresh the list.';
+  @override
+  String get searchUsersHint => 'Search by name or email';
+  @override
+  String get usersEmptyTitle => 'No users yet';
+  @override
+  String get usersEmptyMessage => 'Accounts you create are listed here.';
+  @override
+  String get usersNoMatchTitle => 'No users match';
+  @override
+  String get usersNoMatchMessage => 'Try a different search or filter.';
+  @override
+  String get feedbackUsersTitle => "Couldn't load users";
+  @override
+  String userPermissionsSelected(int count) => '$count selected';
+  @override
+  String get userPermissionsHint =>
+      'Extra permissions on top of the role. You can only grant what you hold yourself.';
+  @override
+  String get userPermissionsUnavailable =>
+      'You hold no permissions to pass on.';
+  @override
+  String get searchPermissionsHint => 'Search permissions';
+  @override
+  String get permissionsNoMatch => 'No permission matches this search.';
+  @override
+  String get selectAll => 'Select all';
+  @override
+  String get deselectAll => 'Clear all';
+  @override
+  String get clearSelection => 'Clear';
+  @override
+  String get loadingPermissions => 'Loading permissions…';
+  @override
+  String get feedbackPermissionsTitle => "Couldn't load the permissions";
+  @override
+  String get feedbackPermissionsMessage =>
+      'The account can still be saved without extra permissions.';
   @override
   String get noDescription => 'No description';
   @override
@@ -2017,6 +2393,100 @@ class AppStringsAr extends AppStrings {
   @override
   String get feedbackSampleTypesTitle => 'تعذّر تحميل أنواع العينات';
   @override
+  String get navParameters => 'البارامترات';
+  @override
+  String get parametersTitle => 'البارامترات';
+  @override
+  String get parametersSubtitle => 'العناصر التي تقيسها تحاليلك في معاملك.';
+  @override
+  String get newParameter => 'بارامتر جديد';
+  @override
+  String get createParameterTitle => 'بارامتر جديد';
+  @override
+  String get createParameterSubtitle => 'أضف بارامترًا إلى فرع في أحد معاملك.';
+  @override
+  String get editParameterTitle => 'تعديل البارامتر';
+  @override
+  String get editParameterSubtitle => 'عدّل بيانات البارامتر ومكانه.';
+  @override
+  String get parameterNameLabel => 'البارامتر';
+  @override
+  String get parameterNameRequired => 'أدخل اسم البارامتر.';
+  @override
+  String get parameterNameTooLong => 'اجعل الاسم أقل من 150 حرفًا.';
+  @override
+  String get parameterDescriptionLabel => 'الوصف';
+  @override
+  String get parameterDescriptionTooLong => 'اجعل الوصف أقل من 500 حرف.';
+  @override
+  String get parameterBranchLabel => 'الفرع';
+  @override
+  String get parameterBranchRequired => 'اختر الفرع.';
+  @override
+  String get parameterBranchEmpty =>
+      'لا يوجد فرع نشط في هذا المعمل. فعّل فرعًا أولًا.';
+  @override
+  String get creatingParameter => 'جارٍ الإنشاء…';
+  @override
+  String get feedbackSaveParameterTitle => 'تعذّر حفظ البارامتر';
+  @override
+  String get parameterCreatedTitle => 'تم إنشاء البارامتر';
+  @override
+  String get parameterCreatedMessage => 'أصبح ظاهرًا في القائمة بالأسفل.';
+  @override
+  String get parameterSavedTitle => 'تم حفظ البارامتر';
+  @override
+  String get parameterSavedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get parameterDetailsTitle => 'بيانات البارامتر';
+  @override
+  String get parameterDetailsSubtitle => 'كل ما تعرفه المنصة عن هذا البارامتر.';
+  @override
+  String get backToParameters => 'العودة إلى البارامترات';
+  @override
+  String get feedbackParameterDetailsTitle => 'تعذّر تحميل بيانات البارامتر';
+  @override
+  String get feedbackDeleteParameterTitle => 'تعذّر حذف البارامتر';
+  @override
+  String get deleteParameterTitle => 'حذف البارامتر';
+  @override
+  String deleteParameterPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteParameterHint =>
+      'ينتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادته.';
+  @override
+  String get deletingParameter => 'جارٍ الحذف…';
+  @override
+  String get parameterDeletedTitle => 'تم حذف البارامتر';
+  @override
+  String get parameterDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
+  @override
+  String get parameterActivatedTitle => 'تم تفعيل البارامتر';
+  @override
+  String get parameterActivatedMessage => 'أصبح متاحًا للاستخدام من جديد.';
+  @override
+  String get parameterDeactivatedTitle => 'تم إيقاف البارامتر';
+  @override
+  String get parameterDeactivatedMessage =>
+      'يظل ظاهرًا في القائمة لكنه مغلق للاستخدام.';
+  @override
+  String get feedbackParameterStatusTitle => 'تعذّر تغيير حالة البارامتر';
+  @override
+  String get parameterGone => 'هذا البارامتر لم يعد موجودًا. حدّث القائمة.';
+  @override
+  String get searchParametersHint => 'ابحث باسم البارامتر';
+  @override
+  String get parametersEmptyTitle => 'لا توجد بارامترات بعد';
+  @override
+  String get parametersEmptyMessage =>
+      'البارامترات التي تضيفها إلى فرع ستظهر هنا.';
+  @override
+  String get parametersNoMatchTitle => 'لا توجد بارامترات مطابقة';
+  @override
+  String get parametersNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackParametersTitle => 'تعذّر تحميل البارامترات';
+  @override
   String get newUnit => 'وحدة جديدة';
   @override
   String get createUnitTitle => 'وحدة جديدة';
@@ -2115,6 +2585,159 @@ class AppStringsAr extends AppStrings {
   String get unitsNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
   @override
   String get feedbackUnitsTitle => 'تعذّر تحميل الوحدات';
+  @override
+  String get navUsers => 'المستخدمون';
+  @override
+  String get usersTitle => 'المستخدمون';
+  @override
+  String get usersSubtitle => 'كل من لديه وصول إلى المنصة.';
+  @override
+  String get newUser => 'مستخدم جديد';
+  @override
+  String get createUserTitle => 'مستخدم جديد';
+  @override
+  String get createUserSubtitle => 'أنشئ حسابًا وحدّد ما يصل إليه.';
+  @override
+  String get editUserTitle => 'تعديل المستخدم';
+  @override
+  String get editUserSubtitle => 'عدّل بيانات الحساب وصلاحيات وصوله.';
+  @override
+  String get userAccountSection => 'الحساب';
+  @override
+  String get userAccessSection => 'الوصول';
+  @override
+  String get userNameLabel => 'الاسم الكامل';
+  @override
+  String get userNameRequired => 'أدخل الاسم الكامل.';
+  @override
+  String get userNameTooLong => 'اجعل الاسم أقل من 30 حرفًا.';
+  @override
+  String get userEmailLabel => 'البريد الإلكتروني';
+  @override
+  String get userEmailTooLong => 'اجعل البريد أقل من 100 حرف.';
+  @override
+  String get userPasswordLabel => 'كلمة المرور';
+  @override
+  String get userNewPasswordLabel => 'كلمة مرور جديدة';
+  @override
+  String get userPasswordKeepHint =>
+      'اتركها فارغة للإبقاء على كلمة المرور الحالية.';
+  @override
+  String get userPasswordTooShort => 'استخدم 8 أحرف على الأقل.';
+  @override
+  String get userRolesLabel => 'الأدوار';
+  @override
+  String get userRolesHint => 'الدور يحدد مكان الحساب وما يصل إليه.';
+  @override
+  String get userRolesUnavailable => 'لا يمكنك إسناد أي دور.';
+  @override
+  String get userBranchLabel => 'الفرع';
+  @override
+  String get userBranchEmpty =>
+      'لا يوجد فرع نشط في هذا المعمل. فعّل فرعًا أولًا.';
+  @override
+  String get userCommissionLabel => 'نسبة العمولة %';
+  @override
+  String get userCommissionRequired => 'النسبة مطلوبة لحسابات فريق العمل.';
+  @override
+  String get userCommissionRange => 'أدخل رقمًا بين 1 و 100.';
+  @override
+  String get userPermissionsLabel => 'الصلاحيات';
+  @override
+  String get userNoPermissions => 'لا توجد صلاحيات';
+  @override
+  String userPermissionsCount(int count) => '$count صلاحية';
+  @override
+  String get userNoPhones => 'لا توجد أرقام بعد.';
+  @override
+  String get userVerified => 'مُفعّل';
+  @override
+  String get userUnverified => 'غير مُفعّل';
+  @override
+  String get allRoles => 'كل الأدوار';
+  @override
+  String roleLabel(String name) => switch (name) {
+    'super-admin' => 'مدير عام',
+    'team-member' => 'عضو فريق',
+    'laboratory-admin' => 'مدير معمل',
+    'branch-manager' => 'مدير فرع',
+    'doctor' => 'طبيب',
+    'receptionist' => 'موظف استقبال',
+    _ => name,
+  };
+  @override
+  String get creatingUser => 'جارٍ الإنشاء…';
+  @override
+  String get feedbackSaveUserTitle => 'تعذّر حفظ المستخدم';
+  @override
+  String get userCreatedTitle => 'تم إنشاء المستخدم';
+  @override
+  String get userCreatedMessage => 'الحساب جاهز لتسجيل الدخول.';
+  @override
+  String get userSavedTitle => 'تم حفظ المستخدم';
+  @override
+  String get userSavedMessage => 'تم تطبيق تعديلاتك.';
+  @override
+  String get userDetailsTitle => 'بيانات المستخدم';
+  @override
+  String get userDetailsSubtitle => 'كل ما تعرفه المنصة عن هذا الحساب.';
+  @override
+  String get backToUsers => 'العودة إلى المستخدمين';
+  @override
+  String get feedbackUserDetailsTitle => 'تعذّر تحميل بيانات المستخدم';
+  @override
+  String get feedbackDeleteUserTitle => 'تعذّر حذف المستخدم';
+  @override
+  String get deleteUserTitle => 'حذف المستخدم';
+  @override
+  String deleteUserPrompt(String name) => 'حذف $name؟';
+  @override
+  String get deleteUserHint =>
+      'ينتقل إلى سلة المحذوفات، ويمكن لمسؤول استعادته.';
+  @override
+  String get deletingUser => 'جارٍ الحذف…';
+  @override
+  String get userDeletedTitle => 'تم حذف المستخدم';
+  @override
+  String get userDeletedMessage => 'تم نقله إلى سلة المحذوفات.';
+  @override
+  String get userGone => 'هذا المستخدم لم يعد موجودًا. حدّث القائمة.';
+  @override
+  String get searchUsersHint => 'ابحث بالاسم أو البريد';
+  @override
+  String get usersEmptyTitle => 'لا يوجد مستخدمون بعد';
+  @override
+  String get usersEmptyMessage => 'الحسابات التي تنشئها ستظهر هنا.';
+  @override
+  String get usersNoMatchTitle => 'لا يوجد مستخدمون مطابقون';
+  @override
+  String get usersNoMatchMessage => 'جرّب بحثًا أو تصفية مختلفة.';
+  @override
+  String get feedbackUsersTitle => 'تعذّر تحميل المستخدمين';
+  @override
+  String userPermissionsSelected(int count) => 'مختار $count';
+  @override
+  String get userPermissionsHint =>
+      'صلاحيات إضافية فوق الدور، ولا يمكنك منح إلا ما تملكه أنت.';
+  @override
+  String get userPermissionsUnavailable => 'لا تملك صلاحيات لتمنحها.';
+  @override
+  String get searchPermissionsHint => 'ابحث في الصلاحيات';
+  @override
+  String get permissionsNoMatch => 'لا توجد صلاحية مطابقة لهذا البحث.';
+  @override
+  String get selectAll => 'تحديد الكل';
+  @override
+  String get deselectAll => 'إلغاء الكل';
+  @override
+  String get clearSelection => 'مسح';
+  @override
+  String get loadingPermissions => 'جارٍ تحميل الصلاحيات…';
+  @override
+  String get feedbackPermissionsTitle => 'تعذّر تحميل الصلاحيات';
+  @override
+  String get feedbackPermissionsMessage =>
+      'يمكن حفظ الحساب بدون صلاحيات إضافية.';
   @override
   String get noDescription => 'بدون وصف';
   @override

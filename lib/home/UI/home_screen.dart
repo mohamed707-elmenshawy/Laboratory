@@ -8,7 +8,9 @@ import '../../branches/UI/branches_view.dart';
 import '../../laboratories/UI/laboratories_view.dart';
 import '../../sample_types/UI/sample_types_view.dart';
 import '../../test_categories/UI/test_categories_view.dart';
+import '../../parameters/UI/parameters_view.dart';
 import '../../units/UI/units_view.dart';
+import '../../users/UI/users_view.dart';
 import '../../login/UI/login_screen.dart';
 import '../../profile/UI/profile_view.dart';
 import '../logic/home_cubit.dart';
@@ -100,6 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
             HomeDestination.testCategories => TestCategoriesView.page(),
             HomeDestination.sampleTypes => SampleTypesView.page(),
             HomeDestination.units => UnitsView.page(),
+            HomeDestination.parameters => ParametersView.page(),
+            HomeDestination.users => UsersView.page(),
             HomeDestination.analytics => const HomeContent(),
           },
         ),

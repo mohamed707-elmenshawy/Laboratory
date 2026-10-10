@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laboratory/home/UI/home_screen.dart';
+import 'package:laboratory/login/UI/login_screen.dart';
+import 'package:laboratory/reset_password/UI/reset_password_screen.dart';
 import 'core/design_system/design_system.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/auth_helper.dart';
 import 'core/helpers/locale_helper.dart';
 import 'core/localization/localization.dart';
 import 'core/networking/dio_factory.dart';
-import 'home/UI/home_screen.dart';
-import 'login/UI/login_screen.dart';
-import 'reset_password/UI/reset_password_screen.dart';
 import 'reset_password/data/models/reset_password_link.dart';
 import 'settings/logic/settings_cubit.dart';
 

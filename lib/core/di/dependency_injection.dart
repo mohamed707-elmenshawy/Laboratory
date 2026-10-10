@@ -20,7 +20,18 @@ import '../../sample_types/logic/sample_type_form_cubit.dart';
 import '../../sample_types/logic/sample_type_status_cubit.dart';
 import '../../sample_types/logic/sample_types_cubit.dart';
 import '../../test_categories/data/repos/test_categories_repo.dart';
+import '../../parameters/data/repos/parameters_repo.dart';
+import '../../parameters/logic/delete_parameter_cubit.dart';
+import '../../parameters/logic/parameter_details_cubit.dart';
+import '../../parameters/logic/parameter_form_cubit.dart';
+import '../../parameters/logic/parameter_status_cubit.dart';
+import '../../parameters/logic/parameters_cubit.dart';
 import '../../units/data/repos/units_repo.dart';
+import '../../users/data/repos/users_repo.dart';
+import '../../users/logic/delete_user_cubit.dart';
+import '../../users/logic/user_details_cubit.dart';
+import '../../users/logic/user_form_cubit.dart';
+import '../../users/logic/users_cubit.dart';
 import '../../units/logic/delete_unit_cubit.dart';
 import '../../units/logic/unit_details_cubit.dart';
 import '../../units/logic/unit_form_cubit.dart';
@@ -236,6 +247,53 @@ Future<void> setupGetIt() async {
       getIt<UnitsRepo>(),
       getIt<LaboratoriesRepo>(),
       getIt<BranchesRepo>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<ParametersRepo>(
+    () => ParametersRepo(getIt<Dio>()),
+  );
+
+  getIt.registerFactory<ParametersCubit>(
+    () => ParametersCubit(getIt<ParametersRepo>()),
+  );
+
+  getIt.registerFactory<ParameterDetailsCubit>(
+    () => ParameterDetailsCubit(getIt<ParametersRepo>()),
+  );
+
+  getIt.registerFactory<DeleteParameterCubit>(
+    () => DeleteParameterCubit(getIt<ParametersRepo>()),
+  );
+
+  getIt.registerFactory<ParameterStatusCubit>(
+    () => ParameterStatusCubit(getIt<ParametersRepo>()),
+  );
+
+  getIt.registerFactory<ParameterFormCubit>(
+    () => ParameterFormCubit(
+      getIt<ParametersRepo>(),
+      getIt<LaboratoriesRepo>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<UsersRepo>(() => UsersRepo(getIt<Dio>()));
+
+  getIt.registerFactory<UsersCubit>(() => UsersCubit(getIt<UsersRepo>()));
+
+  getIt.registerFactory<UserDetailsCubit>(
+    () => UserDetailsCubit(getIt<UsersRepo>()),
+  );
+
+  getIt.registerFactory<DeleteUserCubit>(
+    () => DeleteUserCubit(getIt<UsersRepo>()),
+  );
+
+  getIt.registerFactory<UserFormCubit>(
+    () => UserFormCubit(
+      getIt<UsersRepo>(),
+      getIt<LaboratoriesRepo>(),
+      getIt<ProfileRepo>(),
     ),
   );
 

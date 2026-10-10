@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../../core/error/error_handler.dart';
 import '../../../core/error/result.dart';
 import '../../../core/networking/api_constants.dart';
+import '../../../branches/data/models/branch_menu_item.dart';
 import '../models/create_laboratory_request_body.dart';
 import '../models/laboratories_page.dart';
 import '../models/laboratories_query.dart';
@@ -64,6 +65,25 @@ class LaboratoriesRepo {
           .map(
             (Map<dynamic, dynamic> item) =>
                 LaboratoryMenuItem.fromJson(Map<String, dynamic>.from(item)),
+          )
+          .toList(growable: false);
+    });
+  }
+
+  Future<Result<List<BranchMenuItem>>> fetchLaboratoryBranches(
+    int laboratoryId,
+  ) {
+    return ErrorHandler.guard(() async {
+      final response = await _dio.get(
+        '${ApiConstants.laboratories}/$laboratoryId/branches',
+      );
+
+      final List<dynamic> data = response.data!['data'] as List<dynamic>;
+      return data
+          .whereType<Map<dynamic, dynamic>>()
+          .map(
+            (Map<dynamic, dynamic> item) =>
+                BranchMenuItem.fromJson(Map<String, dynamic>.from(item)),
           )
           .toList(growable: false);
     });

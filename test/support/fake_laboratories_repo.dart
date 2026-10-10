@@ -1,3 +1,4 @@
+import 'package:laboratory/branches/data/models/branch_menu_item.dart';
 import 'package:laboratory/core/error/result.dart';
 import 'package:laboratory/laboratories/data/models/create_laboratory_request_body.dart';
 import 'package:laboratory/laboratories/data/models/update_laboratory_request_body.dart';
@@ -40,6 +41,11 @@ class FakeLaboratoriesRepoBase implements LaboratoriesRepo {
   }) async => const Success<List<LaboratoryMenuItem>>(<LaboratoryMenuItem>[
     LaboratoryMenuItem(id: 1, name: 'Laboratory 1'),
   ]);
+
+  @override
+  Future<Result<List<BranchMenuItem>>> fetchLaboratoryBranches(
+    int laboratoryId,
+  ) async => const Success<List<BranchMenuItem>>(<BranchMenuItem>[]);
 
   @override
   Future<Result<LaboratoryModel>> fetchLaboratory(int id) async =>
